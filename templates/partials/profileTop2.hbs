@@ -1,0 +1,41 @@
+
+
+
+
+
+	<div class="col-md-3" style="position:static;">
+            <div class="profile-card">
+            	
+            {{#if Pimage}}
+             <img src="data:image/png;base64, {{Pimage}}" class="profile-photo">
+            {{else}}
+                 <img src="/profileAssets/images/male.jpg" id="i" 
+                class="profile-photo" />
+            {{/if}}
+              
+            	<h5><a href="/Profile/Timeline" class="text-white" style="text-decoration: none;">
+              {{#if user}}
+              {{user.FirstName}} {{user.LastName}}
+              {{else}}
+              {{companyDetails.CompanyName}}
+              {{/if}}
+              </a></h5>
+              
+           
+             
+
+            	<a href="#" class="text-white" style="text-decoration: none;"><i class="ion ion-android-person-add" ></i> 1,299 Ratings</a>
+            </div>
+            <ul class="nav-news-feed">
+              <li><i class="icon ion-ios-paper"></i><div><a href="" style="text-decoration: none;">My Newsfeed</a></div></li>
+              <li><i class="icon ion-ios-people"></i><div><a href="" style="text-decoration: none;">People Nearby</a></div></li>
+              <li><i class="icon ion-chatboxes"></i><div><a href="" style="text-decoration: none;">Messages</a></div></li>
+              <li><i class="icon ion-images"></i><div><a href="" style="text-decoration: none;">Projects</a></div></li>
+              <li><i class="icon ion-ios-videocam"></i><div><a href="" style="text-decoration: none;">Portfolios</a></div></li>
+            </ul>
+       
+          </div>
+
+
+         
+          

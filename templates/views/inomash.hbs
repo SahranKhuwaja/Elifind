@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+	
+{{>header}}
+<head>
+  
+<title>Inomash</title>
+
+ 
+		<link rel="stylesheet" href="/profileAssets/css/style.css" />
+		<link rel="stylesheet" href="/profileAssets/css/ionicons.min.css" />
+    <link rel="stylesheet" href="/profileAssets/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/inomash/css/box.css"  />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"></link>
+ 
+  
+      
+	</head>
+  <body>
+
+      <div class="container" style="margin-bottom: 500px">
+      <div class="timeline" style="margin-top: 50px;margin-bottom:20px;"> 
+    
+         {{>profileTop}}
+
+        
+        <div id="page-contents">
+          <div class="row">
+            <div class="col-md-3">
+              
+            
+              <ul class="edit-menu" style="margin-top: 120px">
+              	<li class="active" id="inomash"><i class="icon ion-ios-information-outline active" id="im"style=""></i><a href=""  id="inomash">InoMash</a></li>
+                {{#if user}}
+              	<li class=""><i class="icon ion-ios-settings"></i><a href="">Manage InoMash</a></li>
+              	{{/if}}
+              </ul>
+            </div>
+            <div class="col-md-7">
+
+              
+              <div class="edit-profile-container" id="info">
+                <div class="block-title">
+                  <h4 class="grey"><i class="icon ion-android-checkmark-circle"></i>InoMash</h4>
+                   
+                  <div class="line"></div>
+                </div>
+                <div class="edit-block" style="margin-top: 10px">
+                  
+                         <br>
+                         {{#if inomashPresent}}
+
+<div class="card text-center" style="border: 1px solid #f1f2f2;width:60%; border-radius: 25px;box-shadow:0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12)">
+  <div class="card-header" style="border-bottom:1px solid #f1f2f2 ;">
+   <h5> INOMASH </h5>
+  </div>
+  <div class="card-body">
+  
+   
+ <div class="container" >
+           
+            <div class="row mt-40" style="margin-top: 15px;margin-bottom:15px;">
+                <div class="col-md-4 col-sm-6" >
+                    <div class="box1" style="border-bottom:1px solid #f1f2f2;border-radius:25px;">
+                        <img src="/inomash/images/inoMash2.jpg" alt="">
+                        <h3 class="title" style="margin-bottom: 5px;margin-left:2px">InoMash</h3>
+                        <ul class="icon">
+                          {{#if user}}
+                            <li><a href="/Profile/Inomash/View"><i class="fa fa-eye"></i></a></li>
+                            
+                            <li><a href="http://localhost:3000/Profile/Inomash/View#inomash" id="downloadIcon"><i class="fa fa-download"></i></a></li>
+                            
+                            <li><a href="javascript:function f(e){e.preventDefault}" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-trash"></i></a></li>
+                            {{else}}
+                            <li><a href="/Profile/View/Inomash/View?id={{data._id}}"><i class="fa fa-eye"></i></a></li>
+                            {{/if}}
+                        </ul>
+                    </div>
+                </div>
+                
+             
+            </div>
+      </div>
+          
+  </div>
+
+</div>
+                                    
+                   
+        
+
+                         {{else}}
+                        <div class="alert alert-success" role="alert">
+                          <h4 class="alert-heading">Not Created Yet!</h4>
+                          {{#if user}}
+                            <p>Create your InoMash right now! What are you waiting for? Hurry up!
+
+                            <strong><h3> <a href="/Profile/Inomash/Create" style="text-decoration: none;font-size: 15px" id="edit">Create InoMash</a></h3></strong>
+
+                            </p>
+                            {{else}}
+                             <p>Inomash has not been created yet!</p>
+                            {{/if}}
+                           
+                        </div>
+                       
+                        {{/if}}
+
+                     
+                          
+                       
+                                            
+                         
+                         
+                       
+                    
+                       
+                        
+
+                        
+                        
+                  
+                </div>
+              </div>
+              
+
+               
+
+
+            </div>
+            
+            
+
+            <div class="col-md-2 static">
+              
+              
+              <div id="sticky-sidebar">
+                <h4 class="grey">My Activity</h4>
+                <div class="feed-item">
+                  <div class="live-activity">
+                    <p><a href="#" class="profile-link">InoMash Created</a></p>
+                    <p class="text-muted">{{created}}</p>
+                  </div>
+                </div>
+                 <div class="feed-item">
+                  <div class="live-activity">
+                    <p><a href="#" class="profile-link">InoMash Updated</a></p>
+                    <p class="text-muted">{{updated}}</p>
+                  </div>
+                </div>
+
+             
+                
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+  
+  {{>footer}}
+ 
+    <div id="spinner-wrapper">
+      <div class="spinner"></div>
+    </div>
+
+  
+    <script src="/profileAssets/js/bootstrap.min.js"></script>
+    <script src="/profileAssets/js/jquery.sticky-kit.min.js"></script>
+    <script src="/profileAssets/js/jquery.scrollbar.min.js"></script>
+    <script src="/profileAssets/js/script.js"></script>
+    <script src="/js/inomash.js"></script>
+     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="/js/upload.js"></script>
+     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+   
+
+        
+        
+
+      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Delete InoMash <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button></h5>
+        
+      </div>
+      <div class="modal-body">
+        Delete Inomash. Do you want to continue?
+      </div>
+      <div class="modal-footer">
+        <form action="/Profile/Inomash/Delete" method="POST">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" onclick="form.submit()">Yes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid" id="video" style="margin-top: 100px;margin-bottom:300px;">
+        <div class="row h-10 w-100">
+            <div class="col">
+                <select id="filter" class="w-100 bg-dark text-light ml-2 mt-2 select font-weight-bold border">
+                    <option value="none">Normal</option>
+                    <option value="grayscale(100%)">B & W</option>
+                    <option value="sepia(100%)">Old School</option>
+                    <option value="contrast(150%)">Lumination</option>
+                    <option value="blur(20px)">Hidden Mist</option>
+                    <option value="invert(100%)">Dracula</option>
+                    <option value="hue-rotate(180deg">X-men Beast</option>
+                    <option value="saturate(25)">Super Saiyan God</option>
+                </select>
+            </div>
+            <div class="col">
+                <div class="float-right mt-3" style="margin-left:10px">
+                    <input class="form-check-input" type="checkbox" id="theme">
+                    <label class="form-check-label" for="theme">
+                        Dark Theme
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row h-90 w-100">
+            <div class="col-12 col-sm-6 d-flex justify-content-center">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <video class="embed-responsive-item" muted></video>
+                </div>
+                <button class="btn btn-primary" style="margin-top: 25px;" id="end">End Call</button>
+            </div>
+            <div class="col-12 col-sm-6 d-flex justify-content-center">
+                <div id="peerDiv" class="embed-responsive embed-responsive-16by9">
+                </div>
+            </div>
+        </div>
+    </div>  
+    
+
+  
+
+
+
+ 
+  </body>
+
+
+
+</html>
+
+
+
+<style>
+
+.upload{
+  display: none;
+  
+}
+
+
+
+</style>
+

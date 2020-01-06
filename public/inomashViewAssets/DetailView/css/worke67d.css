@@ -1,0 +1,65 @@
+/* $WORK ITEM TITLE SECTION */
+#single-work-item 
+{
+	padding: 60px 20px; 
+	background-attachment: scroll;
+}
+
+/* $WORK ITEM DETAILS */
+#item-details > .container > div + div { padding-top: 120px; }
+
+	/* #PREVIEW / DETAILS */
+	.project-preview > div + div { margin-top: 60px; }
+
+		/* @WORK ITEMS NAVIGATION */
+		.work-item-navigation .sm-rounded-box
+		{
+			border: 2px solid;
+			line-height: 38px;
+		}
+		
+			/* &PROJECT DESCRIPTION */
+			.project-details p { margin-top: 20px; }
+
+			.project-details h5 { margin-bottom: 20px; }
+
+			.project-info ul li + li
+			{
+				padding-top: 15px;
+				margin-top: 15px;
+				border-top: 1px solid;
+			}
+
+			@media ( max-width: 767px )
+			{
+				.project-info { margin-top: 60px; }
+			}
+
+	/* #CLIENT TESTIMONIALS */
+	blockquote { padding: 2em 3em; }
+
+	.work-inner-title 
+	{ 
+		position: relative; 
+		margin-bottom: 70px;
+	}
+
+		.work-inner-title::after
+		{
+			content: '';
+			position: absolute;
+			display: block;
+			height: 2px;
+			width: 40px;
+			bottom: -10px;
+			left: 50%;
+			margin-left: -20px;
+		}
+
+	/* #RELATED PROJECTS */
+	.related-work-items .portfolio-item
+	{
+		float: none;
+		width: 100%;
+		text-align: center;
+	}

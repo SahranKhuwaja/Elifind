@@ -1,0 +1,52 @@
+{
+  "name": "elifind",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "env-cmd -f ./config/dev.env nodemon src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bad-words": "^3.0.3",
+    "bcryptjs": "^2.4.3",
+    "check-types": "^11.1.1",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^3.0.0",
+    "env-cmd": "^10.0.1",
+    "express": "^4.17.1",
+    "express-session": "^1.16.2",
+    "flash": "^1.1.0",
+    "fs": "0.0.1-security",
+    "fs-extra": "^8.1.0",
+    "grabzit": "^3.3.7",
+    "handlebars": "^4.5.3",
+    "handlebars-helpers": "^0.10.0",
+    "handlebars-pdf": "^1.0.1",
+    "hbs": "^4.0.4",
+    "html-pdf": "^2.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.24.0",
+    "mongoose": "^5.7.1",
+    "multer": "^1.4.2",
+    "nodemailer": "^6.3.0",
+    "nodemailer-smtp-transport": "^2.7.4",
+    "office-to-pdf": "^4.0.0",
+    "puppeteer": "^2.0.0",
+    "querystring": "^0.2.0",
+    "sharp": "^0.23.1",
+    "simple-peer": "^9.6.2",
+    "socket.io": "^2.3.0",
+    "validator": "^11.1.0"
+  },
+  "devDependencies": {
+    "algolia": "0.0.0",
+    "algoliasearch": "^3.35.1",
+    "nodemon": "^1.19.4",
+    "print-js": "^1.0.61",
+    "printjs": "^1.1.0",
+    "search": "^1.0.0"
+  }
+}

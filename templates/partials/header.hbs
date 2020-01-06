@@ -1,0 +1,327 @@
+
+
+
+        <title>ELIFIND</title>         
+               
+        <link rel="icon" href="/images/4-c.png">
+
+        <link href="/asset/css/bootstrap.min.css" rel="stylesheet"> 
+                
+        <link href="/css/font-awesome.min.css" rel="stylesheet"> 
+               
+        <link href="/css/animate.css" rel="stylesheet"> 
+		
+		
+               
+        <link href="/css/style.css" rel="stylesheet"> 
+
+        <link href="/css/responsive.css" rel="stylesheet"> 
+
+        <link href="/chat/styles/chat.css" rel="stylesheet"> 
+
+        <link rel="stylesheet" type="text/css" href="/css/color/green.css"> 
+               
+        <link rel="stylesheet" type="text/css" href="/css/color/green.css" title="green"> 
+        <link rel="stylesheet" type="text/css" href="/css/color/light-red.css" title="light-red"> 
+        <link rel="stylesheet" type="text/css" href="/css/color/blue.css" title="blue"> 
+        <link rel="stylesheet" type="text/css" href="/css/color/light-blue.css" title="light-blue"> 
+        <link rel="stylesheet" type="text/css" href="/css/color/yellow.css" title="yellow"> 
+        <link rel="stylesheet" type="text/css" href="/css/color/light-green.css" title="light-green"> 
+
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"></link>
+        <link rel="stylesheet" href="/autoComplete/auto.css"></link>
+		
+		<link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+ 
+  
+                
+        <link href='http://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'> 
+		<link href="/profileAssets/css/nav.css" rel="stylesheet"> 
+       
+                    
+        
+         
+
+<header>
+<nav class="navbar navbar-inverse navbar-expand-xl navbar-dark navbar-fixed-top"style="height:77px">
+	
+
+<div class="navbar-header d-flex col">
+	<a class="navbar-brand" href="" style="font-family:Kaushan Script,Helvetica Neue,Helvetica,Arial,cursive;font-size:36px;margin-top:8px;color:green">ELIFIND</a>		
+	<button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle navbar-toggler ml-auto">
+			<span class="navbar-toggler-icon"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+	</div>
+
+	<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+
+<form class="navbar-form form-inline" style="margin-top:17px;margin-left:210px" method="GET" action="/Profile/Search">
+			<div class="input-group search-box" id="s"style="width:458px;" >								
+				<input type="text" id="search" name="search" class="form-control design" placeholder="Search" style="" spellcheck="false" />
+				<span class="input-group-addon" style="border-radius: 50px 0  0 50px !important;"><i class="material-icons" style="">&#xE8B6;</i></span>
+			</div>
+      <ul class="list-group" id="result">
+
+      </ul>
+		</form>
+
+      
+<ul class="nav navbar-nav navbar-right ml-auto" style="font-size: 14px;">
+	
+			
+			<li class="nav-item dropdown" style="font-size: 14px;">
+				<a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action">	
+					 {{#if Pimage}}
+                  <img src="data:image/png;base64, {{Pimage}} " id="i" 
+                  alt="user" name="user" class="avatar" />
+
+                    {{else}}
+                   <img src="/profileAssets/images/male.jpg" id="i" 
+                  alt="user" name="user" class="avatar" />
+                  
+                  {{/if}}
+				
+				
+				
+				{{#if user}}
+				  {{user.FirstName}} {{user.LastName}}
+				{{else if companyDetails}}
+          {{companyDetails.CompanyName}}
+        {{else}}
+					{{loggedInUser.FirstName}} {{loggedInUser.LastName}} {{loggedInUser.CompanyName}}         
+				{{/if}}
+				 <b class="caret"></b></a>
+				<ul class="dropdown-menu">
+					<li><a href="/Profile" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a></li>
+					<li><a href="#" class="dropdown-item"><i class="fa fa-sliders"></i> Settings</a></li>
+					<li class="divider dropdown-divider"></li>
+					<li><form method="POST" action="/Logout" id="formLogout">
+					<a href="javascript:document.getElementById('formLogout').submit();" style="text-decoration: none;" id="navI" class="dropdown-item"><i class="material-icons">&#xE8AC;</i> Logout</a>
+					</form></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</nav>
+</header>
+
+<script id="msg-template" type="text/x-handlebars-template">
+  <div class="popup-box chat-popup" id="qnimate">
+  <div class="popup-head">
+  <div class="popup-head-left pull-left">
+	  
+	  \{{#data.dp}}
+                  <img src="data:image/png;base64, \{{data.dp}}"/>
+
+    \{{/data.dp}}
+
+    \{{^data.dp}}
+                   <img src="/profileAssets/images/male.jpg"/>
+                  
+    \{{/data.dp}}
+	  
+	   \{{data.FirstName}} \{{data.LastName}} \{{data.CompanyName}}
+     
+     </div>
+  <div class="popup-head-right pull-right">
+  <div class="btn-group">
+  <button class="chat-header-button" data-toggle="dropdown" type="button" aria-expanded="false">
+  <i class="glyphicon glyphicon-cog"></i> </button>
+  <ul role="menu" class="dropdown-menu pull-right">
+  <li><a href="#">Media</a></li>
+  <li><a href="#">Block</a></li>
+  <li><a href="#">Clear Chat</a></li>
+  </ul>
+  </div>
+						
+  <button  id="closeChatBox" onclick="" class="chat-header-button pull-right" type="button"><i class="glyphicon glyphicon-off"></i></button>
+  </div>
+  </div>
+ 
+  <div class="popup-messages" id="popupMsg">
+     <div class="chat-box-single-line">
+  <abbr class="timestamp">January 6th, 2020</abbr>
+ <div class="direct-chat-messages" id="i" >
+<div class="direct-chat-msg doted-border" id="displayMessage">
+
+
+</div>
+
+ </div>
+  
+  </div>
+ 
+  </div>
+  <div class="popup-messages-footer">
+    <form id="msgForm">
+  <input name="msgText" type="text" autocomplete="off" placeholder="Type your message here..."style="1px solid #b0b0b0" class="form-control">
+  </form>
+  <div class="btn-footer">
+  <button class="bg_none"><i class="glyphicon glyphicon-film"></i> </button>
+  <button class="bg_none"><i class="glyphicon glyphicon-camera"></i> </button>
+  <button class="bg_none" id="att"><i class="glyphicon glyphicon-paperclip"></i> </button>
+  <button class="bg_none pull-right"><i class="glyphicon glyphicon-thumbs-up"></i> </button>
+  </div>
+  </div>
+  </div>
+  </script>
+
+
+
+<script id="msg" type="text/x-handlebars-template">
+  
+  \{{#data}}
+  <div class="direct-chat-info clearfix">
+   \{{#u1}}
+  <span class="direct-chat-name pull-left">\{{user1.FirstName}} \{{user1.LastName}} \{{user1.CompanyName}}</span>
+   \{{/u1}}
+
+   \{{#u2}}
+      <span class="direct-chat-name pull-left">\{{user2.FirstName}} \{{user2.LastName}} \{{user2.CompanyName}}</span>
+   \{{/u2}}
+
+   \{{^u1}}
+     \{{^u2}}
+      <span class="direct-chat-name pull-left">\{{FirstName}} \{{LastName}} \{{CompanyName}}</span>
+     \{{/u2}}
+   \{{/u1}}
+
+  </div>
+      
+      \{{#u1}}
+       \{{#user1.dp}}
+      <img src="data:image/png;base64, \{{user1.dp}} " id="i" alt="user" name="user" class="direct-chat-img" />
+        \{{/user1.dp}}
+        \{{^user1.dp}}
+        <img src="/profileAssets/images/male.jpg" class="direct-chat-img"/>
+        \{{/user1.dp}}
+      \{{/u1}}
+       
+      \{{#u2}}
+       \{{#user2.dp}}
+        <img src="data:image/png;base64, \{{user2.dp}} " id="i" alt="user" name="user" class="direct-chat-img" />
+       \{{/user2.dp}}
+       \{{^user2.dp}}
+        <img src="/profileAssets/images/male.jpg" class="direct-chat-img"/>
+       \{{/user2.dp}}
+      \{{/u2}}
+      
+     \{{^u1}}
+      \{{^u2}}
+       \{{#dp}}
+        <img src="data:image/png;base64, \{{dp}} " id="i" alt="user" name="user" class="direct-chat-img" />
+       \{{/dp}}
+       \{{^dp}}
+        <img src="/profileAssets/images/male.jpg" class="direct-chat-img"/>
+       \{{/dp}}
+      \{{/u2}}
+     \{{/u1}}
+
+
+      \{{#Message}}
+  <div class="direct-chat-text">
+  \{{Message}}
+  
+  </div>
+  \{{/Message}}
+  \{{#Attachment}}
+  <div class="direct-chat-text" style="padding: 0px;">
+    \{{#Type.image}}
+  <img src="data:image;base64, \{{Attachment}}" style="width:209px"/>
+  \{{/Type.image}}
+  \{{#Type.pdf}}
+  
+   <object style="padding:0px;" width="209px" height="128.8px" data="data:application/pdf;base64, \{{Attachment}}">
+    
+  </object>
+  \{{/Type.pdf}}
+    \{{#Type.txt}}
+  
+   <object style="padding:0px;" width="209px" height="128.8px" data="data:text/plain;base64, \{{Attachment}}">
+    
+  </object>
+  \{{/Type.txt}}
+  
+  </div>
+  \{{/Attachment}}
+  <div class="direct-chat-info clearfix">
+  <span class="direct-chat-timestamp pull-right">\{{time}}</span>
+  </div>
+ 
+\{{/data}}
+\{{#error}}
+  <div class="direct-chat-info clearfix">
+    <div class="alert alert-warning" role="alert">
+     \{{error}}
+  </div>
+    
+  </div>
+  \{{/error}}
+  
+
+</script>
+
+
+<script id="clogged" type="text/x-handlebars-template">
+{{#if user}}
+{{user._id}}
+{{else}}
+{{loggedInUser._id}}
+{{/if}}
+</script>
+
+
+        
+<script src="/js/jquery-2.1.1.min.js"></script> 
+
+
+<script src="/js/jquery.easing.1.3.js"></script> 
+<script src="/js/classie.js"></script> 
+<script src="/js/count-to.js"></script> 
+<script src="/js/jquery.appear.js"></script> 
+<script src="/js/cbpAnimatedHeader.js"></script> 
+<script src="/js/owl.carousel.min.js"></script> 
+<script src="/js/jquery.fitvids.js"></script> 
+<script src="/js/styleswitcher.js"></script> 
+
+<script src="/js/jqBootstrapValidation.js"></script> 
+
+
+  <script src="/js/script.js"></script> 
+
+  <script type="text/javascript" src="/mdb/js/jquery-3.4.1.min.js"></script>
+
+  <script type="text/javascript" src="/mdb/js/popper.min.js"></script>
+
+  <script type="text/javascript" src="/mdb/js/bootstrap.min.js"></script>
+
+  <script type="text/javascript" src="/mdb/js/mdb.min.js"></script>
+
+
+ <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+ <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+ 
+ <script src="/autoComplete/auto.js"></script>
+
+<script src="/js/mustache.js"></script>
+
+<script src="/socket.io/socket.io.js"></script>
+ 
+<script src="/chat/js/chat.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/simple-peer/9.6.2/simplepeer.min.js"></script>
+
+
+<script src="/hireMe/js/hire.js"></script> 
+
+
+ 

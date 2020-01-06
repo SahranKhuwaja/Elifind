@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+	
+{{>header}}
+<head>
+  
+
+
+		<title>Profile</title>
+    
+		<link rel="stylesheet" href="/profileAssets/css/style.css" />
+		<link rel="stylesheet" href="/profileAssets/css/ionicons.min.css" />
+    <link rel="stylesheet" href="/profileAssets/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/inomash/fonts/material-design-iconic-font/css/material-design-iconic-font.css">
+    
+  
+  
+    
+	</head>
+  <body>
+
+   
+ 
+    
+      <div class="container" style="margin-bottom: 500px">
+      <div class="timeline" style="margin-top: 50px;margin-bottom:20px;"> 
+    
+         {{>profileTop}}
+
+        
+        
+
+
+
+
+        <div id="page-contents">
+
+
+
+          
+          <div class="row">
+            
+            <div class="col-md-3">
+              
+            
+              <ul class="edit-menu"  style="margin-top: 120px">
+              	<li class="active" id="basicI"><i class="icon ion-ios-information-outline active" id="basic"style=""></i><a href=""  id="basicInfo">Basic Information</a></li>
+                {{#unless companyDetails}}
+                {{#unless data.CompanyName}}
+              	<li><i class="icon ion-ios-briefcase-outline" ></i><a href="">Education and Work</a></li>
+                {{else}}
+                <li><i class="icon ion-ios-briefcase-outline" ></i><a href="">Work</a></li>
+                {{/unless}}
+                {{else}}
+                <li><i class="icon ion-ios-briefcase-outline" ></i><a href="">Work</a></li>
+                {{/unless}}
+                {{#unless companyDetails}}
+                {{#unless data.CompanyName}}
+              	<li><i class="icon ion-ios-heart-outline"></i><a href="">Skills</a></li>
+                {{else}}
+                <li id="spS"><i class="icon ion-ios-heart-outline" id ="sp"></i><a href="" id="specS">Specialization</a></li>
+                {{/unless}}
+                {{else}}
+                <li id="spS"><i class="icon ion-ios-heart-outline" id ="sp"></i><a href="" id="specS">Specialization</a></li>
+                {{/unless}}
+                {{#unless data}}
+              	<li id="pc"><i class="icon ion-ios-locked-outline" id="pass"></i><a href="" id="passChange">Change Password</a></li>
+                {{/unless}}
+              </ul>
+            </div>
+
+
+
+          
+
+
+
+
+            <div class="col-md-7">
+
+              {{#if user}}
+              <div class="edit-profile-container" id="info">
+                <div class="block-title">
+                  <h4 class="grey"><i class="ion-ios-information-outline icon-in-title"></i>Basic Information</h4>
+                  
+                   <a href="" style="margin-left: 560px" id="edit">Edit Profile</a>
+                 
+                  <div class="line"></div>
+                </div>
+                 
+                <div class="edit-block" style="margin-top: 10px">
+                  <form name="basic-info" id="basic-info" class="form-inline" method="POST" action="/UpdateInfo">
+                    <div class="row">
+                      <div class="form-group col-xs-6">
+                        <label for="firstname">First name</label>
+                        <input id="fname" class="form-control input-group-lg cursor" type="text" name="FirstName" title="Enter first name" placeholder="First name" value="{{user.FirstName}}" disabled/>
+                      </div>
+                      <div class="form-group col-xs-6">
+                        <label for="lastname" class="">Last name</label>
+                        <input id="lname" class="form-control input-group-lg cursor" type="text" name="LastName" title="Enter last name" placeholder="Last name" value="{{user.LastName}}" disabled/>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-xs-12">
+                        <label for="email">My email</label>
+                        <input id="email" class="form-control input-group-lg cursor" type="text" name="Email" title="Enter Email" placeholder="My Email" value="{{user.Email}}" disabled/>
+                      </div>
+                    </div>
+                    <div class="row">
+                     
+                      <div class="form-group col-xs-12">
+                          <label for="Bithday">Date of birth</label>
+                            <input id="Birthday" class="form-control input-group-lg" type="date" name="Birthday" title="" placeholder="" value="{{dpt}}" style="display: none"/>
+                        <input id="dob" class="form-control input-group-lg cursor" type="text" name="" title="" placeholder="" value="{{dob}}" disabled/>
+                       
+                      </div>
+                    </div>
+                    <div class="row">
+                   <div class="form-group col-xs-6">
+                        <label for="country">Gender</label>
+                        <input type="text" id="g" value="{{user.Gender}}"hidden>
+                        <select class="form-control cursor" id="Gender" name="Gender" disabled>
+                          <option value="Male">Male</option>
+                          <option value="Female">Female</option>
+                          <option value="Other">Other</option>
+                                                  
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-xs-6">
+                        <label for="city"> My city</label>
+                        <input id="city" class="form-control input-group-lg cursor" type="text" name="City" title="Enter city" placeholder="Your city" value="{{user.City}}" disabled/>
+                      </div>
+                      <div class="form-group col-xs-6">
+                        <label for="country">My country</label>
+                        <select class="form-control cursor" id="country" name="Country"disabled>
+                          <option value="country" disabled>Country</option>
+                          <option value="{{user.Country}}" id="c" hidden>{{user.Country}}</option>
+                          {{#each CountryData}}
+                          <option value="{{this.name}}">{{this.name}}</option>
+                          {{/each}}                          
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-xs-12">
+                        <label for="my-info">Phone</label>
+                        <input type="text" id="Phone" name="Phone" value="{{user.Phone}}" class="form-control cursor" placeholder="Phone" name="phone" disabled />
+                      </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit" id="save" style="display: none">Save Changes</button>
+                  </form>
+
+                  
+                </div>
+                
+              </div>
+                
+               <div class="edit-profile-container" id="editPass" style="display: none">
+                <div class="block-title">
+                  <h4 class="grey"><i class="icon ion-ios-locked-outline"></i>Change Password</h4>
+                  <div class="line"></div>
+                  <p>You can update the password here!</p>
+                  <div class="line"></div>
+                </div>
+                <div class="edit-block">
+                  <form name="update-pass" id="passwordForm" class="form-inline" method="POST" action="/UpdatePassword">
+                    <div class="row">
+                      <div class="form-group col-xs-12">
+                        <label for="my-password">Current password</label>
+                        <input id="my-password" class="form-control input-group-lg" type="password" name="currentPassword" title="Enter password" placeholder="Current password"
+                         required/>
+                         
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-xs-6">
+                        <label>New password</label>
+                        <input class="form-control input-group-lg" type="password" name="Password" id="Password" title="Enter password" placeholder="New password" required/>
+                      </div>
+                      <div class="form-group col-xs-6">
+                        <label>Confirm password</label>
+                        <input class="form-control input-group-lg" type="password" name="cPassword" id="cPassword" title="Enter password" placeholder="Confirm password" required/>
+                      </div>
+                    </div>
+                    <button class="btn btn-primary" id="btn-pass" type="submit" onclick="return Validate()">Update Password</button>
+                  </form>
+                  <div class="row">
+                  <div class="alert alert-warning" role="alert" style="margin-top:14px;" id="msgDiv" hidden>
+					<strong><p id="error-message" style="color:red;font-size:15px;" hidden>{{error}}</p></strong>
+            
+					</div>
+            <div class="alert alert-success" style="margin-top:14px;" id="successDiv" role="alert" hidden>
+              	<strong><p id="success-message" style="font-size:15px;" hidden>{{success}}</p></strong>
+            </div>
+
+          </div>
+                </div>
+              </div>
+
+              {{else if companyDetails}}
+              <div class="about-profile" id="cmForm">
+                <div class="about-content-block">
+                  <h4 class="grey"><i class="ion-ios-information-outline icon-in-title"></i>Basic Information</h4>
+                  <a href="" style="margin-left: 560px;"id="editCompany">Edit Details</a>
+                 
+                </div>
+
+                
+                         <div class="post-content" style="border: none;">
+                       	<div class="row" style="background:;">
+            		<div class="col-md-7 col-sm-7">
+                        <div class="card" style="" >
+                       
+                        <div class="card-body">
+                        <h5 class="card-title"></h5>
+                       
+                        <ul class="" style="width:655px;">
+									<li class="set"> <i class="fa fa-building setI" aria-hidden="true"></i> <span class="setT" style="margin-left: 19px;font-weight:bold">Company Name </span> <span class="setT">{{companyDetails.CompanyName}}</span> 
+                  
+                  <i class="fa fa-envelope setI" aria-hidden="true" style="margin-left: 65px;"></i><span class="setT" style="margin-left: 8px;font-weight:bold;">Email </span><span class="setT">{{company.Email}}</span> </li>
+                 
+									<li class="set"><i class="fa fa-briefcase setI" aria-hidden="true"></i><span class="setT" style="margin-left: 18px;font-weight:bold">Category </span><span class="setT">{{companyDetails.Category}}</span></li>
+                  
+                  <li class="set"><i class="fa fa-phone setI" aria-hidden="true"></i><span class="setT" style="margin-left: 22px;font-weight:bold">Contact </span><span class="setT">0{{companyDetails.Contact}}</span>
+                  <i class="fa fa-address-card setI" aria-hidden="true" style="margin-left: 90px;" ></i><span class="setT" style="margin-left: 6px;font-weight:bold">Role </span><span class="setT"> {{company.Role}}</span></li>
+
+									<li class="set"><i class="fa fa-calendar setI" aria-hidden="true" ></i><span class="setT"style="margin-left: 19px;font-weight:bold">Founded On </span><span class="setT">{{founded}}</span><i class="fa fa-calendar setI" aria-hidden="true" style="margin-left:27px" ></i><span class="setT" style="margin-left: 10px;font-weight:bold">Joined on</span> <span class="setT">{{join}}</span> </li>
+                
+									<li class="set"><i class="fa fa-map-marker setI" aria-hidden="true" ></i><span class="setT" style="margin-left: 24px;font-weight:bold">Address </span><span class="setT">{{companyDetails.Address}}</span></li>
+
+                  <li class="set"><i class="fa fa-user setI" aria-hidden="true" ></i><span class="setT" style="margin-left: 18px;font-weight:bold">Owner </span><span class="setT">{{company.FirstName}} {{company.LastName}}</span></li>
+                  
+                   <li class="set"><i class="fa fa-info-circle setI" aria-hidden="true" ></i><span class="setT" style="margin-left: 16px;font-weight:bold">Details </span><span class="setT">{{companyDetails.Details}}</span></li>
+                
+                 
+								</ul>
+                       
+                        </div>
+                        </div></div></div></div>
+
+                </div>
+
+               <div class="edit-profile-container" id="eC">
+                <div class="block-title">
+                  <h4 class="grey"><i class="ion-ios-information-outline icon-in-title"></i>Basic Information</h4>
+                  <div class="line"></div>
+                </div>
+                 
+                <div class="edit-block" style="margin-top: 10px">
+                  <form class="form-inline" method="POST" action="/Profile/Company/UpdateDetails">
+                    <div class="row">
+                      <div class="form-group col-xs-12">
+                        <label for="CompanyName">Company Name</label>
+                        <input id="CompanyName" class="form-control input-group-lg cursor" type="text" name="CompanyName"  placeholder="CompanyName" value="{{companyDetails.CompanyName}}" required/>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-xs-12">
+                        <label for="Contact">Contact</label>
+                        <input id="Contact" class="form-control input-group-lg cursor" type="text" name="Contact" placeholder="Contact" value="0{{companyDetails.Contact}}" required/>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-xs-12">
+                        <label for="Address"> Address</label>
+                        <input id="Address" class="form-control input-group-lg cursor" type="text" name="Address" placeholder="Address" value="{{companyDetails.Address}}" required/>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-xs-12">
+                        <label for="Details">Details</label>
+                        <textarea id="Details" name="Details" value="{{companyDetails.Details}}" class="form-control cursor" placeholder="Details" name="Details" required >{{companyDetails.Details}}</textarea>
+                      </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit" id="save" style="display: none">Save Changes</button>
+                  </form>
+
+                  
+                </div>
+                
+              </div>
+
+                
+                
+                
+                 <div class="edit-profile-container" id="specialized">
+                <div class="block-title">
+                  <h4 class="grey"><i class="icon ion-ios-heart-outline"></i> Specialization </h4>
+                  <div class="line"></div>
+                  <p> These are our Specialized Skills of our company.</p>
+                  <div class="line"></div>
+                </div>
+                <div class="edit-block">
+                  <ul class="list-inline interests">
+                    {{#each companyDetails.Specialization}}
+                  	<li><a href="#"><i class="icon ion-ios-lightbulb"></i> {{SpecializedIn}}</a></li>
+                     {{/each}}
+                  </ul>
+                  <div class="line"></div>
+                  <div class="row">
+                    <p class="custom-label"><strong>Add Specialization</strong></p>
+                     <form method="POST" action="/Profile/Company/Specialization">
+                    <div class="form-group col-sm-8">
+                      <input id="" class="form-control input-group-lg" type="text" name="SpecializedIn" placeholder="Specialized skills. For example, Android, node js etc"/>
+                    </div>
+                    <div class="form-group col-sm-4">
+                      <button class="btn btn-primary" type="submit">Add</button>
+                    </div>
+                    </form>
+                      
+            </div>
+            <div class="alert alert-success" style="margin-top:14px;" id="successSpecDiv" role="alert" hidden>
+              	<strong><p id="success-add-spec" style="font-size:15px;" hidden>{{successS}}</p></strong>
+                </div>
+                  </div>
+                  
+              </div>
+
+               <div class="edit-profile-container" id="editCompanyPass">
+                <div class="block-title">
+                  <h4 class="grey"><i class="icon ion-ios-locked-outline"></i>Change Password</h4>
+                  <div class="line"></div>
+                  <p>You can update the password here!</p>
+                  <div class="line"></div>
+                </div>
+                <div class="edit-block">
+                  <form name="update-pass" id="passwordForm" class="form-inline" method="POST" action="/UpdatePassword">
+                    <div class="row">
+                      <div class="form-group col-xs-12">
+                        <label for="my-password">Current password</label>
+                        <input id="my-password" class="form-control input-group-lg" type="password" name="currentPassword" title="Enter password" placeholder="Current password"
+                         required/>
+                         
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-xs-6">
+                        <label>New password</label>
+                        <input class="form-control input-group-lg" type="password" name="Password" id="Password" title="Enter password" placeholder="New password" required/>
+                      </div>
+                      <div class="form-group col-xs-6">
+                        <label>Confirm password</label>
+                        <input class="form-control input-group-lg" type="password" name="cPassword" id="cPassword" title="Enter password" placeholder="Confirm password" required/>
+                      </div>
+                    </div>
+                    <button class="btn btn-primary" id="btn-pass" type="submit" onclick="return Validate()">Update Password</button>
+                  </form>
+                  <div class="row">
+                  <div class="alert alert-warning" role="alert" style="margin-top:14px;" id="msgDiv" hidden>
+					<strong><p id="error-message" style="color:red;font-size:15px;" hidden>{{error}}</p></strong>
+            
+					</div>
+            <div class="alert alert-success" style="margin-top:14px;" id="successDiv" role="alert" hidden>
+              	<strong><p id="success-message" style="font-size:15px;" hidden>{{success}}</p></strong>
+            </div>
+
+          </div>
+                </div>
+              </div>
+
+            
+
+
+              {{else}}
+              {{#if data.CompanyName}}
+              <div class="about-profile" id="cmForm">
+                <div class="about-content-block">
+                  <h4 class="grey"><i class="ion-ios-information-outline icon-in-title"></i>Personal Information</h4>
+                </div>
+
+                    
+              
+                       <div class="post-content" style="border: none;">
+                       	<div class="row" style="background:;">
+            		<div class="col-md-7 col-sm-7">
+                        <div class="card" style="" >
+                       
+                        <div class="card-body">
+                        <h5 class="card-title"></h5>
+                       
+                        <ul class="" style="width:655px;">
+									<li class="set"> <i class="fa fa-building setI" aria-hidden="true"></i> <span class="setT" style="margin-left: 19px;font-weight:bold">Company Name </span> <span class="setT">{{data.CompanyName}}</span> 
+                  
+                  <i class="fa fa-envelope setI" aria-hidden="true" style="margin-left: 65px;"></i><span class="setT" style="margin-left: 8px;font-weight:bold;">Email </span><span class="setT">{{data.Email}}</span> </li>
+                 
+									<li class="set"><i class="fa fa-briefcase setI" aria-hidden="true"></i><span class="setT" style="margin-left: 18px;font-weight:bold">Category </span><span class="setT">{{data.Category}}</span></li>
+                  
+                  <li class="set"><i class="fa fa-phone setI" aria-hidden="true"></i><span class="setT" style="margin-left: 22px;font-weight:bold">Contact </span><span class="setT">0{{data.Contact}}</span>
+                  <i class="fa fa-address-card setI" aria-hidden="true" style="margin-left: 90px;" ></i><span class="setT" style="margin-left: 6px;font-weight:bold">Role </span><span class="setT"> {{data.Role}}</span></li>
+
+									<li class="set"><i class="fa fa-calendar setI" aria-hidden="true" ></i><span class="setT"style="margin-left: 19px;font-weight:bold">Founded On </span><span class="setT">{{data.founded}}</span><i class="fa fa-calendar setI" aria-hidden="true" style="margin-left:27px" ></i><span class="setT" style="margin-left: 10px;font-weight:bold">Joined on</span> <span class="setT">{{data.joined}}</span> </li>
+                
+									<li class="set"><i class="fa fa-map-marker setI" aria-hidden="true" ></i><span class="setT" style="margin-left: 24px;font-weight:bold">Address </span><span class="setT">{{data.Address}}</span></li>
+
+                  <li class="set"><i class="fa fa-user setI" aria-hidden="true" ></i><span class="setT" style="margin-left: 18px;font-weight:bold">Owner </span><span class="setT">{{data.FirstName}} {{data.LastName}}</span></li>
+                  
+                   <li class="set"><i class="fa fa-info-circle setI" aria-hidden="true" ></i><span class="setT" style="margin-left: 16px;font-weight:bold">Details </span><span class="setT">{{data.Details}}</span></li>
+                
+                 
+								</ul>
+                       
+                        </div>
+                        </div></div></div></div>
+                    
+              </div>
+               <div class="edit-profile-container" id="viewSpecialization">
+                <div class="block-title">
+                  <h4 class="grey"><i class="icon ion-ios-heart-outline"></i> Specialization </h4>
+                  <div class="line"></div>
+                  <p> These are our Specialized Skills of our company.</p>
+                  <div class="line"></div>
+                </div>
+                <div class="edit-block">
+                  <ul class="list-inline interests">
+                    {{#each data.Specialization}}
+                  	<li><a href="#"><i class="icon ion-ios-lightbulb"></i> {{SpecializedIn}}</a></li>
+                     {{/each}}
+                  </ul>
+                  <div class="line"></div>
+                  </div>
+                  
+              </div>
+
+                    {{else}}
+                    <div class="about-profile">
+                <div class="about-content-block">
+                  <h4 class="grey"><i class="ion-ios-information-outline icon-in-title"></i>Personal Information</h4>
+                </div>
+                         <div class="post-content" style="border: none;">
+                       	<div class="row" style="background:;">
+            		<div class="col-md-7 col-sm-7">
+                        <div class="card" style="" >
+                       
+                        <div class="card-body">
+                        <h5 class="card-title"></h5>
+                       
+                        <ul class="" style="width:655px;">
+									<li class="set"> <i class="fa fa-user setI" aria-hidden="true"></i> <span class="setT" style="margin-left: 12px;font-weight:bold">Full Name </span> <span class="setT">{{data.FirstName}} {{data.LastName}}</span> <i class="fa fa-envelope setI" aria-hidden="true" style="margin-left: 60px;"></i><span class="setT" style="margin-left: 8px;font-weight:bold;">Email </span><span class="setT">{{data.Email}}</span> </li>
+                 
+									<li class="set"><i class="fa fa-male setI" aria-hidden="true"></i><span class="setT" style="margin-left: 18px;font-weight:bold">Gender </span><span class="setT">{{data.Gender}}</span><i class="fa fa-phone setI" aria-hidden="true" style="margin-left: 163px;" ></i> <span class="setT" style="margin-left: 8px;font-weight:bold">Phone </span><span class="setT">0{{data.Phone}}</span></li>
+               
+									<li class="set"><i class="fa fa-calendar setI" aria-hidden="true" ></i><span class="setT"style="margin-left: 10px;font-weight:bold">I'm </span><span class="setT">{{age}} years old</span><i class="fa fa-address-card setI" aria-hidden="true" style="margin-left: 141px;" ></i><span class="setT" style="margin-left: 6px;font-weight:bold">Role </span><span class="setT"> {{data.Role}}</span></li>
+                
+									<li class="set"><i class="fa fa-map-marker setI" aria-hidden="true" ></i><span class="setT" style="margin-left: 18px;font-weight:bold">Lives in </span><span class="setT">{{data.City}} 
+                   {{#if data.State}}{{data.State}}{{/if}},
+                  {{data.Country}}</span><i class="fa fa-calendar setI" aria-hidden="true" style="margin-left:34px" ></i><span class="setT" style="margin-left: 10px;font-weight:bold">Joined on</span> <span class="setT">{{dateL}}</span> </li>
+  
+                
+                 
+								</ul>
+                       
+                        </div>
+                        </div></div></div></div>
+                        </div>
+                    {{/if}}
+
+                 	
+               
+
+                
+
+               {{/if}}
+                 
+                 
+
+
+
+
+            </div>
+            
+
+           <div class="col-md-2 static">
+              
+              
+              <div id="sticky-sidebar">
+                <h4 class="grey">
+                  {{#if data}}
+                     {{#if data.CompanyName}}
+                       {{data.CompanyName}}'s Activity
+                     {{else}}
+                       {{data.FirstName}}'s Activity
+                     {{/if}}
+                  {{else}}
+                  My Activity
+                  {{/if}}
+                  
+                  </h4>
+                <div class="feed-item">
+                  <div class="live-activity">
+                    <p><a href="#" class="profile-link">Profile Created</a></p>
+                    <p class="text-muted">{{created}}</p>
+                  </div>
+                </div>
+
+                {{#if updated}}
+                 <div class="feed-item">
+                  <div class="live-activity">
+                    <p><a href="#" class="profile-link">Last Updated</a></p>
+                    <p class="text-muted">{{updated}}</p>
+                  </div>
+                </div>
+                {{/if}}
+
+                 <div id="messageBoxDiv">
+
+                 </div>
+
+
+
+
+                
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid" id="video" style="margin-top: 100px;margin-bottom:300px;">
+        <div class="row h-10 w-100">
+            <div class="col">
+                <select id="filter" class="w-100 bg-dark text-light ml-2 mt-2 select font-weight-bold border">
+                    <option value="none">Normal</option>
+                    <option value="grayscale(100%)">B & W</option>
+                    <option value="sepia(100%)">Old School</option>
+                    <option value="contrast(150%)">Lumination</option>
+                    <option value="blur(20px)">Hidden Mist</option>
+                    <option value="invert(100%)">Dracula</option>
+                    <option value="hue-rotate(180deg">X-men Beast</option>
+                    <option value="saturate(25)">Super Saiyan God</option>
+                </select>
+            </div>
+            <div class="col">
+                <div class="float-right mt-3" style="margin-left:10px">
+                    <input class="form-check-input" type="checkbox" id="theme">
+                    <label class="form-check-label" for="theme">
+                        Dark Theme
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row h-90 w-100">
+            <div class="col-12 col-sm-6 d-flex justify-content-center">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <video class="embed-responsive-item" muted></video>
+                </div>
+                <button class="btn btn-primary" style="margin-top: 25px;" id="end">End Call</button>
+            </div>
+            <div class="col-12 col-sm-6 d-flex justify-content-center">
+                <div id="peerDiv" class="embed-responsive embed-responsive-16by9">
+                </div>
+            </div>
+        </div>
+    </div>  
+
+
+ 
+
+
+
+
+
+{{>footer}}
+ 
+    <div id="spinner-wrapper">
+      <div class="spinner"></div>
+    </div>
+
+     <script src="/profileAssets/js/jquery-3.1.1.min.js"></script>
+    <script src="/profileAssets/js/bootstrap.min.js"></script>
+    <script src="/profileAssets/js/jquery.sticky-kit.min.js"></script>
+    <script src="/profileAssets/js/jquery.scrollbar.min.js"></script>
+    <script src="/profileAssets/js/script.js"></script>
+    <script src="/js/profile.js"></script>
+    <script src="/company/js/companyProfile.js"></script>
+   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="/js/upload.js"></script>
+ <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+ 
+
+   
+    
+
+
+
+ 
+  </body>
+
+
+</html>
+
+
+
+
+
+
+<style>
+
+
+.upload{
+  display: none;
+  
+}
+.cursor{
+  pointer-events:none;
+  cursor: default;
+}
+.band{
+  color: green;
+}
+
+.set{
+  padding: 10px 15px;
+  font-size: 16px;
+  
+}
+.setI{
+font-size: x-large;
+color:blueviolet;
+
+}
+.setT{
+  color: black;
+
+}
+
+</style>

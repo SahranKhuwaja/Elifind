@@ -1,0 +1,244 @@
+/* ========================================= */
+/* $TABLE OF CONTENTS                        */
+/* ========================================= */
+
+/*
+
+	> $BREADCRUMBS SECTION
+	> $MAIN BODY
+
+		> #MAIN BODY GENERALS
+
+			> @STRIPED SEPARATOR
+			> @POSTS & WIDGETS INNER SPACING
+
+		> #POSTS
+		> #SIDEBAR
+
+			> @SIDEBAR GENERALS
+			> @ABOUT WIDGET
+			> @TWEETS WIDGET
+
+*/
+
+/* ========================================= */
+/* $BREADCRUMBS SECTION                      */
+/* ========================================= */
+
+.breadcrumb-container 
+{
+	border-bottom: 1px solid;
+	padding: 20px 0;
+}
+
+/* ========================================= */
+/* $MAIN BODY                                 */
+/* ========================================= */
+
+/* #MAIN BODY GENERALS
+/* ========================= */
+
+/* @STRIPED SEPARATOR */
+
+.striped-separated { position: relative; }
+
+.striped-separated::after,
+.post + .post::after,
+.widget + .widget::after
+{
+	content: ' ';
+	display: block;
+	width: 100%;
+	height: 5px;
+	position: absolute;
+	top: -2px;
+	background: url(../media/images/separator.png) repeat-x;
+	opacity: 0.15;
+}
+
+.striped-separated::after
+{
+	top: auto;
+	bottom: -2px;
+}
+
+/* @POSTS & WIDGETS INNER SPACING */
+
+.post:last-of-type,
+.widget:last-of-type { padding-bottom: 0; }
+
+/* #POSTS
+/* ========================= */
+
+@media ( min-width: 992px )
+{
+	.primary-wrapper { padding-right: 50px; }
+}
+
+.post
+{
+	padding-top: 60px;
+	padding-bottom: 60px;
+	position: relative;
+}
+
+.post:first-of-type { margin-top: -60px; }
+
+	.post__meta span + span { margin-left: 30px; }
+
+	.post__meta .fa { margin-right: 10px; }
+
+/* #SINGLE POST
+/* ========================= */
+
+.post-body > * + *
+{
+	margin-top: 30px;
+}
+
+.comments-list 
+{
+	padding-bottom: 20px;
+	overflow: hidden;
+}
+
+.comments-list .comments-list 
+{ 
+	padding-left: 90px; 
+	overflow: hidden;
+	border-top-width: 1px;
+	border-style: solid;
+}
+
+	.comment 
+	{
+		position: relative;
+		padding-top: 40px;
+		padding-bottom: 40px;
+		overflow: hidden;
+		border-top: 1px solid;
+	}
+
+	.comments-wrapper > .comments-list  > .comment:first-child { border-top: 0 }
+	.comments-list li + .comments-list .comment:first-child { border-top: 0 }
+
+		.comment .user 
+		{
+			width: 60px;
+			height: 60px;
+			border-radius: 30px;
+			overflow: hidden;
+			float: left;
+		}
+
+			.comment .user img
+			{
+				display: block;
+				width: inherit;
+				height: inherit;
+			}
+
+		.comment .message 
+		{
+			overflow: hidden;
+			position: relative;
+			padding-left: 30px;
+		}
+
+			.comment-reply-link 
+			{
+				position: absolute;
+				right: 0;
+				top: 0;
+			}
+
+				.comment-reply-link .fa
+				{
+					margin-right: 10px;
+				}
+
+			.comment .info 
+			{
+				display: inline-block;				
+			}
+
+				.comment .info a
+				{
+					display: block;
+				}
+
+				.comment-username 
+				{
+					margin-bottom: 5px;
+				}
+
+				.comment-date 
+				{
+					
+				}
+
+			.comment p 
+			{
+				margin-top: 20px;
+			}
+
+#comments-form { margin-top: 40px; }
+
+/* #SIDEBAR
+/* ========================= */
+
+/* @SIDEBAR GENERALS */
+
+.widget 
+{ 
+	padding-top: 40px;
+	padding-bottom: 40px;
+	position: relative; 
+}
+
+.widget:first-of-type { margin-top: -40px; }
+
+.recent-posts-wrapper li,
+.tweets-list li
+{
+	padding: 15px 0;
+	line-height: 1.618;
+}
+
+.recent-posts-wrapper li:first-child,
+.tweets-list li:first-child { margin-top: -15px; }
+
+.recent-posts-wrapper li + li,
+.tweets-list li + li { border-top: 1px solid; }
+
+/* @ABOUT WIDGET */
+
+.owner-image-wrapper
+{
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+.owner-info-wrapper { padding-left: 30px; }
+
+.owner-socials-wrapper a { padding: 5px; }
+.owner-socials-wrapper a + a { margin-left: 5px; }
+
+/* @TWEETS WIDGET */
+
+.tweets-list li .fa
+{
+	float: left;
+	line-height: 1.618em;
+}
+
+.tweets-list li p 
+{
+	padding-left: 20px;
+	display: block;
+	overflow: hidden;
+}
+
+.twitter-follow-link:hover { text-decoration: underline; }

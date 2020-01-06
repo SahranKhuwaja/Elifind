@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+	
+{{>header}}
+<head>
+  
+
+
+		<title>Profile</title>
+    
+		<link rel="stylesheet" href="/profileAssets/css/style.css" />
+        <link rel="stylesheet" href="/profileAssets/css/search.css" />
+		<link rel="stylesheet" href="/profileAssets/css/ionicons.min.css" />
+    <link rel="stylesheet" href="/profileAssets/css/font-awesome.min.css" />
+     <link rel="stylesheet" href="/inomash/fonts/material-design-iconic-font/css/material-design-iconic-font.css">
+    
+   
+  
+    
+	</head>
+  <body>
+
+   
+ 
+     <div id="page-contents" style="margin-bottom: 500px">
+    	<div class="container" style="margin-top: 60px;margin-bottom:20px;">
+    		<div class="row">
+
+    		  {{>profileTop2}}
+    		
+    			<div class="col-md-7">
+
+         
+            <div class="create-post">
+            	<div class="row">
+            		<div class="col-md-7 col-sm-7">
+                  <div class="form-group">
+                      {{#if Pimage}}
+             <img src="data:image/png;base64, {{Pimage}}" class="profile-photo-md">
+            {{else}}
+                 <img src="/profileAssets/images/male.jpg" id="i" 
+                  alt="user" name="user" class="profile-photo-md" />
+            {{/if}}
+                   
+                    <textarea name="texts" id="exampleTextarea" cols="80" rows="1" class="form-control" placeholder="Write what you wish"></textarea>
+                  </div>
+                </div>
+            		<div class="col-md-5 col-sm-5">
+                  <div class="tools">
+                    <ul class="publishing-tools list-inline">
+                      <li><a href="#"><i class="ion-compose"></i></a></li>
+                      <li><a href="#"><i class="ion-images"></i></a></li>
+                      <li><a href="#"><i class="ion-ios-videocam"></i></a></li>
+                      <li><a href="#"><i class="ion-map"></i></a></li>
+                    </ul>
+                    <button class="btn btn-primary pull-right">Publish</button>
+                  </div>
+                </div>
+            	</div>
+            </div>
+
+           
+            <div class="friend-list">
+            	<div class="row" id="row">
+            	<hgroup class="mb20" id="">
+                <div id="result-info-head"></div>
+                <script id="result-info-template" type="text/x-handlebars-template">
+		<h1>Search Results</h1>
+    
+		<h2 class="lead"><strong class="text-danger">\{{count}}</strong> results has been found for the search for <strong class="text-danger">\{{keyword}}</strong></h2> 
+    </script>
+	</hgroup>
+   
+    <div class="toggle-switch" id= "c"style="">
+                                 <div class="col-xs-12 col-sm-12 col-md-7 excerpet" style="margin-top: 15px;margin-left:210px">
+                          <strong> FILTER ACCORDING TO LOCATION</strong></div>
+                          <label class="switch">
+                              
+                            <input type="checkbox" checked id="filter" onchange="check()">
+                            <span class="slider round"></span>
+                          </label>
+                        </div>
+
+
+   
+  
+  
+            <div id="contentDiv"></div>
+
+             <script id="entry-template" type="text/x-handlebars-template">
+          
+              \{{#each res}}
+             <section class="col-xs-12 col-sm-6 col-md-12">
+		<article class="search-result row">
+			<div class="col-xs-12 col-sm-12 col-md-3">
+				<a href="/Profile/View/{{id}}/Timeline" title="" class="thumbnail">
+                    \{{#if Dp}}
+                    <img src="data:image/png;base64, \{{Dp}}" class="" />
+                    \{{else}}
+                    <img src="/profileAssets/images/male.jpg"> 
+                    \{{/if}}
+                    </a>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-2">
+				<ul class="meta-search">
+					<li><i class="glyphicon glyphicon-calendar"></i> <span>\{{create}}</span></li>
+					<li><i class="glyphicon glyphicon-user"></i> <span>\{{gender}}</span></li>
+                    <li><i class="glyphicon glyphicon-map-marker"></i> <span>\{{city}}</span></li>
+					<li><i class="glyphicon glyphicon-tags"></i> <span>\{{role}}</span></li>
+                    
+				</ul>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-7 excerpet">
+				<h4><a href="/Profile/View/\{{id}}/Timeline" title="" style="text-decoration:none">\{{fname}} \{{lname}} \{{cname}} </a></h4><br>
+				<p><strong>Summary:</strong><br><br>To be continied</p>						
+                
+			</div>
+			<span class="clearfix borda"></span>
+		</article>
+
+	</section>
+         \{{/each}}
+          \{{#if noResult}}
+          
+        <div class="container">
+          <img src="/profileAssets/images/404.png" alt="" class="img-responsive" />
+          <div class="error-message">
+          	<h1 class="error-title">Whoops!</h1>
+          	<p>Looks like you are lost. But don't worry there is plenty to see!</p>
+          </div>
+         
+        </div>
+    	
+       \{{/if}} 
+         </script>
+
+              
+           
+             
+            
+            
+               
+                
+            	</div>
+            </div>
+          </div>
+
+    			
+    			<div class="col-md-2 static">
+            <div class="suggestions" id="sticky-sidebar">
+              <h4 class="grey">Suggestions</h4>
+              
+             
+              
+              
+             
+              <div class="follow-user">
+                <img src="/profileAssets/images/users/user-15.jpg" alt="" class="profile-photo-sm pull-left" />
+                <div>
+                  <h5><a href="#">Sahran Khuwaja</a></h5>
+                  <a href="#" class="text-green">View Profile</a>
+                </div>
+              </div>
+                <div class="follow-user">
+                <img src="/profileAssets/images/users/user-12.jpg" alt="" class="profile-photo-sm pull-left" />
+                <div>
+                  <h5><a href="#">Sameer Khuwaja</a></h5>
+                  <a href="#" class="text-green">View Profile</a>
+                </div>
+              </div>
+            </div>
+          </div>
+    		</div>
+    	</div>
+    </div>
+{{>footer}}
+ 
+    <div id="spinner-wrapper">
+      <div class="spinner"></div>
+    </div>
+
+     <script src="/profileAssets/js/jquery-3.1.1.min.js"></script>
+    <script src="/profileAssets/js/bootstrap.min.js"></script>
+    <script src="/profileAssets/js/jquery.sticky-kit.min.js"></script>
+    <script src="/profileAssets/js/jquery.scrollbar.min.js"></script>
+    <script src="/profileAssets/js/script.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/js/upload.js"></script>
+    <script src="/js/timeline.js"></script>
+    <script src="/js/search.js"></script>
+     <script src="/js/handlebars.js"></script>
+     <script src="/js/mustache.js"></script>
+ 
+  </body>
+
+
+</html>
+
+<style>
+
+
+.upload{
+  display: none;
+  
+}
+.cursor{
+  pointer-events:none;
+  cursor: default;
+}
+.band{
+  color: green;
+}
+
+
+</style>

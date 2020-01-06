@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELIFIND</title>
+     <link rel="icon" href="/images/4-c.png">
+    <link rel="stylesheet" type="text/css" href="/company/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/company/css/fontawesome-all.min.css">
+    <link rel="stylesheet" type="text/css" href="/company/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/company/css/style2.css">
+    <link rel="stylesheet" href="/inomash/fonts/material-design-iconic-font/css/material-design-iconic-font.css">
+   
+</head>
+<body>
+    <div class="form-body on-top">
+        <div class="website-logo">
+            <a href="/Profile/Company">
+                <div class="logo">
+                    <img class="logo-size" src="/company/images/logo.png" alt="">
+                </div>
+            </a>
+        </div>
+        <div class="row">
+            <div class="img-holder">
+                <div class="bg"></div>
+                <div class="info-holder simple-info">
+                    <div><img src="/company/images/graphic.svg" alt=""></div>
+                    <div><h3>Welcome to the Elifind!</h3></div>
+                    <div><p>Fill the form, and <br>setup your company.</p></div>
+                </div>
+            </div>
+            <div class="form-holder">
+                <div class="form-content">
+                    <div class="form-items">
+                        <form method="POST" action="/Profile/Company" id="companyForm">
+                            <div class="row">
+                                <div class="col-12 col-sm-12">
+                                    <label style="color: black;"> <strong> Company Name </strong> </label>
+                                    <input type="text" name="CompanyName" class="form-control" placeholder="Company Name" required>
+                                </div>
+                               
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-sm-12">
+                                    <label style="color: black;"> <strong> Founded On </strong> </label>
+                                    <input type="date" name="FoundedOn" class="form-control" placeholder="Founded on" required>
+                                </div>
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-sm-12" style="margin-bottom: 13px;">
+                                    <label style="color: black;"> <strong> Category </strong> </label>
+                                    <select type="text" name="Category" id="Category" class="form-control" placeholder="Category">
+                                        <option value="" disabled>Select Category</option>
+                                        <option value="Web Development (Software)">
+                                          Web Development (Software)
+                                        </option>
+                                        <option value="Desktop Application (Software)">
+                                          Desktop Application (Software)
+                                        </option>
+                                        <option value="Artificial Intelligence (Software/Hardware)">
+                                          Artificial Intelligence (Software/Hardware)
+                                        </option>
+                                        <option value="Robotics (Software/Hardware)">
+                                          Robotics (Software/Hardware)
+                                        </option>
+                                        <option value="Electronics (Hardware)" >
+                                          Electronics (Hardware)
+                                        </option>
+                                        <option value="IOT (Software/Hardware)">
+                                          IOT (Software/Hardware)
+                                        </option>
+                                        <option value="AnyOtherSoftware (Software)">
+                                          Any Other Software (Software)
+                                        </option>
+                                        <option value="AnyOtherHardware">
+                                          Any Other Hardware (Hardware)
+                                        </option>
+                                        <option value="">
+                                        Other
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-sm-12">
+                                    <label style="color: black;"> <strong> Category </strong> </label>
+                                    <input type="text" name="Category" id="Other" class="form-control" placeholder="Other" style="pointer-events:none"disabled>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-sm-12">
+                                    <label style="color: black;"> <strong> Contact</strong> </label>
+                                    <input type="text" name="Contact" class="form-control" placeholder="Contact" required>
+                                </div>
+                               
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-sm-12">
+                                    <label style="color: black;"> <strong> Address </strong> </label>
+                                    <input type="text" name="Address" class="form-control" placeholder="Address" required>
+                                </div>
+                               
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <label style="color: black;"> <strong> Details </strong> </label>
+                                    <textarea class="form-control" name="Details" placeholder="Tell us sbout your company.." required></textarea>
+                                </div>
+                            </div>
+                            <div class="row top-padding">
+                                <div class="col-12 col-sm-6">
+                                   
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-button text-right">
+                                        <button id="next" class="ibtn less-padding">Proceed and Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="specialization">
+                                <button type="button" id="btnSpec" class="btn btn-primary btnAdd" style="width: 100px;margin-left:14px;margin-bottom:5px" >
+                                  <i class="zmdi zmdi-plus-circle"></i> 
+                                  <Span style="margin-right: 15px;"> ADD</Span>
+                                  
+                           </button> 
+                                <div class="col-12 col-sm-12">
+                                    <label style="color: black;"> <strong> Specialization </strong> </label>
+                                   
+                                    <input type="text" name="Specialization" class="form-control" placeholder="Specialization" required>
+                                    
+                                </div>
+                            </div>
+                            <div class="row top-padding" id="submit">
+                                <div class="col-12 col-sm-6">
+                                   
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-button text-right">
+                                        <button type="submit" id="btnSubmit" class="ibtn less-padding">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script id="spec" type="text/x-handlebars-template" >
+        <div class="col-12 col-sm-12">
+            <div class="input-with-icon">
+            <input type="text" name="Specialization" class="form-control" placeholder="Specialization" required>
+            <div class="btn btn-default icon" onclick="remove(this)"><span class="zmdi zmdi-close" id="cross"></span></div></div>
+        </div>   
+    </script>
+<script src="/company/js/jquery.min.js"></script>
+<script src="/company/js/popper.min.js"></script>
+<script src="/company/js/bootstrap.min.js"></script>
+<script src="/company/js/main.js"></script>
+<script src="/company/js/form.js"></script>
+<script src="/js/mustache.js"></script>
+<script src="/company/js/jquery.validate.js"></script>
+</body>
+
+</html>
+
+

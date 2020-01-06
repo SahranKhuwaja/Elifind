@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Sign Up</title>
+    {{>mainHeader}}
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link rel="icon" type="image/png" href="/images/icons/favicon.ico"/>
+
+    
+    
+	<link rel="stylesheet" type="text/css" href="/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+
+	<link rel="stylesheet" type="text/css" href="/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+
+	<link rel="stylesheet" type="text/css" href="/vendor/animate/animate.css">
+	
+	<link rel="stylesheet" type="text/css" href="/vendor/css-hamburgers/hamburgers.min.css">
+
+	<link rel="stylesheet" type="text/css" href="/vendor/animsition/css/animsition.min.css">
+
+	<link rel="stylesheet" type="text/css" href="/vendor/select2/select2.min.css">
+	
+	<link rel="stylesheet" type="text/css" href="/vendor/daterangepicker/daterangepicker.css">
+
+	<link rel="stylesheet" type="text/css" href="/css/util.css">
+	<link rel="stylesheet" type="text/css" href="/css/main.css">
+
+</head>
+<body>
+
+	<div class="limiter" style="display: inline-block">
+		<div class="container-login100">
+			<div class="wrap-login100" style="margin-top:100px;margin-bottom:20px ">
+				<div class="login100-form-title" style="background-image: url(images/bg-01.jpg);">
+					<span class="login100-form-title-1">
+						Sign Up
+					</span>
+				</div>
+
+
+
+				<form class="login100-form validate-form" method="POST" action="/Signup">
+                         
+						 
+                        <p style="color:red;font-size:15px;">{{message}}</p><br><br>
+				 
+					<div class="wrap-input100 validate-input m-b-26" data-validate="First Name is required">
+						<span class="label-input100 aligntext">First Name</span>
+						<input class="input100" type="text" name="FirstName" id="FirstName"  placeholder="First Name">
+						<span class="focus-input100"></span>
+				
+					</div>
+                    <div class="wrap-input100 validate-input m-b-26" data-validate="Last Name is required">
+						<span class="label-input100 aligntext">Last Name</span>
+						<input class="input100" type="text" name="LastName" id="LastName"  placeholder="Last Name">
+						<span class="focus-input100"></span>
+					</div>
+
+                    <div class="wrap-input100 validate-input m-b-26" data-validate="Birthday is required">
+						<span class="label-input100 aligntext">Birthday </span>
+						<input class="input100" type="date" name="Birthday" id="Birthday"  placeholder="Birthday">
+						<span class="focus-input100"></span>
+				
+					</div>
+
+                     <div class="  validate-input m-b-26" data-validate="Gender is required">
+						<span class="label-input100 aligntext">Gender</span>
+						<input class="" style="margin-bottom:20px;margin-right:2px; margin-top:18px;height: 10px; " type="radio" name="Gender" id="Gender" value="Male"  placeholder="" checked> Male
+                        <input class="" style="margin-bottom:20px;margin-right:2px;margin-left:50px;margin-top:18px;height: 10px; " type="radio" name="Gender" id="Gender2" value="Female"  placeholder=""> Female
+						<input class="" style="margin-bottom:20px;margin-right:2px;margin-left:50px;margin-top:18px;height: 10px; " type="radio" name="Gender" id="Gender3" value="Other"  placeholder=""> Other
+                        <span class="focus-input100"></span>
+				
+					</div>
+					  <div class=" validate-input m-b-26" data-validate="Country is required">
+						<span class="label-input100 aligntext">Country</span>
+						
+							<select class="setting" name="Country" id="Country"  placeholder="Country" style="margin-bottom: 14px;margin-top:10px;">
+                                
+                                   {{#each CountryData}}
+                                    <option value="{{this.name}}">{{this.name}}</option> 
+									
+                                          {{/each}}
+								   
+                                  
+                         </select>
+						 
+						<span class="focus-input100"></span>
+					</div>
+
+					
+					<div class="wrap-input100 validate-input m-b-26" data-validate="City is required" style="height: 45px">
+						<span class="label-input100 aligntext">City</span>
+						<input class="input100" type="text" name="City" id="City"  placeholder="City">
+						<span class="focus-input100"></span>
+				
+					</div>
+					  <div class=" validate-input m-b-26" data-validate="Role is required"  style="margin-top:14px">
+						<span class="label-input100 aligntext">Role</span>
+						
+							<select class="setting" name="Role" id="Role"  placeholder="" style="margin-bottom: 14px;margin-top:10px;">
+								            <option value="User">I am here to showcase skills</option>
+											<option value="Company">I am here to approch users</option>
+                         </select>
+						 
+						<span class="focus-input100"></span>
+					</div>
+                    <div class="wrap-input100 validate-input m-b-26" data-validate="Email is required">
+						<span class="label-input100 aligntext">Email</span>
+						<input class="input100" type="email" name="Email" id="Email"  placeholder="Email" style="">
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input m-b-18" data-validate = "Password is required" style="margin-top:3px;height: 45px">
+						<span class="label-input100 aligntext">Password </span>
+						<input class="input100" type="password" name="Password" id="Password" placeholder="Password">
+						<span class="focus-input100"></span>
+					</div>
+					<div class="wrap-input100 validate-input m-b-18" data-validate = "Confirm Password is required" style="margin-top:10px">
+						<span class="label-input100 aligntext">Confirm Password </span>
+						<input class="input100" type="password" name="cPassword" id="cPassword" placeholder="Re-enter Password">
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="flex-sb-m w-full p-b-30" style="margin-top:10px">
+						<div class="contact100-form-checkbox">
+							<input class="input-checkbox100" id="ckb1" type="checkbox" name="terms" required>
+							<label class="label-checkbox100" for="ckb1">
+								I agree to the Elifind <a href="#">Terms and Conditions</a>
+							</label>
+						</div>
+
+					
+					</div>
+
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn" type="submit" id="btn1" onclick="return Validate()">
+						    Sign up
+						</button>
+						
+						
+					</div>
+				<div class="alert alert-warning" id="msgDivS" role="alert" style="margin-top:14px;margin-left:10px" hidden>
+					<strong><p id="error-message" style="color:red;font-size:15px;" hidden></p></strong>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	{{>footer}}
+
+	<script src="/vendor/jquery/jquery-3.2.1.min.js">
+	</script>
+
+	<script src="/vendor/animsition/js/animsition.min.js"></script>
+
+	<script src="/vendor/bootstrap/js/popper.js"></script>
+	<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+	<script src="/vendor/select2/select2.min.js"></script>
+
+	<script src="/vendor/daterangepicker/moment.min.js"></script>
+	<script src="/vendor/daterangepicker/daterangepicker.js"></script>
+
+	<script src="/vendor/countdowntime/countdowntime.js"></script>
+
+	<script src="/js/main.js"></script>
+	<script src="/js/check.js"></script>
+
+
+</body>
+</html>
+
+
+<style>
+	.navbar-default{
+        background-color: #222;
+        padding: 10px;
+    }
+
+.navbar-default.navbar-shrink .navbar-brand {
+    font-size: 2.0em;
+}
+.aligntext{
+    text-align: left;
+	
+}
+.setting{
+	width: 390px;
+	position: relative;
+
+	background-color: white;
+	height: 30px;
+
+ 
+
+
+}
+
+.modify{
+	    color: #5BB12F !important;
+	    pointer-events: none;
+        cursor: default;
+		
+}
+
+</style>

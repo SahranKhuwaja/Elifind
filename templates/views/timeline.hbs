@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+	
+{{>header}}
+<head>
+  
+
+
+		<title>Profile</title>
+		<link rel="stylesheet" href="/profileAssets/css/style.css" />
+		<link rel="stylesheet" href="/profileAssets/css/ionicons.min.css" />
+    <link rel="stylesheet" href="/profileAssets/css/font-awesome.min.css" />
+     <link rel="stylesheet" href="/inomash/fonts/material-design-iconic-font/css/material-design-iconic-font.css">
+     
+   
+  
+    
+	</head>
+  <body>
+
+   
+ 
+    
+      <div class="container" style="margin-bottom: 500px">
+      <div class="timeline" style="margin-top: 50px;margin-bottom:20px;"> 
+    
+         {{>profileTop}}
+
+        
+        
+
+
+
+
+        <div id="page-contents">
+
+
+
+          
+          <div class="row">
+            
+            <div class="col-md-3">
+              
+            
+              <ul class="edit-menu" style="margin-top: 120px">
+              	<li class="active" id="recent"><i class="icon ion-images active" id="basic"style=""></i><a href=""  id="basicInfo">Recent Posts</a></li>
+              	<li><i class="icon ion-ios-photos-outline" ></i><a href="">Older Posts</a></li>
+              	
+              </ul>
+            </div>
+
+            <div class="col-md-7">
+
+           
+            <div class="create-post">
+            	<div class="row">
+            		<div class="col-md-7 col-sm-7">
+                  <div class="form-group">
+
+                          {{#if Pimage}}
+                  <img src="data:image/png;base64, {{Pimage}} " id="i" 
+                  alt="user" name="user" class="profile-photo-md" />
+
+                    {{else}}
+                   <img src="/profileAssets/images/male.jpg" id="i" 
+                  alt="user" name="user" class="profile-photo-md" />
+                  
+                  {{/if}}
+                    
+                    {{#if data}}
+                    <textarea name="texts" id="exampleTextarea" cols="80" rows="1" class="form-control" placeholder="Write something to {{data.FirstName}} {{data.CompanyName}}"></textarea>
+
+                    {{else}}
+                    <textarea name="texts" id="exampleTextarea" cols="80" rows="1" class="form-control" placeholder="Write what you wish"></textarea>
+                    {{/if}}
+                  </div>
+                </div>
+            		<div class="col-md-5 col-sm-5">
+                  <div class="tools">
+                    <ul class="publishing-tools list-inline">
+                      <li><a href="#"><i class="ion-compose"></i></a></li>
+                      <li><a href="#"><i class="ion-images"></i></a></li>
+                      <li><a href="#"><i class="ion-ios-videocam"></i></a></li>
+                      <li><a href="#"><i class="ion-map"></i></a></li>
+                    </ul>
+                    <button class="btn btn-primary pull-right">Publish</button>
+                  </div>
+                </div>
+            	</div>
+            </div>
+            
+               
+
+              <div class="post-content">
+            	<div class="row">
+            		<div class="col-md-7 col-sm-7">
+            <div class="card" style="padding: 15px 15px 15px 15px;">
+  <div class="card-header">
+    <h4>Nothing to show!</h2>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title"></h5>
+    <p class="card-text">No posts found!</p>
+    <a href="#" class="btn btn-primary">Go to about</a>
+  </div>
+</div>
+            		</div></div></div>
+
+          
+            
+            
+            
+            </div>
+            <div class="col-md-2 static">
+              
+              
+              <div id="sticky-sidebar">
+                <h4 class="grey">
+                  {{#if data}}
+                     {{#if data.CompanyName}}
+                        {{data.CompanyName}}'s Activity
+                     {{else}}
+                        {{data.FirstName}}'s Activity
+                     {{/if}}
+                  {{else}}
+                  My Activity
+                  {{/if}}
+                  
+                  </h4>
+                <div class="feed-item">
+                  <div class="live-activity">
+                    <p><a href="#" class="profile-link">Profile Created</a></p>
+                    <p class="text-muted">{{created}}</p>
+                  </div>
+                </div>
+
+                {{#if updated}}
+                 <div class="feed-item">
+                  <div class="live-activity">
+                    <p><a href="#" class="profile-link">Last Updated</a></p>
+                    <p class="text-muted">{{updated}}</p>
+                  </div>
+                </div>
+                {{/if}}
+
+                <div id="messageBoxDiv">
+
+                 </div>
+                
+                
+              </div>
+            </div>
+
+      
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  <div class="container-fluid" id="video" style="margin-top: 100px;margin-bottom:300px;">
+        <div class="row h-10 w-100">
+            <div class="col">
+                <select id="filter" class="w-100 bg-dark text-light ml-2 mt-2 select font-weight-bold border">
+                    <option value="none">Normal</option>
+                    <option value="grayscale(100%)">B & W</option>
+                    <option value="sepia(100%)">Old School</option>
+                    <option value="contrast(150%)">Lumination</option>
+                    <option value="blur(20px)">Hidden Mist</option>
+                    <option value="invert(100%)">Dracula</option>
+                    <option value="hue-rotate(180deg">X-men Beast</option>
+                    <option value="saturate(25)">Super Saiyan God</option>
+                </select>
+            </div>
+            <div class="col">
+                <div class="float-right mt-3" style="margin-left:10px">
+                    <input class="form-check-input" type="checkbox" id="theme">
+                    <label class="form-check-label" for="theme">
+                        Dark Theme
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row h-90 w-100">
+            <div class="col-12 col-sm-6 d-flex justify-content-center">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <video class="embed-responsive-item" muted></video>
+                </div>
+                <button class="btn btn-primary" style="margin-top: 25px;" id="end" >End Call</button>
+            </div>
+            <div class="col-12 col-sm-6 d-flex justify-content-center">
+                <div id="peerDiv" class="embed-responsive embed-responsive-16by9">
+                </div>
+            </div>
+        </div>
+    </div>  
+
+
+
+{{>footer}}
+ 
+    <div id="spinner-wrapper">
+      <div class="spinner"></div>
+    </div>
+
+     <script src="/profileAssets/js/jquery-3.1.1.min.js"></script>
+    <script src="/profileAssets/js/bootstrap.min.js"></script>
+    <script src="/profileAssets/js/jquery.sticky-kit.min.js"></script>
+    <script src="/profileAssets/js/jquery.scrollbar.min.js"></script>
+    <script src="/profileAssets/js/script.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/js/upload.js"></script>
+    <script src="/js/timeline.js"></script>
+    <script>
+     
+   
+
+
+
+    </script>
+ 
+  </body>
+
+
+</html>
+
+<style>
+
+
+.upload{
+  display: none;
+  
+}
+.cursor{
+  pointer-events:none;
+  cursor: default;
+}
+.band{
+  color: green;
+}
+
+</style>

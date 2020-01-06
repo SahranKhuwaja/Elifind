@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+	
+{{>header}}
+<head>
+  
+<title>Inomash</title>
+
+
+		<link rel="stylesheet" href="/profileAssets/css/style.css" />
+		<link rel="stylesheet" href="/profileAssets/css/ionicons.min.css" />
+    <link rel="stylesheet" href="/profileAssets/css/font-awesome.min.css" />
+     <link rel="stylesheet" href="/inomash/fonts/material-design-iconic-font/css/material-design-iconic-font.css">
+		<link rel="stylesheet" href="/inomash/vendor/date-picker/css/datepicker.min.css">
+		<link rel="stylesheet" href="/inomash/css/style.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"></link>
+  
+      
+	</head>
+  <body>
+
+    <div class="container" style="margin-top: 100px;margin-bottom:500px;">
+        <div class="row" id="rowP">
+      <div class="alert alert-success" role="alert">
+  <h4 class="alert-heading">Welcome!</h4>
+  <strong><p>The InoMaash Creation Process</p></strong>
+  <hr>
+  <p class="mb-0">Click the Start button to get started!</p>
+   
+   <button type="button" id="btnNext" class="btn btn-primary " style="margin-left:1050px">Start</button>
+  
+
+</div>
+</div>
+
+<div class="alert alert-primary" id="guide" role="alert" style="display: none;margin-left:155px;margin-right:155px;color:darkblue;border:1px solid">
+ <strong> Hello! {{user.FirstName}} {{user.LastName}}. You are few steps away to complete the process. Complete each and every single step. </strong>
+</div>
+
+<div class="wrapper" id="inoMForm" style="margin-left:155px;display:none;background: azure;">
+            <form action="/Profile/Inomash/Create" method="post" id="wizard">
+        		<!-- SECTION 1 -->
+                <h4></h4>
+                <section>
+                    <h3>Basic details</h3>
+                	<div class="form-row">
+                        <div class="form-holder">
+                            <i class="zmdi zmdi-account"></i>
+                            <input type="text" class="form-control cursor" name = "FirstName" placeholder="First Name" value="{{user.FirstName}}" disabled>
+                        </div>
+                        <div class="form-holder">
+                            <i class="zmdi zmdi-account"></i>
+                            <input type="text" class="form-control cursor" name = "LastName" placeholder="Last Name" value="{{user.LastName}}" disabled>
+                        </div>
+                	</div>
+                    <div class="form-row">
+                        <div class="form-holder">
+                            <i class="zmdi zmdi-email"></i>
+                            <input type="text" class="form-control cursor" name = "Email" placeholder="Email ID" value="{{user.Email}}" disabled>
+                        </div>
+                        <div class="form-holder">
+                            <i class="zmdi zmdi-account-box-o"></i>
+                            <input type="text" class="form-control cursor" name = "Email"  placeholder="Your Birthday" value="{{dob}}" disabled>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-holder">
+                            <i class="zmdi zmdi-map"></i>
+                            <input type="text" class="form-control cursor" name = "Country" placeholder="Country" value="{{user.Country}}" disabled>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-holder">
+                                <i class="zmdi zmdi-pin"></i>
+                                <input type="text" class="form-control" name = "State"  placeholder="State" value="{{user.State}}">
+                            </div>
+                            <div class="form-holder">
+                                <i class="zmdi zmdi-pin-drop"></i>
+                                <input type="text" class="form-control cursor" name = "City"  placeholder="City" value="{{user.City}}" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-holder">
+                            <i class="zmdi zmdi-smartphone-android"></i>
+                            <input type="text" class="form-control" name = "Phone" placeholder="Phone Number" value="{{user.Phone}}" required>
+                        </div>
+                        <div class="form-holder password">
+                            <i class="zmdi zmdi-male-female"></i>
+                            <input type="text" class="form-control cursor"  name = "Gender" placeholder="Gender" value={{user.Gender}} disabled>
+                        </div>
+                    </div>
+                </section>
+
+				<!-- SECTION 2 -->
+                <h4></h4>
+                
+                <section>
+                    <div id="eduDiv">
+                	<h3>Education</h3>
+
+
+                    <div class="form-row">
+                        <div class="form-holder w-100">
+                           
+                           <button type="button" id="btnEdu" class="btn btn-primary btnAdd" style="width: 100px"
+                           
+                            onclick="addEducation()">
+                           
+                                  
+                                  <i class="zmdi zmdi-plus-circle"></i> 
+                                  <Span style="margin-right: 15px;"> ADD</Span>
+                                  
+                           </button> 
+                             
+                           
+                            <strong><p style="color: green;font-size:12px;margin-left:100px">This section is optional. If you dont have any proper education, remove all the forms and continue!</p></strong>
+                        </div>
+                       
+
+                    </div> 
+                    <div class="form-row" id="form-row" style="background: white;">
+                        <div class="form-holder w-100">
+                    <div class="card" id="card">
+                       <div class="card-header" id="cheader" style="padding:15px 15px 15px 15px">
+                           <div class="form-group" id="fgroup">
+                            <div class="form-holder" id="fholder">
+                           <img src="/images/icons/edu.png"/>
+                           </div>
+                           <div class="form-holder" id="fholder2" style="margin-top:2px">
+                           <strong><a href = "javascript:function f(e){e.preventDefault()}" id="cross" style="margin-left:440px;margin-top:20px;;text-decoration:none" onClick="this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.remove();check();">X</a></strong>
+                          </div>
+                          </div>
+                       
+                       </div>
+                        
+                       
+                     <div class="card-body" id="cbody" style="padding:1px 15px 15px 15px"  >
+                        <strong> <p style="color: red;font-size:12px"></p></strong>
+                       <h5 class="card-title">Course Title</h5> 
+                       <input type="text" class="form-control" name="CourseTitle" required>
+                       <p class="card-text">This title defines your degree and your level of qualification.</p>
+                       <h5 class="card-title">Name of Institute</h5> 
+                       <input type="text" class="form-control" name="Institute" required>
+                     <div class="form-group">
+                         <div class="form-holder">
+                        <h5 class="card-title">Start Year</h5> 
+                       <select class="form-control" name="StartYear" class="sy" id="sy" required>
+                           <option value="" disabled>Select year</option>
+                       </select>
+                       </div>
+                       <div class="form-holder" >
+                        <h5 class="card-title">End Year</h5> 
+                       <select class="form-control" name="EndYear" id="sy2" required>
+                           <option value="" disabled>Select year</option>
+                       </select>
+                       </div>
+                    
+                       </div>
+                       
+                       <a href="javascript:function f2(e){e.preventDefault()}" id="btnS" class="btn btn-primary" onclick="dis(this);">Finish</a>
+                     </div>
+                   </div>
+           </div></div>  
+           
+                  </div>
+                </section>
+
+                <!-- SECTION 3 -->
+                <h4></h4>
+                <section>
+                    <div id="skillDiv">
+                    <h3 style="margin-bottom: 16px;">Skills</h3>
+                     <div class="form-row">
+                        <div class="form-holder w-100">
+                           
+                           <button type="button" id="btnEdu" class="btn btn-primary btnAdd" style="width: 100px"
+                           
+                            onclick="addSkills()">
+                           
+                                  
+                                  <i class="zmdi zmdi-plus-circle"></i> 
+                                  <Span style="margin-right: 15px;"> ADD</Span>
+                                  
+                           </button> 
+                             
+                           
+                            <strong><p style="color: green;font-size:12px;margin-left:100px">This section is mandatory. Please select atleast one golden skill to complete this section!</p></strong>
+                        </div>
+                       
+
+                    </div> 
+                     <div class="form-row" id="form-row" style="background: white;">
+                        <div class="form-holder w-100">
+                    <div class="card" id="card2">
+                       <div class="card-header" id="cheader2" style="padding:15px 15px 15px 15px">
+                           <div class="form-group" id="fgroup2">
+                            <div class="form-holder" id="fholder3">
+                           <img src="/images/icons/skills.png"/>
+                           </div>
+                           <div class="form-holder" id="fholder4" style="margin-top:2px">
+                           <strong><a href = "javascript:function f(e){e.preventDefault()}" id="cross" style="margin-left:440px;margin-top:20px;;text-decoration:none" onClick="this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.remove();check3();">X</a></strong>
+                          </div>
+                          </div>
+                       
+                       </div>
+                        
+                       
+                     <div class="card-body" id="cbody2" style="padding:1px 15px 15px 15px"  >
+                        <strong> <p style="color: red;font-size:12px"></p></strong>
+                        
+                       <h5 class="card-title">Skill</h5> 
+                       <input type="text" class="form-control" name="Skill" required>
+                       <p class="card-text">This title defines your skill.</p>
+                       <h5 class="card-title">Category</h5> 
+                    
+                       <select class="form-control" name="Category" required onchange="specify(this)">
+                           <option value="" disabled>Select Category</option>
+                           <option value="Web Development (Software)">
+                               Web Development (Software)
+                           </option>
+                           <option value="Desktop Application (Software)">
+                               Desktop Application (Software)
+                           </option>
+                           <option value="Artificial Intelligence (Software/Hardware)">
+                               Artificial Intelligence (Software/Hardware)
+                           </option>
+                           <option value="Robotics (Software/Hardware)">
+                               Robotics (Software/Hardware)
+                           </option>
+                            <option value="Electronics (Hardware)" >
+                               Electronics (Hardware)
+                           </option>
+                            <option value="IOT (Software/Hardware)">
+                               IOT (Software/Hardware)
+                           </option>
+                            <option value="AnyOtherSoftware (Software)">
+                               Any Other Software (Software)
+                           </option>
+                            <option value="AnyOtherHardware">
+                               Any Other Hardware (Hardware)
+                           </option>
+                            <option value="">
+                                Other
+                           </option>
+                           </select>
+                             
+                        <input type="text" placeholder="Please specify other" class="form-control" id= "other"name="Category" style="margin-top: 15px;pointer-events:none" disabled/>
+                        
+                            <h5 class="card-title">Golden SKill</h5> 
+                       <select class="form-control" name="GoldenSkill" id="gs" style="" required>
+                           <option value="false" selected>No</option>
+                           <option value="true">Yes</option>
+                       </select>
+                       
+                     <div class="form-group" id="fmg">
+                         <div class="form-holder" id="fh" style="width: auto">
+                        <h5 class="card-title">Skilled %</h5> 
+                      <div class="input-group" id="ig">
+                           <span class="input-group-btn">
+                       <button type="button" class="btn btn-default btn-number" onclick="decrement(this)">
+                        <span class="glyphicon glyphicon-minus"></span>
+                        </button>
+                       </span>
+                      
+                        <input type="number" name="SkillRate" class="form-control" value="50" style="pointer-events: none;">
+                        <span class="input-group-btn">
+                         <button type="button" class="btn btn-default btn-number" id="plus" onclick="increment(this)">
+                         <span class="glyphicon glyphicon-plus"></span>
+              </button>
+          </span>
+      </div>
+                         
+                     
+                       </div>
+                       
+                    
+                       </div>
+                     
+                      
+                       
+                       
+                       <a href="javascript:function f2(e){e.preventDefault()}" id="btnS" class="btn btn-primary" onclick="dis2(this);">Finish</a>
+                     </div>
+                   </div>
+           </div></div>  
+                   </div>
+                </section>
+
+                <!-- SECTION 4 -->
+                <h4></h4>
+               <section>
+                    <div id="workDiv">
+                	<h3>Work Expeirence</h3>
+                    <div class="form-row">
+                        <div class="form-holder w-100">
+                           
+                           <button type="button" id="btnWork" class="btn btn-primary btnAdd" style="width: 100px"
+                           
+                            onclick="addWork()">
+                           
+                                  
+                                  <i class="zmdi zmdi-plus-circle"></i> 
+                                  <Span style="margin-right: 15px;"> ADD</Span>
+                                  
+                           </button> 
+                             
+                           
+                            <strong><p style="color: green;font-size:12px;margin-left:100px">This section is optional. If you dont have any work expeirence, remove all the forms and continue!</p></strong>
+                        </div>
+                       
+
+                    </div> 
+                    <div class="form-row" id="form-row" style="background: white;">
+                        <div class="form-holder w-100">
+                    <div class="card" id="card3">
+                       <div class="card-header" id="cheader3" style="padding:15px 15px 15px 15px">
+                           <div class="form-group" id="fgroup">
+                            <div class="form-holder" id="fholder">
+                           <img src="/images/icons/work.png"/>
+                           </div>
+                           <div class="form-holder" id="fholder3" style="margin-top:2px">
+                           <strong><a href = "javascript:function f(e){e.preventDefault()}" id="cross" style="margin-left:440px;margin-top:20px;;text-decoration:none" onClick="this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.remove();check6();">X</a></strong>
+                          </div>
+                          </div>
+                       
+                       </div>
+                        
+                       
+                     <div class="card-body" id="cbody" style="padding:1px 15px 15px 15px"  >
+                        <strong> <p style="color: red;font-size:12px"></p></strong>
+                       <h5 class="card-title">Expeirence in</h5> 
+                       <input type="text" class="form-control" name="ExperienceIn" required>
+                       <p class="card-text">This title defines your expeirence in particular field.</p>
+                       <h5 class="card-title">Workplace</h5> 
+                       <input type="text" class="form-control" name="WorkPlace" required>
+                     <div class="form-group">
+                         <div class="form-holder">
+                        <h5 class="card-title">Start Year</h5> 
+                       <select class="form-control" name="EStartYear" class="sy" id="sy3" required>
+                           <option value="" disabled>Select year</option>
+                       </select>
+                       </div>
+                       <div class="form-holder" >
+                        <h5 class="card-title">End Year</h5> 
+                       <select class="form-control" name="EEndYear" id="sy4" required>
+                           <option value="" disabled>Select year</option>
+                       </select>
+                       </div>
+                    
+                       </div>
+                       
+                       <a href="javascript:function f2(e){e.preventDefault()}" id="btnS" class="btn btn-primary" onclick="dis3(this);">Finish</a>
+                     </div>
+                   </div>
+           </div></div>  
+           
+                  </div>
+                </section>
+            </form>
+		</div>
+
+
+
+</div>
+ 
+
+
+
+
+
+
+      
+
+     
+
+
+
+  
+  {{>footer}}
+ 
+    <div id="spinner-wrapper">
+      <div class="spinner"></div>
+    </div>
+
+    <script src="/inomash/js/main.js"></script>
+  
+    <script src="/profileAssets/js/bootstrap.min.js"></script>
+    <script src="/profileAssets/js/jquery.sticky-kit.min.js"></script>
+    <script src="/profileAssets/js/jquery.scrollbar.min.js"></script>
+    <script src="/profileAssets/js/script.js"></script>
+    <script src="/js/inomashC.js"></script>
+		<script src="/inomash/js/jquery.steps.js"></script>
+ 
+
+ <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+        
+        <style>
+          .alert-success{
+              color: darkblue;
+          }
+
+          .cursor{
+              pointer-events: none;
+          }
+          
+        
+
+        </style>
+
+      
+
+    
+
+  
+
+
+
+ 
+  </body>
+
+
+
+</html>
+
+
+
+<style>
+
+.upload{
+  display: none;
+  
+}
+
+</style>
+
