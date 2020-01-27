@@ -1,3 +1,4 @@
+
 const edit = document.querySelector('#edit');
 const btn = document.getElementById("save");
 var fname = document.getElementById("fname");
@@ -95,16 +96,6 @@ document.querySelector('#basicInfo').addEventListener('click',(e)=>{
 
 
 
-
-
-
-$('#passChange').click(function(){
-    $('#basic').removeClass('active');
-    $('#basicI').removeClass('active');
-    $('#pc').addClass('active');
-    $('#pass').addClass('active');
-
-})
 $('#basicInfo').click(function(){
   
     $('#pc').removeClass('active');
@@ -161,3 +152,85 @@ $(document).ready(function(){
 }
 
 document.getElementById('about').style.pointerEvents = 'none';
+
+$(document).ready(()=>{
+
+    if($('#info').length){
+
+      if(document.querySelector('#success-add-skill').innerHTML.length !==0){
+
+        $('#basicI').removeClass('active');
+        $('#basic').removeClass('active');
+        $('#pc').removeClass('active');
+        $('#pass').removeClass('active');
+        $('#info').hide('slow');
+        $('#editPass').hide('slow');
+        $('#skillSection').show('slow');
+        $('#sDiv').addClass('active');
+        $('#sd').addClass('active');
+        $('#skillM').show('fast');
+        $('#success-add-skill').show('fast');
+
+
+      }else{
+        $('#skillSection').hide('fast');
+      }
+    }
+
+
+})
+
+if($('#info').length){
+
+    $('#sK').click((e)=>{
+        e.preventDefault();
+        $('#basicI').removeClass('active');
+        $('#basic').removeClass('active');
+        $('#pc').removeClass('active');
+        $('#pass').removeClass('active');
+        $('#info').hide('slow');
+        $('#editPass').hide('slow');
+        $('#skillSection').show('slow');
+        $('#sDiv').addClass('active');
+        $('#sd').addClass('active');
+
+        
+    })
+
+    $('#passChange').click((e)=>{
+        e.preventDefault();
+        $('#skillSection').hide('slow');
+        $('#sDiv').removeClass('active');
+        $('#sd').removeClass('active');
+        $('#basic').removeClass('active');
+        $('#basicI').removeClass('active');
+        $('#pc').addClass('active');
+        $('#pass').addClass('active');
+
+    })
+
+    $('#basicInfo').click((e)=>{
+        e.preventDefault();
+        $('#sDiv').removeClass('active');
+        $('#sd').removeClass('active');
+        $('#skillSection').hide('slow');
+
+    })
+
+
+}
+
+const cat = (e)=>{
+  
+    if(e.selectedOptions[0].text === 'Other' && e.selectedOptions[0].value === ''){
+        
+        document.querySelector('#Other').style.pointerEvents = 'auto';
+        document.querySelector('#Other').disabled = false;
+    }else{
+
+        document.querySelector('#Other').style.pointerEvents = 'none';
+        document.querySelector('#Other').disabled = true;
+
+    }
+    
+}

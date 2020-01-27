@@ -2,6 +2,7 @@
 
    $('#video').hide('fast');
    $('#calling').hide('fast');
+   
     if(!$('#dp').length){ 
       
        const url = window.location.pathname;  

@@ -133,8 +133,13 @@ router.get('/Profile',auth,role,async(req,res)=>{
     return res.render('profile',{company:req.user,image,companyDetails:await req.user.company[0],Pimage:image,founded:moment(await req.user.company[0].FoundedOn).format('LL'),join:moment(req.user).format('LL'),created:moment(req.user.createdAt).fromNow(),dob:moment(req.user.Birthday).format('MMMM Do YYYY'),age: Math.floor(moment().diff(req.user.Birthday, 'years')),updated:moment(req.user.updatedAt).fromNow(),error:req.flash('error'),success:req.flash('success'),successS:req.flash('successSpec')})
 
   }
-
-  res.render('profile',{user:req.user,image,Pimage:image,created:moment(req.user.createdAt).fromNow(),dob:moment(req.user.Birthday).format('MMMM Do YYYY'),age: Math.floor(moment().diff(req.user.Birthday, 'years')),CountryData,dpt:moment(req.user.Birthday).format('YYYY-MM-DD'),updated:moment(req.user.updatedAt).fromNow(),error:req.flash('error'),success:req.flash('success')});
+  let skills = undefined;
+  await req.user.populate('inomash').execPopulate();
+   if(req.user.inomash[0]){
+     skills = await req.user.inomash[0].Skills;
+   }
+  
+  res.render('profile',{user:req.user,image,Pimage:image,created:moment(req.user.createdAt).fromNow(),dob:moment(req.user.Birthday).format('MMMM Do YYYY'),age: Math.floor(moment().diff(req.user.Birthday, 'years')),CountryData,dpt:moment(req.user.Birthday).format('YYYY-MM-DD'),updated:moment(req.user.updatedAt).fromNow(),error:req.flash('error'),success:req.flash('success'),skills,successSS:req.flash('successSS')});
 
 
 });

@@ -73,7 +73,7 @@ router.post('/Profile/Unhire',auth,role,async(req,res)=>{
 
 });
 
-router.get('/Profile/HiredBy',auth,role2,async(req,res)=>{
+router.get('/Profile/HiredBy',auth,async(req,res)=>{
 
     try{
       

@@ -56,7 +56,7 @@
                 {{/unless}}
                 {{#unless companyDetails}}
                 {{#unless data.CompanyName}}
-              	<li><i class="icon ion-ios-heart-outline"></i><a href="">Skills</a></li>
+              	<li id="sDiv"><i class="icon ion-ios-heart-outline" id="sd"></i><a href="" id="sK">Skills</a></li>
                 {{else}}
                 <li id="spS"><i class="icon ion-ios-heart-outline" id ="sp"></i><a href="" id="specS">Specialization</a></li>
                 {{/unless}}
@@ -88,7 +88,7 @@
                   <div class="line"></div>
                 </div>
                  
-                <div class="edit-block" style="margin-top: 10px">
+                <div class="edit-block" style="margin-top: 10px" id="editProfileDetails">
                   <form name="basic-info" id="basic-info" class="form-inline" method="POST" action="/UpdateInfo">
                     <div class="row">
                       <div class="form-group col-xs-6">
@@ -154,9 +154,90 @@
 
                   
                 </div>
-                
               </div>
-                
+                     <div class="edit-profile-container" id="skillSection">
+                <div class="block-title">
+                  <h4 class="grey"><i class="icon ion-ios-heart-outline"></i> Skills </h4>
+                  <div class="line"></div>
+                  <p> These are my Skills.</p>
+                  <div class="line"></div>
+                </div>
+                <div class="edit-block">
+                  <ul class="list-inline interests">
+                    {{#each skills}}
+                  	<li><a href="#"><i class="icon ion-ios-lightbulb"></i> {{Skill}}</a></li>
+                     {{/each}}
+                  </ul>
+                  <div class="line"></div>
+                  {{#if skills}}
+                  <div class="row">
+                    <p class="custom-label"><strong>Add Skill</strong></p>
+                     <form method="POST" action="/Profile/View/Inomash/Update">
+                    <div class="form-group col-sm-8">
+                      <input id="" class="form-control input-group-lg" type="text" name="Skill" placeholder="Skills. For example, Android, node js etc" required/>
+                    </div>
+                    <div class="form-group col-sm-8">
+                      <select type="text" name="Category" id="Category" class="form-control input-group-lg" placeholder="Category" onchange="cat(this)">
+                                        <option value="" disabled>Select Category</option>
+                                        <option value="Web Development (Software)">
+                                          Web Development (Software)
+                                        </option>
+                                        <option value="Desktop Application (Software)">
+                                          Desktop Application (Software)
+                                        </option>
+                                        <option value="Artificial Intelligence (Software/Hardware)">
+                                          Artificial Intelligence (Software/Hardware)
+                                        </option>
+                                        <option value="Robotics (Software/Hardware)">
+                                          Robotics (Software/Hardware)
+                                        </option>
+                                        <option value="Electronics (Hardware)" >
+                                          Electronics (Hardware)
+                                        </option>
+                                        <option value="IOT (Software/Hardware)">
+                                          IOT (Software/Hardware)
+                                        </option>
+                                        <option value="AnyOtherSoftware (Software)">
+                                          Any Other Software (Software)
+                                        </option>
+                                        <option value="AnyOtherHardware">
+                                          Any Other Hardware (Hardware)
+                                        </option>
+                                        <option value="">
+                                        Other
+                                        </option>
+                                    </select>
+                    </div>
+                     <div class="form-group col-sm-8">
+                      <input class="form-control input-group-lg" type="text" id="Other" name="Category" placeholder="Other" style="pointer-events:none" disabled required/>
+                    </div>
+                    <div class="form-group col-sm-8">
+                     <select type="text" name="GoldenSkill" id="gs" class="form-control input-group-lg" placeholder="Golden Skills">
+                                        <option value="true">
+                                          Yes
+                                        </option>
+                                        <option value="false" selected>
+                                          No
+                                        </option>
+                     </select>
+                    </div>
+                    <div class="form-group col-sm-8">
+                            <input type="number" name="SkillRate" class="form-control input-group-lg" value="50" min="50" max="100">
+                      
+                    </div>
+                    <div class="form-group col-sm-4">
+                      <button class="btn btn-primary" type="submit">Add</button>
+                    </div>
+                    </form>
+                      
+            </div>
+            {{/if}}
+            <div class="alert alert-success" style="margin-top:14px;" id="skillM" role="alert" hidden>
+              	<strong><p id="success-add-skill" style="font-size:15px;" hidden>{{successSS}}</p></strong>
+                </div>
+                  </div>
+                  
+              </div>
                <div class="edit-profile-container" id="editPass" style="display: none">
                 <div class="block-title">
                   <h4 class="grey"><i class="icon ion-ios-locked-outline"></i>Change Password</h4>

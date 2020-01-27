@@ -16,6 +16,7 @@ const fs = require('fs-extra');
 const puppeteer = require('puppeteer');
 const hbs = require('hbs');
 const role = require('../middleware/userRole');
+const check = require('check-types');
 
 
 
@@ -156,6 +157,34 @@ router.get('/Profile/Inomash',auth,role,async(req,res)=>{
     await inomash.save();
 
     res.redirect('/Profile/Inomash');
+
+
+   })
+
+   router.post('/Profile/View/Inomash/Update',auth,role,async (req,res)=>{
+     
+    if(await req.user.populate('inomash').execPopulate()){
+      ino = await req.user.inomash[0];
+      let Category = undefined;
+      if(check.array(req.body.Category)){
+
+        var cat = await req.body.Category.filter((c)=>{
+            return c !="";
+        })
+        Category = await cat[0];
+    
+        }else{
+         
+        Category = await req.body.Category;
+    
+        }
+        
+
+      ino.Skills = await ino.Skills.concat({Skill:req.body.Skill,GoldenSkill:req.body.GoldenSkill,Category,SkillRate:req.body.SkillRate});
+      await ino.save();
+      req.flash('successSS','Success! Successfully added!')
+      res.redirect('/Profile/');
+    }
 
 
    })

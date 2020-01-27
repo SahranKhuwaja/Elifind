@@ -124,7 +124,6 @@ socket.on('end',(to)=>{
 })
 
 socket.on('endCall',(data)=>{
-    console.log(data);
     io.to(users[data.to].id).emit('cancelCall');
     io.to(users[data.from].id).emit('cancelCall');
 })

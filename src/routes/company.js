@@ -6,17 +6,18 @@ const companyChecker = require('../middleware/companyChecker');
 const Company = require('../models/company');
 const role = require('../middleware/companyChecker2');
 
+
 router.use(express.json()); 
 router.use(express.urlencoded( {extended: true}));
 
-router.get('/Profile/Company',auth,companyChecker,async (req,res)=>{
+router.get('/Profile/Company',auth,companyChecker,role,async (req,res)=>{
 
  res.render('company');
 
 
 });
 
-router.post('/Profile/Company',auth,companyChecker,async(req,res)=>{
+router.post('/Profile/Company',auth,companyChecker,role,async(req,res)=>{
 
     const data = await Company.CompanyDetails(req.body,req.user._id);
     if(data){
