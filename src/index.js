@@ -14,6 +14,7 @@ const socketio = require('socket.io');
 const Chat = require('./models/chat');
 const Filter = require('bad-words');
 const Hire = require('./models/hire');
+const projectRouter = require('./routes/projects');
 require('./db/mongoose');
 
 
@@ -35,6 +36,7 @@ app.use(inomashRouter);
 app.use(searchRouter);
 app.use(companyRouter);
 app.use(hireRouter);
+app.use(projectRouter);
 app.use(express.json());
 
 users = {};

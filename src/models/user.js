@@ -129,6 +129,7 @@ userSchema.statics.checkCredentials = async (Email,Password,next)=>{
     return user;
     
 }
+
 userSchema.methods.generateAuthToken = async function(){
 
     try{

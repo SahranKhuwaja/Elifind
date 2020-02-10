@@ -12,7 +12,7 @@
         
                       background:url('/profileAssets/images/covers/bg-03.jpg')
         
-        {{/if}}">
+        {{/if}}" >
 
           
           <div class="timeline-nav-bar hidden-sm hidden-xs">
@@ -101,7 +101,14 @@
                      {{/if}}
                  
                      </li>
-                  <li><a href="">Projects</a></li>
+                     <li>
+                       {{#if data}}
+                       <a href="">Projects</a>
+                       {{else}}
+                       <a href="/Profile/Projects" id="pro">Projects</a>
+                       {{/if}}
+                     </li>
+
                   <li><a href="">Portfolios</a></li>
                 </ul>
                 <ul class="follow-me list-inline profile-menu">
@@ -257,7 +264,7 @@
            <div id="temp">
 
            </div>
-       
+           <script src="/js/subNavHandler.js"></script>
        
          
 
