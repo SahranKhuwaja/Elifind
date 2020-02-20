@@ -1,4 +1,3 @@
-
 var current_fs, next_fs, previous_fs;
 var left, opacity, scale; 
 var animating; 
@@ -120,17 +119,19 @@ $(document).ready(()=>{
 	getUserProjects();
 })
 
+const url = window.location.pathname;  
+const userID = url.split('/')[3];
 
 const getUserProjects = ()=>{
-
-	$.get('/Profile/Projects/MyProjects/Get',undefined,(data,status,xhr)=>{
+	
+	$.get('/Profile/Projects/MyProjects/Get',{userID},(data,status,xhr)=>{
 		renderProjects(data);
 	})
 	
 }
 
 const renderProjects = (data)=>{
-	
+
 	const template = document.querySelector('#project-thumbnail').innerHTML;
 	const parentDiv = document.querySelector('#main-content');
 	let html = undefined
@@ -154,7 +155,7 @@ const  renderIndividualProject  = (data)=>{
 
 const open = (id)=>{
 	
-	$.get('/Profile/Projects/MyProjects/Project/Open',{id},(data,status,xhr)=>{
+	$.get('/Profile/Projects/MyProjects/Project/Open',{id,userID},(data,status,xhr)=>{
 		 openDirectory(...data);
 		 
 	})
@@ -163,10 +164,8 @@ const open = (id)=>{
 
 const openDirectory = (data)=>{
 	$('#page-contents').hide('slow');
-	const template = document.querySelector('#directory').innerHTML;
-	const parentDiv = document.querySelector('#timeline');
-	const html = Mustache.render(template,{Project:data,createdAt:moment(data.createdAt).fromNow(),updatedAt:moment(data.updatedAt).fromNow()})
-	parentDiv.insertAdjacentHTML('beforeend',html);
+	directoryDetails(data);
+    directoryFiles(data.Project,data._id);
 	$('#projectFilesSection').hide('fast');
 	$('#projectFiles').click((e)=>{
 		e.preventDefault();
@@ -176,6 +175,34 @@ const openDirectory = (data)=>{
 	   e.preventDefault();
 	   toggleToDetails();
 	})
+}
+
+const directoryDetails = (data)=>{
+	const template = document.querySelector('#directory').innerHTML;
+	const parentDiv = document.querySelector('#timeline');
+	let Project = {...data};
+	Project.Project = undefined;
+	const html = Mustache.render(template,{Project:data,createdAt:moment(data.createdAt).fromNow(),updatedAt:moment(data.updatedAt).fromNow()})
+	parentDiv.insertAdjacentHTML('beforeend',html);
+}
+const directoryFiles = async (data,id)=>{
+
+	await renderAlbum(data.Images,id);
+	await renderVideos(data.Videos,id);
+	await toggleCheck();
+
+	$('#albumSecLabel').click(()=>{
+		$('#videoSecLabel').removeClass('active');
+		$('#albumSecLabel').addClass('active');
+		toggleCheck();
+	})
+	$('#videoSecLabel').click(()=>{
+		$('#albumSecLabel').removeClass('active');
+		$('#videoSecLabel').addClass('active');
+		toggleCheck();
+	})
+	
+
 }
 
 const back = (e)=>{
@@ -193,7 +220,7 @@ const toggleToFiles = ()=>{
 	$('#pF').addClass('active');
 	$('#projectDetailsSection').hide('slow');
 	$('#projectFilesSection').show('slow');
-    
+	
 }
 
 const toggleToDetails = ()=>{
@@ -206,3 +233,94 @@ const toggleToDetails = ()=>{
 	$('#projectDetailsSection').show('slow');
 
 }
+
+
+const renderAlbum = async(data,id)=>{
+
+	const template = document.querySelector('#albumSection').innerHTML;
+	const parentDiv = document.querySelector('#projectFilesSection');
+	const html = await Mustache.render(template,{data,id});
+	await parentDiv.insertAdjacentHTML('beforeend',html);
+	if($('#dropzoneImages').length !==0){
+	let imageDropzone = new Dropzone("#dropzoneImages",{url:'/Profile/Projects/Album/Upload'});
+	imageDropzone.options.uploadMultiple = true;
+	imageDropzone.options.parallelUploads = 100;
+	imageDropzone.options.retryChunks = true;
+	imageDropzone.options.addRemoveLinks = true;
+	imageDropzone.options.accept = (file,done)=>{
+		if(!file.name.toLowerCase().match(/\.(jpg||jpeg||png||gif)$/)){
+			return done('Not an image file!');
+		}
+		done();
+	}
+
+	document.querySelectorAll('div.dz-message')[0].querySelector('span').innerHTML = "Drag and drop files here <br /><br /> or <br /><br /> Click to upload" +
+	"<br /> <br /> <img src='/images/upload-ico.png' />";
+	const listItemTemplate = document.querySelector('#albumListItem').innerHTML;
+	const parentDivForListItem = document.querySelector('#albumPhotos');
+	let html2 = undefined;
+	imageDropzone.on("successmultiple", async function(file, responseText) { 
+      
+		html2 = await Mustache.render(listItemTemplate,{data:responseText});
+        await parentDivForListItem.insertAdjacentHTML('afterbegin',html2);
+		
+	 });
+	}
+
+}
+
+
+const renderVideos = async(data,id)=>{
+
+	const template = document.querySelector('#videoSection').innerHTML;
+	const parentDiv = document.querySelector('#projectFilesSection');
+	await data.filter(async(e)=>e.created = await moment(e.createdAt).fromNow())
+	const html = await Mustache.render(template,{data,id});
+	await parentDiv.insertAdjacentHTML('beforeend',html);
+	if($('#videoDropzone').length !==0){
+	let videoDropzone = new Dropzone("#dropzoneVideos",{url:'/Profile/Projects/Video/Upload'});
+	videoDropzone.options.maxFilesize = 1000000;
+	videoDropzone.options.uploadMultiple = true;
+	videoDropzone.options.parallelUploads = 100;
+	videoDropzone.options.retryChunks = true;
+	videoDropzone.options.timeout = 600000;
+	videoDropzone.options.addRemoveLinks = true
+	videoDropzone.options.accept = (file,done)=>{
+		if(!file.name.toLowerCase().match(/\.(webm||mpg||mp2||mpeg||mpe||mpv||ogg||mp4||m4p||m4v||avi||wmv||mov||qt||flv||swf||avchd||3gp)$/)){
+			return done('Not an video file!');
+		}
+		done();
+	}
+	document.querySelectorAll('div.dz-message')[1].querySelector('span').innerHTML = "Drag and drop files here <br /><br /> or <br /><br /> Click to upload" +
+	"<br /> <br /> <img src='/images/upload-ico.png' />";
+	const listItemTemplate = document.querySelector('#videoListItem').innerHTML;
+	const parentDivForListItem = document.querySelector('#videosList');
+	let html2 = undefined;
+	videoDropzone.on("successmultiple", async function(file, responseText) { 
+		html2 = await Mustache.render(listItemTemplate,{data:responseText});
+        await parentDivForListItem.insertAdjacentHTML('afterbegin',html2);
+	
+	 });
+	}
+	
+}
+
+
+
+const toggleCheck = ()=>{
+
+	
+	if($('#albumSecLabel').hasClass('active')){
+		$('#vS').hide('fast');
+		$('#aS').show('fast');
+
+	}else{
+
+		$('#aS').hide('fast');
+		$('#vS').show('fast');
+	}
+}
+
+
+
+

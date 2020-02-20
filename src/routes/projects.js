@@ -3,13 +3,44 @@ const router = express.Router();
 const auth = require('../middleware/auth')
 const moment = require('moment');
 const multer = require('multer');
-const sharp = require('sharp');
 const User = require('../models/user');
 const role = require('../middleware/Role');
 const Project = require('../models/project');
 
 router.use(express.json()); 
 router.use(express.urlencoded( {extended: true}));
+
+const upload = multer({
+
+    limits:{
+      fileSize:1000000000000,
+      fieldSize:1000000000000
+    },
+    fileFilter(req,file,cb){
+      if(!file.originalname.toLowerCase().match(/\.(jpg||jpeg||png||gif)$/)){
+        return cb(new Error('Please upload an image!'));
+      }
+    
+      cb(undefined,true);
+    }
+    
+    });
+
+    const uploadV = multer({
+
+        limits:{
+            fileSize:1000000000000,
+            fieldSize:1000000000000
+        },
+        fileFilter(req,file,cb){
+          if(!file.originalname.toLowerCase().match(/\.(webm||mpg||mp2||mpeg||mpe||mpv||ogg||mp4||m4p||m4v||avi||wmv||mov||qt||flv||swf||avchd||3gp)$/)){
+            return cb(new Error('Please upload video!'));
+          }
+          cb(undefined,true);
+    
+        }
+        
+        });
 
 router.get('/Profile/Projects',auth,role,async(req,res)=>{
     
@@ -48,13 +79,19 @@ router.post('/Profile/Projects/Create',auth,async(req,res)=>{
 
 router.get('/Profile/Projects/MyProjects/Get',auth,async(req,res)=>{
 
+    let projects = undefined;
+    if(!req.query.userID){
+        projects = await Project.findOne({Owner:req.user._id},{'Projects.Title':1,'Projects._id':1});
+    }
+    else{
+        projects = await Project.findOne({Owner:req.query.userID},{'Projects.Title':1,'Projects._id':1});
+    }
 
-    const projects = await Project.find({Owner:req.user._id},{'Projects.Title':1,'Projects._id':1});
-    if(projects.length===0){
+    if(projects === null){
         return res.send({});
     }
     
-    res.send(...projects)
+    res.send(projects)
 
 
 
@@ -62,14 +99,62 @@ router.get('/Profile/Projects/MyProjects/Get',auth,async(req,res)=>{
 
 router.get('/Profile/Projects/MyProjects/Project/Open',auth,async(req,res)=>{
 
-    const project = await Project.findOne({Owner:req.user._id});
-  
-    res.send(await project.Projects.filter((data)=>{
-
-        return  data._id.toString() === req.query.id;
+    let projectData = undefined;
+    if(!req.query.userID){
+        
+        projectData = await Project.findOne({Owner:req.user._id,'Projects._id':req.query.id},{'Projects.$':1});
+    }
+    else{
+        
+        projectData = await Project.findOne({Owner:req.query.userID,'Projects._id':req.query.id},{'Projects.$':1});
+    }
+    let project = await {...projectData.toObject()}
+    res.send(await project.Projects.filter(async(data)=>{
+        if( data._id.toString() === req.query.id){
+           await data.Project.Images.reverse().filter(async(e)=>{
+               return await Buffer.from(e.image).toString('base64');
+           })
+           await data.Project.Videos.reverse().filter(async(e)=>{
+               return await Buffer.from(e.video).toString('base64');
+        })
+       
+        }
+          
     })
     );
       
+})
+
+
+router.post('/Profile/Projects/Album/Upload',auth,upload.any('file'),async(req,res)=>{
+
+    try{
+   
+       const status = await Project.updateAlbum(req.files,req.body.id,req.user._id);
+       if(status ===null){
+           return res.sendStatus(500);
+       }
+
+       res.send(status);
+   
+    }catch(e){
+        console.log(e);
+    }
+})
+
+router.post('/Profile/Projects/Video/Upload',auth,uploadV.any('file'),async(req,res)=>{
+
+    try{
+        const status = await Project.updateVideos(req.files,req.body.id,req.user._id);
+        if(status ===null){
+            return res.sendStatus(500);
+        }
+ 
+        res.send(status);
+    
+     }catch(e){
+         console.log(e);
+     }
 })
 
 module.exports = router;

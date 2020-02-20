@@ -9,10 +9,11 @@
 		<link rel="stylesheet" href="/profileAssets/css/ionicons.min.css" />
     <link rel="stylesheet" href="/profileAssets/css/font-awesome.min.css" />
     <link rel="stylesheet" href="/inomash/fonts/material-design-iconic-font/css/material-design-iconic-font.css">
+    <link rel="stylesheet" href="/dropzone/css/dropzone.css" />
     
+
     
-        
-     
+
     </head>
     <body>
       <div class="container" style="margin-bottom: 500px">
@@ -41,14 +42,18 @@
                 <div class="edit-profile-container" id="info">
                  <div class="block-title">
                    <h4 class="grey"><i class="ion-ios-folder"></i>Projects</h4>
+                 
+                  
                   <div class="line"></div>
                 </div>
                 </div>
+                {{#unless data}}
                 <div class="col-md-3">
             <div class="card border-primary mb-3 create-project-thumbnail" id="createProject" data-toggle="modal" data-target="#createProjectModal">
                <div class="card-header">
                    <i class="fa fa-plus-circle fa-5x" aria-hidden="true"></i>
                    <h5 class="card-title">Create Project</h5>
+                   
                </div>
                  <div class="card-body text-primary">
                      
@@ -57,6 +62,7 @@
                  </div>
                </div>  
             </div>
+              
               <div class="col-md-4">
             <div class="card border-primary mb-3 instruction-thumbnail">
                <div class="card-header">
@@ -76,9 +82,16 @@
                  </div>
                </div>  
             </div>
+            {{/unless}}
             {{!-- <div class="line custom"></div> --}}
-                <h4 class="set-title">List of Projects</h4>
+                <h4 class="
+                {{#if user}}
+                set-title
+                {{else}}
+                set-title-visitor
+                {{/if}}">List of Projects</h4>
                  <div class="line"></div>
+                 
                  
           </div>
             
@@ -304,6 +317,9 @@
     <script src="/js/bootstrap-tagsinput.js"></script>
     <script src="/company/js/jquery.validate.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js" type="text/javascript"></script>
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script src="/dropzone/js/dropzone.js"></script>
+    
     <script id="project-thumbnail" type="text/x-handlebars-template">
          \{{#Projects}}
           <div class="col-md-4">
@@ -329,6 +345,7 @@
               	<li id="pFiles"><i class="icon ion-ios-folder-outline" id="pF" ></i><a href="" id="projectFiles">Project Files</a></li>
               </ul>
             </div>
+            
 
             <div class="col-md-7" id="main-content-directory">
                 <div class="edit-profile-container" id="info">
@@ -411,76 +428,18 @@
                 </div>
               </div> 
                <div class="about-profile" id="projectFilesSection">
-                <div class="about-content-block">
-                  <h4 class="grey"><i class="ion-ios-information-outline icon-in-title"></i>Project Description</h4>
-                  <p>\{{Project.Description}}</p>
-                </div>
-                <div class="about-content-block">
-                  <h4 class="grey"><i class="ion-ios-briefcase-outline icon-in-title"></i>Project Details</h4>
-                 
-                  <div class="organization">
-                    <img src="/images/ico.png" alt="" class="pull-left img-org" />
-                    <div>
-                      <p class="set-view"><strong>Title:</strong> \{{Project.Title}}</p>
-                    </div>
-
-                  </div>
-                   <div class="organization">
-                    <img src="/images/ico.png" alt="" class="pull-left img-org" />
-                    <div>
-                      <p class="set-view"><strong>Type:</strong> \{{Project.Type}}</p>
-                    </div>
-
-                  </div>
-                   <div class="organization">
-                    <img src="/images/ico.png" alt="" class="pull-left img-org" />
-                    <div>
-                      <p class="set-view"><strong>Category:</strong> \{{Project.Category}}</p>
-                    </div>
-
-                  </div>
-                   <div class="organization">
-                    <img src="/images/ico.png" alt="" class="pull-left img-org" />
-                    <div>
-                      <p class="set-view"><strong>Tags:</strong>
-                      \{{#Project.Tags}}
-                       \{{Project.Tags}}
-                      \{{/Project.Tags}}
-                      \{{^Project.Tags}}
-                        No tags
-                       \{{/Project.Tags}}
-                       </p>
-                    </div>
-
-                  </div>
-                </div>
-                <div class="about-content-block">
-                  <h4 class="grey"><i class="ion-laptop icon-in-title"></i>Platform</h4>
-                     <div class="organization">
-                    <img src="/images/ico2.png" alt="" class="pull-left img-org" />
-                    <div>
-                      <p class="set-view"><strong>Technology:</strong> \{{Project.Technology}}</p>
-                    </div>
-
-                  </div>
-                </div>
-                <div class="about-content-block">
-                  <h4 class="grey"><i class="ion-social-github icon-in-title"></i>Git Repository</h4>
-                    <div class="organization">
-                    <img src="/images/ico3.png" alt="" class="pull-left img-org" />
-                    <div>
-                      <p class="set-view"><strong>Link:</strong>
-                      \{{#Project.GitLink}}
-                       <a href="\{{Project.GitLink}}">\{{Project.GitLink}}</a>
-                      \{{/Project.GitLink}}
-                      \{{^Project.GitLink}}
-                        No Git Repository
-                       \{{/Project.GitLink}}
-                       </p>
-                    </div>
-
-                  </div>
-                </div>
+               
+               <div class="btn-group btn-group-toggle set-style-section-project-toggle" data-toggle="buttons">
+                   <label class="btn btn-secondary active set-width" id="albumSecLabel">
+                      <input type="radio" name="options" id="albumSec" autocomplete="off" checked> 
+                       <i class="icon ion-images set-icon-prop" ></i>
+                   </label>
+                   <label class="btn btn-secondary set-width" id="videoSecLabel">
+                      <input type="radio" name="options" id="videoSec" autocomplete="off">
+                       <i class="icon ion-ios-videocam set-icon-prop"></i>  
+                   </label>
+               </div>
+               
               </div>
 
           </div> 
@@ -514,6 +473,286 @@
           </div>
         </div>
     </script>
+    <script id="albumSection" type="text/x-handlebars-template">
+        <div id="aS">
+        <div class="edit-profile-container">
+            <div class="block-title">
+              {{#unless data}}
+              <div class="set-div-upload">
+              <i class="icon ion-ios-cloud-upload set-upload-icon"data-toggle="modal" data-target="#uploadImagesModal"></i>
+              {{!-- <label class="set-upload-text" data-toggle="modal" data-target="#uploadImagesModal" >ADD</label> --}}
+              </div>
+              <div class="modal fade" id="uploadImagesModal" tabindex="-1" role="dialog"  aria-hidden="true">
+                       <div class="modal-dialog modal-lg dialog-set">
+                         <div class="modal-content modal-set">
+                           <div class="modal-header">
+                             <h5 class="modal-title">Upload Images
+                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                             <span aria-hidden="true">&times;</span>
+                             </button></h5>
+                             </div>
+                             <div class="modal-body">
+                               <form action="/Profile/Projects/Album/Upload" method="POST" enctype="multipart/form-data" 
+                               class="dropzone needsclick dz-clickable " id="dropzoneImages">
+                               <input type="text" value="\{{id}}" name="id" hidden/>
+                               </form>
+                            
+                               <button class="btn btn-primary set-done-upload-button" data-dismiss="modal"aria-label="Close">Done Uploading</button>
+                             </div>
+                           
+                              <div class="modal-footer modal-foot-set">
+                              <p>Copyright © 2020 Elifind. All rights reserved</p>
+                           </div>  
+                        </div>
+                      </div>
+                      
+                    </div>
+              {{/unless}}
+                <h4 class="grey set-view-heading">Album </h4> 
+  
+                    <div class="line"></div>
+            </div>
+            
+        </div>
+       
+                              
+        <div class="album-photos">
+            
+                <ul class="album-photos" id="albumPhotos">
+                \{{#data}}
+                <li>
+                  <div class="img-wrapper" data-toggle="modal" data-target="#photo-\{{_id}}">
+                    <img class="set-image-thumbnail"src="data:image/png;base64, \{{image}}" alt="photo"/>
+                  </div>
+                  <div class="modal fade" id="photo-\{{_id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                    
+                    <div class="modal-dialog modal-lg">
+                      <div class="modal-content">
+                        
+                        <img src="data:image/png;base64,\{{image}}" alt="photo" />
+                      </div>
+                    </div>
+                  </div>
+  
+                </li>
+                \{{/data}}
+               
+              </ul>
+
+              
+        </div>
+          </div>
+    </script>
+    <script id="albumListItem" type="text/x-handlebars-template">
+                \{{#data}}
+                <li>
+                  <div class="img-wrapper" data-toggle="modal" data-target="#photo-\{{_id}}">
+                    <img class="set-image-thumbnail"src="data:image/png;base64, \{{image}}" alt="photo"/>
+                  </div>
+                  <div class="modal fade" id="photo-\{{_id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                      <div class="modal-content">
+                        <img src="data:image/png;base64,\{{image}}" alt="photo" />
+                      </div>
+                    </div>
+                  </div>
+               </li>
+               \{{/data}}
+
+    </script>
+    <script id="videoSection" type="text/x-handlebars-template">
+       <div id="vS">
+          <div class="edit-profile-container set-ablum-view">
+            <div class="block-title">
+              {{#unless data}}
+               <div class="set-div-upload">
+              <i class="icon ion-ios-cloud-upload set-upload-icon"data-toggle="modal" data-target="#uploadVideosModal"></i>
+              </div>
+              <div class="modal fade" id="uploadVideosModal" tabindex="-1" role="dialog"  aria-hidden="true">
+                       <div class="modal-dialog modal-lg dialog-set">
+                         <div class="modal-content modal-set">
+                           <div class="modal-header">
+                             <h5 class="modal-title">Upload Videos
+                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                             <span aria-hidden="true">&times;</span>
+                             </button></h5>
+                             </div>
+                             <div class="modal-body">
+                               <form action="/Profile/Projects/Video/Upload" method="POST" enctype="multipart/form-data" 
+                               class="dropzone needsclick dz-clickable " id="dropzoneVideos">
+                               <input type="text" value="\{{id}}" name="id" hidden/>
+                               </form>
+                            
+                               <button class="btn btn-primary set-done-upload-button" data-dismiss="modal"aria-label="Close">Done Uploading</button>
+                             </div>
+                           
+                              <div class="modal-footer modal-foot-set">
+                              <p>Copyright © 2020 Elifind. All rights reserved</p>
+                           </div>  
+                        </div>
+                      </div>
+                      
+                    </div>
+              {{/unless}}
+                <h4 class="grey set-view-heading">Videos</h4>
+                <div class="line"></div>
+            </div>
+          </div>
+       
+                    <div class="media">
+            	<div class="row js-masonry" id="videosList" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": ".grid-sizer", "percentPosition": true }'>
+               \{{#data}}
+                <div class="grid-item col-md-6 col-sm-6">
+            			<div class="media-grid">
+                    <div class="img-wrapper" data-toggle="modal" data-target="#video-\{{_id}}">
+                      <video controls class="set-video-controls">
+                        <source src="data:video/mp4;base64, \{{video}}"  >
+                      </video>
+                    </div>
+                    <div class="media-info">
+                      <div class="reaction">
+                        <a class="btn text-green"><i class="fa fa-thumbs-up"></i> 46</a>
+                        <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 11</a>
+                      </div>
+                      <div class="user-info">
+                        
+                        <div class="user set-uploaded-time">
+                          <a href="#" class="profile-link ">Posted</a>
+                           \{{created}}
+                        </div> 
+                       
+                      </div>
+                    </div>
+                    <div class="modal fade modal-1" tabindex="-1" role="dialog" id="video-\{{_id}}" aria-hidden="true">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <div class="post-content">
+														<div class="video-wrapper">
+															<video controls class="set-video-controls">
+																<source src="data:video/mp4;base64, \{{video}}" >
+															</video>
+														</div>
+                            <div class="post-container">
+                              <img src="data:image/png;base64, {{image}}" alt="user" class="profile-photo-md pull-left" />
+                              <div class="post-detail">
+                                <div class="user-info">
+                                  <h5><a href="/Profile/View/{{user._id}}/Timeline" class="profile-link">{{user.FirstName}} {{user.LastName}} {{data.FirstName}} {{data.LastName}}</a> <span class="following">following</span></h5>
+                                  <p class="text-muted">Published a video about \{{created}}</p>
+                                </div>
+                                <div class="reaction">
+                                  <a class="btn text-green"><i class="icon ion-thumbsup"></i> 46</a>
+                                  <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 11</a>
+                                </div>
+                                <div class="line-divider"></div>
+                                <div class="post-text">
+                                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
+                                </div>
+                                <div class="line-divider"></div>
+                                <div class="post-comment">
+                                  <img src="data:image/png;base64, {{image}}" alt="" class="profile-photo-sm" />
+                                  <p><a href="/Profile/View/{{user._id}}{{data._id}}/Timeline" class="profile-link">{{user.FirstName}} {{user.LastName}} {{data.FirstName}} {{data.LastName}} </a><i class="em em-laughing"></i> Quite amazing! </p>
+                                  <p class="text-muted set-para"> \{{created}}</p>
+                                  
+                                </div>
+                                <div class="post-comment">
+                                  <img src="data:image/png;base64, {{image}}" alt="" class="profile-photo-sm" />
+                                  <p><a href="/Profile/View/{{user._id}}/Timeline" class="profile-link">{{user.FirstName}} {{user.LastName}} {{data.FirstName}} {{data.LastName}}</a><i class="em em-laughing"></i> It is so beautiful</p>
+                                  
+                                  <p class="text-muted set-para"> \{{created}}</p>
+                                </div>
+                                <div class="post-comment">
+                                  <img src="data:image/png;base64, {{image}}" alt="" class="profile-photo-sm" />
+                                  <input type="text" class="form-control" placeholder="Post a comment">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                 </div>
+                 </div>
+               \{{/data}}
+                  </div>
+            		</div>
+        </div>
+
+    </script>
+    <script id="videoListItem" type="text/x-handlebars-template">
+             \{{#data}}
+             <div class="grid-item col-md-6 col-sm-6">
+            			<div class="media-grid">
+                    <div class="img-wrapper" data-toggle="modal" data-target="#video-\{{_id}}">
+                      <video controls class="set-video-controls">
+                        <source src="data:video/mp4;base64, \{{video}}"  >
+                      </video>
+                    </div>
+                    <div class="media-info">
+                      <div class="reaction">
+                        <a class="btn text-green"><i class="fa fa-thumbs-up"></i> 46</a>
+                        <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 11</a>
+                      </div>
+                      <div class="user-info">
+                        
+                        <div class="user set-uploaded-time">
+                          <a href="#" class="profile-link ">Posted</a>
+                           \{{created}}
+                        </div> 
+                       
+                      </div>
+                    </div>
+                    <div class="modal fade modal-1" tabindex="-1" role="dialog" id="video-\{{_id}}" aria-hidden="true">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <div class="post-content">
+														<div class="video-wrapper">
+															<video controls class="set-video-controls">
+																<source src="data:video/mp4;base64, \{{video}}" >
+															</video>
+														</div>
+                            <div class="post-container">
+                              <img src="data:image/png;base64, {{image}}" alt="user" class="profile-photo-md pull-left" />
+                              <div class="post-detail">
+                                <div class="user-info">
+                                  <h5><a href="/Profile/View/{{user._id}}/Timeline" class="profile-link">{{user.FirstName}} {{user.LastName}}</a> <span class="following">following</span></h5>
+                                  <p class="text-muted">Published a video about \{{created}}</p>
+                                </div>
+                                <div class="reaction">
+                                  <a class="btn text-green"><i class="icon ion-thumbsup"></i> 46</a>
+                                  <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 11</a>
+                                </div>
+                                <div class="line-divider"></div>
+                                <div class="post-text">
+                                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
+                                </div>
+                                <div class="line-divider"></div>
+                                <div class="post-comment">
+                                  <img src="data:image/png;base64, {{image}}" alt="" class="profile-photo-sm" />
+                                  <p><a href="/Profile/View/{{user._id}}/Timeline" class="profile-link">{{user.FirstName}} {{user.LastName}} </a><i class="em em-laughing"></i> Quite amazing! </p>
+                                  <p class="text-muted set-para"> \{{created}}</p>
+                                  
+                                </div>
+                                <div class="post-comment">
+                                  <img src="data:image/png;base64, {{image}}" alt="" class="profile-photo-sm" />
+                                  <p><a href="/Profile/View/{{user._id}}/Timeline" class="profile-link">{{user.FirstName}} {{user.LastName}}</a><i class="em em-laughing"></i> It is so beautiful</p>
+                                  
+                                  <p class="text-muted set-para"> \{{created}}</p>
+                                </div>
+                                <div class="post-comment">
+                                  <img src="data:image/png;base64, {{image}}" alt="" class="profile-photo-sm" />
+                                  <input type="text" class="form-control" placeholder="Post a comment">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                 </div>
+                 </div>
+                 \{{/data}}
+    </script>
+
 
 
 </html>

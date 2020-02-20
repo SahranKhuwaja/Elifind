@@ -389,15 +389,61 @@ router.get('/Profile/Search/Data',auth,async(req,res)=>{
     }
     }catch(e){
     
-      
-
+    
     }
       
      res.send(result);
      
-
-
 });
+
+router.get('/Profile/View/:id/Projects',auth,async(req,res)=>{
+
+  if(req.params.id === (req.user._id).toString()){
+  
+    return res.redirect('/Profile/Projects');
+  }
+
+  let image = null;
+  let Pimage = null;
+  let loggedInUser = undefined;
+  let data = undefined;
+  let age = undefined;
+  const userData = await User.findById(req.params.id,{'FirstName':1,'LastName':1,'Birthday':1,'Dp':1,'createdAt':1,'updatedAt':1,'Email':1,'Role':1});
+
+  if(userData.Dp){
+
+    image = await Buffer.from(userData.Dp).toString('base64');
+  }
+
+  if(req.user.Dp){
+    Pimage = await Buffer.from(req.user.Dp).toString('base64');
+  }
+
+  if(userData.Role==='Company'){
+
+    await userData.populate('company').execPopulate();
+    data = await {CompanyName:userData.company[0].CompanyName,Email:userData.Email,_id:userData._id}
+    
+
+  }else{
+    data = await userData;
+    age = await Math.floor(moment().diff(userData.Birthday, 'years'))
+  }
+
+  if(req.user.Role ==='Company'){
+    await req.user.populate('company').execPopulate();
+    loggedInUser = await {CompanyName:req.user.company[0].CompanyName,_id:req.user._id} 
+  }
+  else{
+
+   loggedInUser = await {FirstName:req.user.FirstName,LastName:req.user.LastName,_id:req.user._id}
+   
+  }
+  res.render('projects',{data,image,Pimage,loggedInUser,created:moment(userData.createdAt).fromNow(),updated:moment(userData.updatedAt).fromNow(),age:age });
+
+})
+
+
   
   
 module.exports = router;  
