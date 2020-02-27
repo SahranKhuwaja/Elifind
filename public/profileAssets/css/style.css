@@ -97,7 +97,7 @@ section .wrapper{
   font-size: 50px;
 }
 
-#page-contents{
+#page-contents, #page-contents2,#page-contents3{
   padding: 30px 0 50px;
 }
 
@@ -2602,13 +2602,13 @@ input:checked + .slider:before{
 }
 
 
-#msform {
+#msform, #msform2 {
     text-align: center;
     position: relative;
     margin-top: 30px;
 }
 
-#msform fieldset {
+#msform fieldset, #msform2 fieldset  {
     background: white;
     border: 0 none;
     border-radius: 0px;
@@ -2620,7 +2620,7 @@ input:checked + .slider:before{
     position: relative;
 }
 
-#msform fieldset:not(:first-of-type) {
+#msform fieldset:not(:first-of-type), #msform2 fieldset:not(:first-of-type) {
     display: none;
 }
 
@@ -2638,7 +2638,7 @@ input:checked + .slider:before{
     height: 40px ;
 }
 
-#msform input:focus, #msform textarea:focus {
+#msform input:focus, #msform textarea:focus,#msform2 input:focus, #msform2 textarea:focus {
     -moz-box-shadow: none !important;
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
@@ -2650,7 +2650,7 @@ input:checked + .slider:before{
     -o-transition: All 0.5s ease-in;
 }
 
-#msform .action-button {
+#msform .action-button, #msform2 .action-button {
     width: 100px;
     background: darkblue;
     font-weight: bold;
@@ -2662,11 +2662,11 @@ input:checked + .slider:before{
     margin: 10px 5px;
 }
 
-#msform .action-button:hover, #msform .action-button:focus {
+#msform .action-button:hover, #msform .action-button:focus,#msform2 .action-button:hover, #msform2 .action-button:focus {
     box-shadow: 0 0 0 2px white, 0 0 0 3px #ee0979;
 }
 
-#msform .action-button-previous {
+#msform .action-button-previous,#msform2 .action-button-previous {
     width: 100px;
     background: burlywood;
     font-weight: bold;
@@ -2678,7 +2678,7 @@ input:checked + .slider:before{
     margin: 10px 5px;
 }
 
-#msform .action-button-previous:hover, #msform .action-button-previous:focus {
+#msform .action-button-previous:hover, #msform .action-button-previous:focus, #msform2 .action-button-previous:hover, #msform2 .action-button-previous:focus {
     box-shadow: 0 0 0 2px white, 0 0 0 3px #C5C5F1;
 }
 
@@ -3066,3 +3066,5 @@ textarea.error{
 .set-para{
   margin-left: 180px;
 }
+
+

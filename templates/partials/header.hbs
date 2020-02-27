@@ -11,8 +11,6 @@
                
         <link href="/css/animate.css" rel="stylesheet"> 
 		
-		
-               
         <link href="/css/style.css" rel="stylesheet"> 
 
         <link href="/css/responsive.css" rel="stylesheet"> 
@@ -69,14 +67,21 @@
 				<span class="input-group-addon" style="border-radius: 50px 0  0 50px !important;"><i class="material-icons" style="">&#xE8B6;</i></span>
 			</div>
       <ul class="list-group" id="result">
-
       </ul>
 		</form>
 
       
 <ul class="nav navbar-nav navbar-right ml-auto" style="font-size: 14px;">
 	
-			
+	    <li class="nav-item dropdown "  style="font-size: 14px;margin-top:8px">
+        	<a href="/Profile/Timeline" class="nav-link dropdown-toggle user-action">Home</a>
+      </li>		
+        <li class="nav-item dropdown"  style="font-size: 14px;margin-top:8px">
+        	<a href="/Profile/Newsfeed" class="nav-link dropdown-toggle user-action">Newsfeed</a>
+      </li>
+        <li class="nav-item dropdown"  style="font-size: 14px;margin-top:8px">
+        	<a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action">Notifications  <b class="caret"></b></a>
+      </li>
 			<li class="nav-item dropdown" style="font-size: 14px;">
 				<a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action">	
 					 {{#if Pimage}}

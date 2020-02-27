@@ -4,12 +4,12 @@
 {{>header}}
     <head>
   
-		<title>Projects</title>
-		<link rel="stylesheet" href="/profileAssets/css/style.css" />
-		<link rel="stylesheet" href="/profileAssets/css/ionicons.min.css" />
-    <link rel="stylesheet" href="/profileAssets/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="/inomash/fonts/material-design-iconic-font/css/material-design-iconic-font.css">
-    <link rel="stylesheet" href="/dropzone/css/dropzone.css" />
+	<title>Portfolios</title>
+	<link rel="stylesheet" href="/profileAssets/css/style.css" />
+	<link rel="stylesheet" href="/profileAssets/css/ionicons.min.css" />
+  <link rel="stylesheet" href="/profileAssets/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="/inomash/fonts/material-design-iconic-font/css/material-design-iconic-font.css">
+  <link rel="stylesheet" href="/dropzone/css/dropzone.css" />
     
 
     
@@ -41,7 +41,7 @@
             <div class="col-md-7" id="main-content">
                 <div class="edit-profile-container" id="info">
                  <div class="block-title">
-                   <h4 class="grey"><i class="ion-ios-folder"></i>Projects</h4>
+                   <h4 class="grey"><i class="ion-ios-folder"></i>Portfolios</h4>
                  
                   
                   <div class="line"></div>
@@ -49,15 +49,15 @@
                 </div>
                 {{#unless data}}
                 <div class="col-md-3">
-            <div class="card border-primary mb-3 create-project-thumbnail" id="createProject" data-toggle="modal" data-target="#createProjectModal">
+            <div class="card border-primary mb-3 create-project-thumbnail" id="createPortfolio" data-toggle="modal" data-target="#createPortfolioModal">
                <div class="card-header">
                    <i class="fa fa-plus-circle fa-5x" aria-hidden="true"></i>
-                   <h5 class="card-title">Create Project</h5>
+                   <h5 class="card-title">Create Portfolio</h5>
                    
                </div>
                  <div class="card-body text-primary">
                      
-                     <p class="card-text">Create your project by clicking here and showcase it to the world. Companies will be lining up to hire you.
+                     <p class="card-text">Create your portfolio by clicking here and showcase it to the world. Companies will be lining up to hire you.
                      </p>
                  </div>
                </div>  
@@ -73,20 +73,21 @@
                      
                      <p class="card-text">
                        <ul style="text-align:left">
-                         <li><b>STEP 1:</b> Create project</li>
-                         <li><b>STEP 2:</b> Fill project setup form</li>
-                         <li><b>STEP 3:</b> Upload images and videos</li>
-                         <li><b>STEP 4:</b> Auto showcasing will occur</li>
+                         <li><b>STEP 1:</b> Create portfolio</li>
+                         <li><b>STEP 2:</b> Create projects for portfolio </li>
+                         <li><b>STEP 3:</b> Fill portfolio setup form</li>
+                         <li><b>STEP 4:</b> Upload images and videos</li>
+                         <li><b>STEP 5:</b> Auto showcasing will occur</li>
                        </ul>
                      </p>
                  </div>
                </div>  
             </div>
-             <div class="modal fade" id="createProjectModal" tabindex="-1" role="dialog"  aria-hidden="true">
+            <div class="modal fade" id="createPortfolioModal" tabindex="-1" role="dialog"  aria-hidden="true">
                        <div class="modal-dialog modal-lg dialog-set">
                          <div class="modal-content modal-set">
                            <div class="modal-header">
-                             <h5 class="modal-title">Create Project  
+                             <h5 class="modal-title">Create Portfolio 
                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                              <span aria-hidden="true">&times;</span>
                              </button></h5>
@@ -98,17 +99,17 @@
                               <form id="msform">
          
                                  <ul id="progressbar">
-                                  <li class="active">Project Details</li>
-                                  <li>Project Description</li>
+                                  <li class="active">Portfolio Details</li>
+                                  <li>Portfolio Description</li>
                                   <li>Finishing up</li>
                                 </ul>
                                 <fieldset>
-                                  <h2 class="fs-title">Project Details</h2>
-                                  <h3 class="fs-subtitle">Tell us about project</h3>
+                                  <h2 class="fs-title">Portfolio Details</h2>
+                                  <h3 class="fs-subtitle">Tell us about portfolio</h3>
                                   <div class="form-group row">
-                                    <label for="pTitle" class="col-sm-2 col-form-label label-set">Project Title</label>
+                                    <label for="pTitle" class="col-sm-2 col-form-label label-set">Title</label>
                                     <div class="col-sm-10">
-                                      <input type="Text" class="form-control input-set-msform" name="Title" id="pTitle" placeholder="Project Title" required/>
+                                      <input type="Text" class="form-control input-set-msform" name="Title" id="pTitle" placeholder="Portfolio Title" required/>
                                     </div>
                                   </div>
                                     <div class="form-group row">
@@ -123,37 +124,21 @@
                                       <input type="Text" class="form-control input-set-msform" name="Category" id="pCat" placeholder="Category" required>
                                     </div>
                                   </div>
-                                   <div class="form-group row">
-                                    <label for="pTag" class="col-sm-2 col-form-label label-set">Tags</label>
-                                    <div class="col-sm-10">
-                                      <input type="Text" class="form-control" name="Tags" data-role="tagsinput" id="pTag" style="border: none;" placeholder="Tags - OPTIONAL" >
-                                    </div>
-                                  </div>
+                                
                                   
                                   <input type="button" name="next" class="next action-button" value="Next"/>
                                 </fieldset>
                                 <fieldset>
-                                  <h2 class="fs-title">Project Description </h2>
-                                  <h3 class="fs-subtitle">What best describes your project</h3>
-                                  <div class="form-group row">
-                                    <label for="pTech" class="col-sm-2 col-form-label label-set">Technology</label>
-                                    <div class="col-sm-10">
-                                      <input type="Text" class="form-control input-set-msform" name="Technology" id="pTech" placeholder="Technology or Language e.g Node js, React js, Adobe, C#, Java etc" required/>
-                                    </div>
-                                  </div>
+                                  <h2 class="fs-title">Portfolio Description </h2>
+                                  <h3 class="fs-subtitle">What best describes your portfolio</h3>
+                                
                                   <div class="form-group row">
                                     <label for="pDes" class="col-sm-2 col-form-label label-set">Description</label>
                                     <div class="col-sm-10">
-                                      <textarea type="Text" class="form-control input-set-msform" name="Description" id="pDes" placeholder="Project Description" required></textarea>
+                                      <textarea type="Text" class="form-control input-set-msform" style="height: 170px !important;" name="Description" id="pDes" placeholder="Portfolio Description" required></textarea>
                                     </div>
                                   </div>
-                                  <div class="form-group row">
-                                    <label for="pGit" class="col-sm-2 col-form-label label-set">Git Repo</label>
-                                    <div class="col-sm-10">
-                                      <input type="Text" class="form-control input-set-msform" name="GitLink" id="pGit" placeholder="Git Repository Link - OPTIONAL"/>
-                                    </div>
-                    
-                                  </div>
+                        
                                   <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
                                   <input type="button" name="next" class="next action-button" value="Next"/>
                                 </fieldset>
@@ -161,19 +146,14 @@
                                   <h2 class="fs-title">Finishing Up</h2>
                                   <h3 class="fs-subtitle">Finalize things</h3>
                                   <p class="para-set">
-                                    I <b>agree</b> to the <a href="#">terms and conditions</a> of creating project on <b>ELIFIND</b>.
+                                    I <b>agree</b> to the <a href="#">terms and conditions</a> of creating portfolio on <b>ELIFIND</b>.
                                     <br>
-                                    By creating the project, a new directory will be created. For showcasing, you have to nagivate to the project directory
-                                    and then select desired category of files for showcasing (either images or videos). After that, you have to upload files
-                                     (either images or videos depending on the selected category). Once, you have uploaded material for showcasing, your project 
-                                     will be auto showcased to the companies and users of similar interests. This is individual project showcasing. You can upload 
-                                     multiple videos and images as much as you want for a single project. For <b>Portfolio Showcasing</b>, which enables you to create
+                                    By creating the portfolio, a new directory will be created. For showcasing, you have to nagivate to the portfolio directory
+                                    and then create projects. After that select desired category of files for showcasing (either images or videos). After that, you have to upload files
+                                     (either images or videos). After uploading desired material for showcasing, your portfolio
+                                     will be auto showcased to the companies and users of similar interests. This is portfolio showcasing.It enables you to create
                                      multiple projects of same category in a single portfolio and each project has multiple images and videos, you can navigate to
-                                     the portfolio section. List of instructions is also posted there, you can refer them. Make sure, that dont upload any kind or inapproriate things, which will result in permanant ban to the account. This is one of
-                                     the professional site for professional use. You are welcomed to make most of it from our site. Upload projects as much as you can,
-                                     if your work is truley notable, companies will be lining up to hire you. According to your projects and skills, our site will recommend
-                                     you a list of companies and other users. So, showcase your best work to the world. 
-
+                                     the portfolio section and create projects.
                                      <br>
                                      For any kind of assistance, you can email
                                      us on <a href="mailto:ElifindK@gmail.com">ElifindK@gmail.com</a> or can post query to our official account 
@@ -197,6 +177,7 @@
                         </div>
                       </div>
                     </div>
+                    
             {{/unless}}
             {{!-- <div class="line custom"></div> --}}
                 <h4 class="
@@ -204,9 +185,9 @@
                 set-title
                 {{else}}
                 set-title-visitor
-                {{/if}}">List of Projects</h4>
+                {{/if}}">List of Portfolios</h4>
                  <div class="line"></div>
-                 <div id="projectsList"></div>
+                 <div id="portfoliosList"></div>
                  
           </div>
             
@@ -294,10 +275,122 @@
             </div>
         </div>
     </div> 
-
+    {{#unless data}}
+      <div class="modal fade" id="createProjectModal" tabindex="-1" role="dialog"  aria-hidden="true">
+                       <div class="modal-dialog modal-lg dialog-set">
+                         <div class="modal-content modal-set">
+                           <div class="modal-header">
+                             <h5 class="modal-title">Create Project  
+                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                             <span aria-hidden="true">&times;</span>
+                             </button></h5>
+                             </div>
+                             <div class="modal-body">
+                            
+                            <div class="row">
    
+                              <form id="msform2">
+         
+                                 <ul id="progressbar">
+                                  <li class="active">Project Details</li>
+                                  <li>Project Description</li>
+                                  <li>Finishing up</li>
+                                </ul>
+                                <fieldset>
+                                  <h2 class="fs-title">Project Details</h2>
+                                  <h3 class="fs-subtitle">Tell us about project</h3>
+                                  <div class="form-group row">
+                                    <label for="proTitle" class="col-sm-2 col-form-label label-set">Project Title</label>
+                                    <div class="col-sm-10">
+                                      <input type="Text" class="form-control input-set-msform" name="Title" id="proTitle" placeholder="Project Title" required/>
+                                    </div>
+                                  </div>
+                                    <div class="form-group row">
+                                    <label for="proType" class="col-sm-2 col-form-label label-set">Type</label>
+                                    <div class="col-sm-10">
+                                      <input type="Text" class="form-control input-set-msform" name="Type" id="proType" placeholder="Type" required/>
+                                    </div>
+                                  </div>
+                                  <div class="form-group row">
+                                    <label for="proCat" class="col-sm-2 col-form-label label-set">Category</label>
+                                    <div class="col-sm-10">
+                                      <input type="Text" class="form-control input-set-msform" name="Category" id="proCat" placeholder="Category" required>
+                                    </div>
+                                  </div>
+                                   <div class="form-group row">
+                                    <label for="proTag" class="col-sm-2 col-form-label label-set">Tags</label>
+                                    <div class="col-sm-10">
+                                      <input type="Text" class="form-control" name="Tags" data-role="tagsinput" id="proTag" style="border: none;" placeholder="Tags - OPTIONAL" >
+                                    </div>
+                                  </div>
+                                  
+                                  <input type="button" name="next" class="next action-button" value="Next"/>
+                                </fieldset>
+                                <fieldset>
+                                  <h2 class="fs-title">Project Description </h2>
+                                  <h3 class="fs-subtitle">What best describes your project</h3>
+                                  <div class="form-group row">
+                                    <label for="proTech" class="col-sm-2 col-form-label label-set">Technology</label>
+                                    <div class="col-sm-10">
+                                      <input type="Text" class="form-control input-set-msform" name="Technology" id="proTech" placeholder="Technology or Language e.g Node js, React js, Adobe, C#, Java etc" required/>
+                                    </div>
+                                  </div>
+                                  <div class="form-group row">
+                                    <label for="proDes" class="col-sm-2 col-form-label label-set">Description</label>
+                                    <div class="col-sm-10">
+                                      <textarea type="Text" class="form-control input-set-msform" name="Description" id="proDes" placeholder="Project Description" required></textarea>
+                                    </div>
+                                  </div>
+                                  <div class="form-group row">
+                                    <label for="proGit" class="col-sm-2 col-form-label label-set">Git Repo</label>
+                                    <div class="col-sm-10">
+                                      <input type="Text" class="form-control input-set-msform" name="GitLink" id="proGit" placeholder="Git Repository Link - OPTIONAL"/>
+                                    </div>
+                    
+                                  </div>
+                                  <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+                                  <input type="button" name="next" class="next action-button" value="Next"/>
+                                </fieldset>
+                                <fieldset>
+                                  <h2 class="fs-title">Finishing Up</h2>
+                                  <h3 class="fs-subtitle">Finalize things</h3>
+                                  <p class="para-set">
+                                    I <b>agree</b> to the <a href="#">terms and conditions</a> of creating project on <b>ELIFIND</b>.
+                                    <br>
+                                    By creating the project, a new directory will be created. For showcasing, you have to nagivate to the project directory
+                                    and then select desired category of files for showcasing (either images or videos). After that, you have to upload files
+                                     (either images or videos depending on the selected category). Once, you have uploaded material for showcasing, your project 
+                                     will be auto showcased to the companies and users of similar interests. This is individual project showcasing. You can upload 
+                                     multiple videos and images as much as you want for a single project. For <b>Portfolio Showcasing</b>, which enables you to create
+                                     multiple projects of same category in a single portfolio and each project has multiple images and videos, you can navigate to
+                                     the portfolio section. List of instructions is also posted there, you can refer them. Make sure, that dont upload any kind or inapproriate things, which will result in permanant ban to the account. This is one of
+                                     the professional site for professional use. You are welcomed to make most of it from our site. Upload projects as much as you can,
+                                     if your work is truley notable, companies will be lining up to hire you. According to your projects and skills, our site will recommend
+                                     you a list of companies and other users. So, showcase your best work to the world. 
 
-
+                                     <br>
+                                     For any kind of assistance, you can email
+                                     us on <a href="mailto:ElifindK@gmail.com">ElifindK@gmail.com</a> or can post query to our official account 
+                                     <a href="http://localhost:3000/Profile/View/5e065b5fdbf6fe51bcfe49e9/Timeline">ELIFIND</a> . Dont hesitate to ask, feel free to
+                                     approach us. Our team is ready to assit you. For further information, visit to our official account 
+                                      <a href="http://localhost:3000/Profile/View/5e065b5fdbf6fe51bcfe49e9/Timeline">ELIFIND</a>.
+  
+                                  </p>
+                                  <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+                                  <input type="button" id="proCreate" name="create" class="submit action-button" value="Create"/>
+                               </fieldset>
+                            </form>        
+                           </div>
+                             </div>
+                              <div class="modal-footer modal-foot-set">
+                              <p>Copyright © 2020 Elifind. All rights reserved</p>
+                           </div>  
+                        </div>
+                      </div>
+                    </div>
+    {{/unless}}
+  
+  
     </body>
     {{>footer}}
  
@@ -305,7 +398,7 @@
       <div class="spinner"></div>
     </div>
 
-     <script src="/profileAssets/js/jquery-3.1.1.min.js"></script>
+    <script src="/profileAssets/js/jquery-3.1.1.min.js"></script>
     <script src="/profileAssets/js/bootstrap.min.js"></script>
     <script src="/profileAssets/js/jquery.sticky-kit.min.js"></script>
     <script src="/profileAssets/js/jquery.scrollbar.min.js"></script>
@@ -314,7 +407,7 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="/js/upload.js"></script>
     <script src="/js/subNavHandler.js"></script>
-    <script src="/project-portfolio/js/project.js"></script>
+    <script src="/project-portfolio/js/portfolio.js"></script>
     <script src="/project-portfolio/js/form.js"></script>
     <script src="/js/bootstrap-tagsinput.js"></script>
     <script src="/company/js/jquery.validate.js"></script>
@@ -322,29 +415,29 @@
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script src="/dropzone/js/dropzone.js"></script>
     
-    <script id="project-thumbnail" type="text/x-handlebars-template">
-         \{{#Projects}}
+    <script id="portfolio-thumbnail" type="text/x-handlebars-template">
+         \{{#Portfolios}}
           <div class="col-md-4">
                     <div class="box">
-                        <img src="/project-portfolio/images/project2.jpg">
+                        <img src="/project-portfolio/images/portfolio2.jpg">
                         <h3 class="title">\{{Title}}</h3>
                         <div class="box-content">
                     
-                           <a href="javascript:open('\{{_id}}')"> <i class="fa fa-folder-open-o fa-4x icon-set " aria-hidden="true"></i></a>
+                           <a href="javascript:openPortfolio('\{{_id}}')"> <i class="fa fa-folder-open-o fa-4x icon-set " aria-hidden="true"></i></a>
                            
                             
                         </div>
                     </div>
                 </div> 
-          \{{/Projects}}
+          \{{/Portfolios}}
     </script>
-    <script id="directory" type="text/x-handlebars-template">
-      <div id="page-contents2" class="back">
+    <script id="portfolioDirectory" type="text/x-handlebars-template">
+      <div id="page-contents2" class="backToPortfolios">
           <div class="row">
             <div class="col-md-3">
               <ul class="edit-menu" style="margin-top: 120px">
-              	<li class="active" id="pDetails"><i class="icon ion-information-circled active" id="pD"style=""></i><a href="" id="projectDetails">Project Details</a></li>
-              	<li id="pFiles"><i class="icon ion-ios-folder-outline" id="pF" ></i><a href="" id="projectFiles">Project Files</a></li>
+              	<li class="active" id="portDetails"><i class="icon ion-information-circled active" id="portD"style=""></i><a href="" id="portfolioDetails">Portfolio Details</a></li>
+              	<li id="portFiles"><i class="icon ion-ios-folder-outline" id="portF" ></i><a href="" id="portfolioFiles">Portfolio Files</a></li>
               </ul>
             </div>
             
@@ -352,7 +445,164 @@
             <div class="col-md-7" id="main-content-directory">
                 <div class="edit-profile-container" id="info">
                  <div class="block-title">
-                   <h4 class="grey"><i class="ion-ios-folder"></i><a href="javascript:back()">Projects</a> / \{{Project.Title}}</h4>
+                   <h4 class="grey"><i class="ion-ios-folder"></i><a href="javascript:backToPortfolios()">Portfolios</a> / \{{Portfolio.Title}}</h4>
+                  <div class="line"></div>
+                </div>
+                </div>
+                
+              <div class="about-profile" id="portfolioDetailsSection">
+                <div class="about-content-block">
+                  <h4 class="grey"><i class="ion-ios-information-outline icon-in-title"></i>Portfolio Description</h4>
+                  <p>\{{Portfolio.Description}}</p>
+                </div>
+                <div class="about-content-block">
+                  <h4 class="grey"><i class="ion-ios-briefcase-outline icon-in-title"></i>Portfolio Details</h4>
+                 
+                  <div class="organization">
+                    <img src="/images/ico1.png" alt="" class="pull-left img-org" />
+                    <div>
+                      <p class="set-view"><strong>Title:</strong> \{{Portfolio.Title}}</p>
+                    </div>
+
+                  </div>
+                   <div class="organization">
+                    <img src="/images/ico1.png" alt="" class="pull-left img-org" />
+                    <div>
+                      <p class="set-view"><strong>Type:</strong> \{{Portfolio.Type}}</p>
+                    </div>
+
+                  </div>
+                   <div class="organization">
+                    <img src="/images/ico1.png" alt="" class="pull-left img-org" />
+                    <div>
+                      <p class="set-view"><strong>Category:</strong> \{{Portfolio.Category}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div> 
+               <div class="about-profile" id="portfolioFilesSection">
+                {{#unless data}}
+                  <div class="edit-profile-container" id="info">
+                 <div class="block-title">
+                   
+                 <h4 class="set-title-visitor">Projects</h4>
+                  
+                  <div class="line"></div>
+                </div>
+                </div>
+                <div class="col-md-3">
+            <div class="card border-primary mb-3 create-project-thumbnail" id="createProject" data-toggle="modal" data-target="#createProjectModal">
+               <div class="card-header">
+                   <i class="fa fa-plus-circle fa-5x" aria-hidden="true"></i>
+                   <h5 class="card-title">Create Project</h5>
+                   
+               </div>
+                 <div class="card-body text-primary">
+                     
+                     <p class="card-text">Create your project by clicking here and showcase it to the world. Companies will be lining up to hire you.
+                     </p>
+                 </div>
+               </div>  
+            </div>
+              
+              <div class="col-md-4">
+            <div class="card border-primary mb-3 instruction-thumbnail">
+               <div class="card-header">
+                  
+                   <h5 class="card-title">Instrctions</h5>
+               </div>
+                 <div class="card-body text-primary">
+                     
+                     <p class="card-text">
+                       <ul style="text-align:left">
+                         <li><b>STEP 1:</b> Create project</li>
+                         <li><b>STEP 2:</b> Fill project setup form</li>
+                         <li><b>STEP 3:</b> Upload images and videos</li>
+                         <li><b>STEP 4:</b> Auto showcasing will occur</li>
+                       </ul>
+                     </p>
+                 </div>
+               </div>  
+            </div>
+           
+            {{/unless}}
+              
+            {{!-- <div class="line custom"></div> --}}
+                <h4 class="
+                {{#if user}}
+                set-title
+                {{else}}
+                set-title-visitor
+                {{/if}}">List of Projects</h4>
+                 <div class="line"></div>
+                 <div id="projectsList"></div>
+                 
+          
+               
+              </div>
+
+          </div> 
+            <div class="col-md-2 static">  
+              <div id="sticky-sidebar">
+                <h4 class="grey">
+                  {{#if data}}
+                     {{#if data.CompanyName}}
+                        {{data.CompanyName}}'s Activity
+                     {{else}}
+                        {{data.FirstName}}'s Activity
+                     {{/if}}
+                  {{else}}
+                  My Activity
+                  {{/if}}
+                  </h4>
+                <div class="feed-item">
+                  <div class="live-activity">
+                    <p><a href="#" class="profile-link">Portfolio Created</a></p>
+                    <p class="text-muted">\{{createdAt}}</p>
+                  </div>
+                </div>
+                 <div class="feed-item">
+                  <div class="live-activity">
+                    <p><a href="#" class="profile-link">Portfolio Updated</a></p>
+                    <p class="text-muted">\{{updatedAt}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </script>
+     <script id="project-thumbnail" type="text/x-handlebars-template">
+         \{{#Projects}}
+          <div class="col-md-4">
+                    <div class="box">
+                        <img src="/project-portfolio/images/project2.jpg">
+                        <h3 class="title">\{{Title}}</h3>
+                        <div class="box-content">
+                    
+                           <a href="javascript:openProject('\{{_id}}')"> <i class="fa fa-folder-open-o fa-4x icon-set " aria-hidden="true"></i></a>
+                           
+                            
+                        </div>
+                    </div>
+                </div> 
+          \{{/Projects}}
+    </script>
+       <script id="projectDirectory" type="text/x-handlebars-template">
+      <div id="page-contents3" class="backToProjects">
+          <div class="row">
+            <div class="col-md-3">
+              <ul class="edit-menu" style="margin-top: 120px">
+              	<li class="active" id="proDetails"><i class="icon ion-information-circled active" id="proD"style=""></i><a href="" id="projectDetails">Project Details</a></li>
+              	<li id="proFiles"><i class="icon ion-ios-folder-outline" id="proF" ></i><a href="" id="projectFiles">Project Files</a></li>
+              </ul>
+            </div>
+            
+
+            <div class="col-md-7" id="main-content-directory">
+                <div class="edit-profile-container" id="info">
+                 <div class="block-title">
+                   <h4 class="grey"><i class="ion-ios-folder"></i><a href="javascript:backToPortfolios()">Portfolios</a> /  <a href="javascript:backToProjects()">\{{portfolioName}}</a> / \{{Project.Title}}</h4>
                   <div class="line"></div>
                 </div>
                 </div>
@@ -494,7 +744,7 @@
                              </button></h5>
                              </div>
                              <div class="modal-body">
-                               <form action="/Profile/Projects/Album/Upload" method="POST" enctype="multipart/form-data" 
+                               <form action="/Profile/Portfolios/Projects/Album/Upload" method="POST" enctype="multipart/form-data" 
                                class="dropzone needsclick dz-clickable " id="dropzoneImages">
                                <input type="text" value="\{{id}}" name="id" hidden/>
                                </form>
@@ -580,7 +830,7 @@
                              </button></h5>
                              </div>
                              <div class="modal-body">
-                               <form action="/Profile/Projects/Video/Upload" method="POST" enctype="multipart/form-data" 
+                               <form action="/Profile/Portfolios/Projects/Videos/Upload" method="POST" enctype="multipart/form-data" 
                                class="dropzone needsclick dz-clickable " id="dropzoneVideos">
                                <input type="text" value="\{{id}}" name="id" hidden/>
                                </form>
@@ -647,7 +897,7 @@
                                 </div>
                                 <div class="line-divider"></div>
                                 <div class="post-text">
-                                  <p>This video is uploaded for the purpose of showcasing. <i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
+                                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
                                 </div>
                                 <div class="line-divider"></div>
                                 <div class="post-comment">

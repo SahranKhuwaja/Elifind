@@ -11,11 +11,8 @@
 		<link rel="stylesheet" href="/profileAssets/css/style.css" />
         <link rel="stylesheet" href="/profileAssets/css/search.css" />
 		<link rel="stylesheet" href="/profileAssets/css/ionicons.min.css" />
-    <link rel="stylesheet" href="/profileAssets/css/font-awesome.min.css" />
-     <link rel="stylesheet" href="/inomash/fonts/material-design-iconic-font/css/material-design-iconic-font.css">
-    
-   
-  
+        <link rel="stylesheet" href="/profileAssets/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="/inomash/fonts/material-design-iconic-font/css/material-design-iconic-font.css">
     
 	</head>
   <body>
@@ -64,19 +61,15 @@
             	<div class="row" id="row">
             	<hgroup class="mb20" id="">
                 <div id="result-info-head"></div>
-                <script id="result-info-template" type="text/x-handlebars-template">
-		<h1>Search Results</h1>
-    
-		<h2 class="lead"><strong class="text-danger">\{{count}}</strong> results has been found for the search for <strong class="text-danger">\{{keyword}}</strong></h2> 
-    </script>
+
 	</hgroup>
    
     <div class="toggle-switch" id= "c"style="">
                                  <div class="col-xs-12 col-sm-12 col-md-7 excerpet" style="margin-top: 15px;margin-left:210px">
-                          <strong> FILTER ACCORDING TO LOCATION</strong></div>
+                          <strong> FILTER ACCORDING TO SKILL CATEGORY</strong></div>
                           <label class="switch">
                               
-                            <input type="checkbox" checked id="filter" onchange="check()">
+                            <input type="checkbox" checked id="filter" onchange="">
                             <span class="slider round"></span>
                           </label>
                         </div>
@@ -87,52 +80,7 @@
   
             <div id="contentDiv"></div>
 
-             <script id="entry-template" type="text/x-handlebars-template">
-          
-              \{{#each res}}
-             <section class="col-xs-12 col-sm-6 col-md-12">
-		<article class="search-result row">
-			<div class="col-xs-12 col-sm-12 col-md-3">
-				<a href="/Profile/View/{{id}}/Timeline" title="" class="thumbnail">
-                    \{{#if Dp}}
-                    <img src="data:image/png;base64, \{{Dp}}" class="" />
-                    \{{else}}
-                    <img src="/profileAssets/images/male.jpg"> 
-                    \{{/if}}
-                    </a>
-			</div>
-			<div class="col-xs-12 col-sm-12 col-md-2">
-				<ul class="meta-search">
-					<li><i class="glyphicon glyphicon-calendar"></i> <span>\{{create}}</span></li>
-					<li><i class="glyphicon glyphicon-user"></i> <span>\{{gender}}</span></li>
-                    <li><i class="glyphicon glyphicon-map-marker"></i> <span>\{{city}}</span></li>
-					<li><i class="glyphicon glyphicon-tags"></i> <span>\{{role}}</span></li>
-                    
-				</ul>
-			</div>
-			<div class="col-xs-12 col-sm-12 col-md-7 excerpet">
-				<h4><a href="/Profile/View/\{{id}}/Timeline" title="" style="text-decoration:none">\{{fname}} \{{lname}} \{{cname}} </a></h4><br>
-				<p><strong>Summary:</strong><br><br>To be continied</p>						
-                
-			</div>
-			<span class="clearfix borda"></span>
-		</article>
-
-	</section>
-         \{{/each}}
-          \{{#if noResult}}
-          
-        <div class="container">
-          <img src="/profileAssets/images/404.png" alt="" class="img-responsive" />
-          <div class="error-message">
-          	<h1 class="error-title">Whoops!</h1>
-          	<p>Looks like you are lost. But don't worry there is plenty to see!</p>
-          </div>
-         
-        </div>
-    	
-       \{{/if}} 
-         </script>
+       
 
               
            
@@ -187,8 +135,6 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="/js/upload.js"></script>
-    <script src="/js/search.js"></script>
-    <script src="/js/handlebars.js"></script>
     <script src="/js/mustache.js"></script>
  
   </body>

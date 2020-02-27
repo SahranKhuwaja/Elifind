@@ -1,73 +1,3 @@
-var current_fs, next_fs, previous_fs;
-var left, opacity, scale; 
-var animating; 
-
-$(".next").click(function(){
-
-	if($('#msform').validate().form()){
-       
-	   if(animating) return false;
-	   animating = true;
-	
-	   current_fs = $(this).parent();
-	   next_fs = $(this).parent().next();
-	
-
-	   $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
-	
-	   next_fs.show(); 
-	   current_fs.animate({opacity: 0}, {
-		   step: function(now, mx) {
-			   scale = 1 - (1 - now) * 0.2;
-			   left = (now * 50)+"%";
-			   opacity = 1 - now;
-			   current_fs.css({
-               'transform': 'scale('+scale+')',
-               'position': 'absolute'
-                });
-			next_fs.css({'left': left, 'opacity': opacity});
-		}, 
-		duration: 800, 
-		complete: function(){
-			current_fs.hide();
-			animating = false;
-		}, 
-		easing: 'easeInOutBack'
-	});
-}
-});
-
-$(".previous").click(function(){
-	if(animating) return false;
-	animating = true;
-	
-	current_fs = $(this).parent();
-	previous_fs = $(this).parent().prev();
-	
-	$("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
-	
-	previous_fs.show(); 
-	current_fs.animate({opacity: 0}, {
-		step: function(now, mx) {
-			scale = 0.8 + (1 - now) * 0.2;
-			left = ((1-now) * 50)+"%";
-			opacity = 1 - now;
-			current_fs.css({'left': left,'display':'none'});
-			previous_fs.css({'transform': 'scale('+scale+')', 'opacity': opacity,'position':'relative'});
-		}, 
-		duration: 800, 
-		complete: function(){
-			current_fs.hide();
-			animating = false;
-		}, 
-		easing: 'easeInOutBack'
-	});
-});
-
-
-$('#msform').submit((e)=>{
-	e.preventDefault();
-})
 
 $('#create').click(()=>{
 	
@@ -75,9 +5,6 @@ $('#create').click(()=>{
 	   createProject();
 	   $('#create').attr('data-dismiss','modal')
 	}
-	
-    
-	
 })
 
 
@@ -133,10 +60,10 @@ const getUserProjects = ()=>{
 const renderProjects = (data)=>{
 
 	const template = document.querySelector('#project-thumbnail').innerHTML;
-	const parentDiv = document.querySelector('#main-content');
+	const parentDiv = document.querySelector('#projectsList');
 	let html = undefined
 	if(!Object.entries(data).length!==0){
-	html = Mustache.render(template,{Projects:data.Projects})
+	html = Mustache.render(template,{Projects:data.Projects.reverse()})
 	}
 	else{
 
@@ -148,16 +75,15 @@ const renderProjects = (data)=>{
 
 const  renderIndividualProject  = (data)=>{
 	const template = document.querySelector('#project-thumbnail').innerHTML;
-	const parentDiv = document.querySelector('#main-content');
-	const html = Mustache.render(template,{Projects:data})
-	parentDiv.insertAdjacentHTML('beforeend',html)
+	const parentDiv = document.querySelector('#projectsList');
+	const html = Mustache.render(template,{Projects:data});
+	parentDiv.insertAdjacentHTML('beforebegin',html);
 };
 
 const open = (id)=>{
 	
 	$.get('/Profile/Projects/MyProjects/Project/Open',{id,userID},(data,status,xhr)=>{
 		 openDirectory(...data);
-		 
 	})
 	
 }
@@ -181,7 +107,7 @@ const directoryDetails = (data)=>{
 	const template = document.querySelector('#directory').innerHTML;
 	const parentDiv = document.querySelector('#timeline');
 	let Project = {...data};
-	Project.Project = undefined;
+	delete Project.Project
 	const html = Mustache.render(template,{Project:data,createdAt:moment(data.createdAt).fromNow(),updatedAt:moment(data.updatedAt).fromNow()})
 	parentDiv.insertAdjacentHTML('beforeend',html);
 }
@@ -277,7 +203,7 @@ const renderVideos = async(data,id)=>{
 	await data.filter(async(e)=>e.created = await moment(e.createdAt).fromNow())
 	const html = await Mustache.render(template,{data,id});
 	await parentDiv.insertAdjacentHTML('beforeend',html);
-	if($('#videoDropzone').length !==0){
+	if($('#dropzoneVideos').length !==0){
 	let videoDropzone = new Dropzone("#dropzoneVideos",{url:'/Profile/Projects/Video/Upload'});
 	videoDropzone.options.maxFilesize = 1000000;
 	videoDropzone.options.uploadMultiple = true;

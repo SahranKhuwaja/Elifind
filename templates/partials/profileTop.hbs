@@ -109,7 +109,13 @@
                        {{/if}}
                      </li>
 
-                  <li><a href="">Portfolios</a></li>
+                  <li>
+                     {{#if data}}
+                       <a href="/Profile/View/{{data._id}}/Portfolios" id="port">Portfolios</a>
+                       {{else}}
+                       <a href="/Profile/Portfolios" id="port">Portfolios</a>
+                       {{/if}}
+                  </li>
                 </ul>
                 <ul class="follow-me list-inline profile-menu">
                  <li id="hiredByBar"> </li>

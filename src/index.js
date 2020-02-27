@@ -15,6 +15,8 @@ const Chat = require('./models/chat');
 const Filter = require('bad-words');
 const Hire = require('./models/hire');
 const projectRouter = require('./routes/projects');
+const portfolioRouter = require('./routes/portfolio');
+const newsfeedRouter = require('./routes/newsfeed');
 require('./db/mongoose');
 
 
@@ -37,6 +39,8 @@ app.use(searchRouter);
 app.use(companyRouter);
 app.use(hireRouter);
 app.use(projectRouter);
+app.use(portfolioRouter);
+app.use(newsfeedRouter);
 app.use(express.json());
 
 users = {};

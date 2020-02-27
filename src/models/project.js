@@ -74,7 +74,7 @@ const projectSchema = new mongoose.Schema({
 });
 
 
-projectSchema.statics.CreateProject = async(id,data)=>{
+projectSchema.statics.createProject = async(id,data)=>{
 
     try{
        const projectFind = await Project.findOne({Owner:id});
@@ -108,7 +108,7 @@ projectSchema.statics.updateAlbum = async(files,projectId,userId)=>{
         project.Projects[0].Project.Images = await project.Projects[0].Project.Images.concat({image:await sharp(files[i].buffer).png().toBuffer()})
     
     }
-    const status = await Project.updateOne({'Projects._id':projectId},{$set:{'Projects.$.Project':project.Projects[0].Project,'Projects.$.updatedAt':Date.now()}});
+    const status = await Project.updateOne({Owner:userId,'Projects._id':projectId},{$set:{'Projects.$.Project':project.Projects[0].Project,'Projects.$.updatedAt':Date.now()}});
     
     if(status.nModified ==='0'){
         return null;
@@ -134,8 +134,7 @@ projectSchema.statics.updateVideos = async(files,projectId,userId)=>{
     
     }
 
-    console.log(project.Projects[0].Project);
-    const status = await Project.updateOne({'Projects._id':projectId},{$set:{'Projects.$.Project':project.Projects[0].Project,'Projects.$.updatedAt':Date.now()}});
+    const status = await Project.updateOne({Owner:userId,'Projects._id':projectId},{$set:{'Projects.$.Project':project.Projects[0].Project,'Projects.$.updatedAt':Date.now()}});
     
     if(status.nModified ==='0'){
         return null;

@@ -63,12 +63,12 @@ router.post('/Profile/Projects/Create',auth,async(req,res)=>{
 
     try{
 
-       const CreateProject = await Project.CreateProject(req.user._id,req.body);
-       if(Object.entries(CreateProject).length === 0){
+       const createProject = await Project.createProject(req.user._id,req.body);
+       if(Object.entries(createProject).length === 0){
 
            return res.send({});
        }
-       res.send(CreateProject);
+       res.send(createProject);
 
     }catch(e){
        console.log(e);
@@ -81,16 +81,15 @@ router.get('/Profile/Projects/MyProjects/Get',auth,async(req,res)=>{
 
     let projects = undefined;
     if(!req.query.userID){
-        projects = await Project.findOne({Owner:req.user._id},{'Projects.Title':1,'Projects._id':1});
+        projects = await Project.findOne({Owner:req.user._id},{'Projects.Title':1,'Projects._id':1,'Projects.createdAt':1});
     }
     else{
-        projects = await Project.findOne({Owner:req.query.userID},{'Projects.Title':1,'Projects._id':1});
+        projects = await Project.findOne({Owner:req.query.userID},{'Projects.Title':1,'Projects._id':1,'Projects.createdAt':1});
     }
 
     if(projects === null){
         return res.send({});
     }
-    
     res.send(projects)
 
 
@@ -108,9 +107,8 @@ router.get('/Profile/Projects/MyProjects/Project/Open',auth,async(req,res)=>{
         
         projectData = await Project.findOne({Owner:req.query.userID,'Projects._id':req.query.id},{'Projects.$':1});
     }
-    let project = await {...projectData.toObject()}
-    res.send(await project.Projects.filter(async(data)=>{
-        if( data._id.toString() === req.query.id){
+   projectData = await {...projectData.toObject()}
+    res.send(await projectData.Projects.filter(async(data)=>{
            await data.Project.Images.reverse().filter(async(e)=>{
                return await Buffer.from(e.image).toString('base64');
            })
@@ -118,7 +116,7 @@ router.get('/Profile/Projects/MyProjects/Project/Open',auth,async(req,res)=>{
                return await Buffer.from(e.video).toString('base64');
         })
        
-        }
+        
           
     })
     );
