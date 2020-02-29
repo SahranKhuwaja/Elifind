@@ -6,14 +6,15 @@
   
 
 
-		<title>Profile</title>
+		<title>Newsfeed</title>
     
 		<link rel="stylesheet" href="/profileAssets/css/style.css" />
-        <link rel="stylesheet" href="/profileAssets/css/search.css" />
 		<link rel="stylesheet" href="/profileAssets/css/ionicons.min.css" />
-        <link rel="stylesheet" href="/profileAssets/css/font-awesome.min.css" />
-        <link rel="stylesheet" href="/inomash/fonts/material-design-iconic-font/css/material-design-iconic-font.css">
-    
+    <link rel="stylesheet" href="/profileAssets/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/inomash/fonts/material-design-iconic-font/css/material-design-iconic-font.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
+       
 	</head>
   <body>
 
@@ -28,7 +29,12 @@
     			<div class="col-md-7">
 
          
-            <div class="create-post">
+           
+
+           
+            <div class="friend-list">
+            	<div class="row" id="row">
+                <div class="create-post">
             	<div class="row">
             		<div class="col-md-7 col-sm-7">
                   <div class="form-group">
@@ -55,29 +61,34 @@
                 </div>
             	</div>
             </div>
-
-           
-            <div class="friend-list">
-            	<div class="row" id="row">
             	<hgroup class="mb20" id="">
                 <div id="result-info-head"></div>
 
 	</hgroup>
-   
-    <div class="toggle-switch" id= "c"style="">
-                                 <div class="col-xs-12 col-sm-12 col-md-7 excerpet" style="margin-top: 15px;margin-left:210px">
-                          <strong> FILTER ACCORDING TO SKILL CATEGORY</strong></div>
-                          <label class="switch">
-                              
-                            <input type="checkbox" checked id="filter" onchange="">
-                            <span class="slider round"></span>
-                          </label>
-                        </div>
-
-
-   
   
-  
+ <button class="filter" id="filter-toggle"><i class="icon ion-ios-settings-strong"></i>  Filter</button>
+<div id="filter" class="filter-div" >  
+    <div class="toggle-switch switch-set" >
+            <label class="switch">
+                  <input type="checkbox" id="locationFilter" onchange="filter()" checked>
+                  <span class="slider round"></span>
+            </label>
+            <div class="col-xs-12 col-sm-12 col-md-7 excerpet" >
+                  <strong>ACCORDING TO THE LOCATION</strong>
+            </div>
+    </div>
+    <div class="toggle-switch switch-set" >
+           <label class="switch">
+                 <input type="checkbox" onchange="filter()" id="skillFilter">
+                 <span class="slider round"></span>
+           </label>
+           <div class="col-xs-12 col-sm-12 col-md-7 excerpet" >
+                 <strong>ACCORDING TO THE SKILL CATEGORY</strong>
+           </div>
+    </div>
+
+      <button class="filter" id="done">Done Filtering</button>
+</div>
             <div id="contentDiv"></div>
 
        
@@ -128,6 +139,7 @@
     </div>
 
     <script src="/profileAssets/js/jquery-3.1.1.min.js"></script>
+
     <script src="/profileAssets/js/bootstrap.min.js"></script>
     <script src="/profileAssets/js/jquery.sticky-kit.min.js"></script>
     <script src="/profileAssets/js/jquery.scrollbar.min.js"></script>
@@ -136,6 +148,10 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="/js/upload.js"></script>
     <script src="/js/mustache.js"></script>
+    <script src="/newsfeed/newsfeed.js"></script>
+    <script id="" type="text/x-handlebars-template">
+
+    </script>
  
   </body>
 
@@ -156,6 +172,8 @@
 .band{
   color: green;
 }
-
+input:checked + .slider{
+  background-color: darkblue;
+}
 
 </style>

@@ -103,13 +103,9 @@ const portfolioSchema = new mongoose.Schema({
 portfolioSchema.statics.createPortfolio = async(id,data)=>{
 
     try{
-       const portfolioFind = await Portfolio.findOne({Owner:id});
-       let createPortfolio = undefined;
-       if(!portfolioFind){
+       let createPortfolio = await Portfolio.findOne({Owner:id});
+       if(!createPortfolio){
            createPortfolio = new Portfolio({Owner:id})
-       }
-       else{
-           createPortfolio = portfolioFind;
        }
        createPortfolio.Portfolios = await  createPortfolio.Portfolios.concat(data);
        await createPortfolio.save();

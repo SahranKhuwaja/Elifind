@@ -9,10 +9,10 @@
 		<title>Profile</title>
     
 		<link rel="stylesheet" href="/profileAssets/css/style.css" />
-        <link rel="stylesheet" href="/profileAssets/css/search.css" />
+    <link rel="stylesheet" href="/profileAssets/css/search.css" />
 		<link rel="stylesheet" href="/profileAssets/css/ionicons.min.css" />
     <link rel="stylesheet" href="/profileAssets/css/font-awesome.min.css" />
-     <link rel="stylesheet" href="/inomash/fonts/material-design-iconic-font/css/material-design-iconic-font.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,700i" rel="stylesheet">
     
    
   
@@ -31,7 +31,12 @@
     			<div class="col-md-7">
 
          
-            <div class="create-post">
+            
+
+           
+            <div class="friend-list">
+            	<div class="row" id="row">
+<div class="create-post">
             	<div class="row">
             		<div class="col-md-7 col-sm-7">
                   <div class="form-group">
@@ -58,10 +63,6 @@
                 </div>
             	</div>
             </div>
-
-           
-            <div class="friend-list">
-            	<div class="row" id="row">
             	<hgroup class="mb20" id="">
                 <div id="result-info-head"></div>
                 <script id="result-info-template" type="text/x-handlebars-template">
@@ -70,6 +71,7 @@
 		<h2 class="lead"><strong class="text-danger">\{{count}}</strong> results has been found for the search for <strong class="text-danger">\{{keyword}}</strong></h2> 
     </script>
 	</hgroup>
+  
    
     <div class="toggle-switch" id= "c"style="">
                                  <div class="col-xs-12 col-sm-12 col-md-7 excerpet" style="margin-top: 15px;margin-left:210px">

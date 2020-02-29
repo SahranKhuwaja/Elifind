@@ -6,7 +6,7 @@ html, body {
 }
 
 body{
-	font-family: 'Lato', sans-serif;
+	font-family: 'Lato', sans-serif !important;
   line-height: 26px;
 	color: #6d6e71;
   font-size: 13px;
@@ -3065,6 +3065,33 @@ textarea.error{
 }
 .set-para{
   margin-left: 180px;
+}
+
+.filter {
+  border: 1px solid #686f7a;
+  background-color: #fff;
+  color:#686f7a;
+  padding: 12px 16px; 
+  font-size: 14px; 
+  cursor: pointer;
+  float: right;
+  margin-right: 14px; 
+}
+
+.filter:hover {
+  border: 1px solid darkblue;
+  color: darkblue;
+}
+.filter-div{
+  background-color: #f7f8fa;
+  padding: 40px 40px 70px 40px;
+}
+
+.switch-set{
+  text-align: left !important;
+}
+.excerpet{
+  margin-top: 15px;
 }
 
 

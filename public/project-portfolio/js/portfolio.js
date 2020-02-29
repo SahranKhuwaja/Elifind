@@ -29,9 +29,9 @@ const createPortfolio = ()=>{
      $('#msform').trigger('reset');
      $("#progressbar li").eq(1).removeClass('active');
      $("#progressbar li").eq(2).removeClass('active');
-     $("fieldset:last").hide();
-     $("fieldset:first").css({'opacity':1,'position':'relative','display':'block','transform':'scale(1)'})
-     $("fieldset").eq(1).css({'transform':'scale(1)','position':'relative'});
+     $("fieldset").eq(0).css({'opacity':1,'position':'relative','display':'block','transform':'scale(1)'})
+	 $("fieldset").eq(1).css({'transform':'scale(1)','position':'relative'});
+	 $("fieldset").eq(2).hide()
  
  }
  $(document).ready(()=>{
@@ -193,12 +193,11 @@ const renderIndividualProject = (data)=>{
 const resetForm2 = ()=>{
 	$('#msform2').trigger('reset');
 	$("#proTag").tagsinput('removeAll');
-	$("#progressbar li").eq(1).removeClass('active');
-	$("#progressbar li").eq(2).removeClass('active');
-	$("fieldset:last").hide();
-	$("fieldset:first").css({'opacity':1,'position':'relative','display':'block','transform':'scale(1)'})
-	$("fieldset").eq(1).css({'transform':'scale(1)','position':'relative'});
-
+	$("#progressbar li").eq(4).removeClass('active');
+	$("#progressbar li").eq(5).removeClass('active');
+	$("fieldset").eq(3).css({'opacity':1,'position':'relative','display':'block','transform':'scale(1)'})
+	$("fieldset").eq(4).css({'transform':'scale(1)','position':'relative'});
+	$("fieldset").eq(5).hide();
 }
 
 const openProject = (id)=>{

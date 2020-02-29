@@ -36,9 +36,9 @@ const resetForm = ()=>{
 	$("#pTag").tagsinput('removeAll');
 	$("#progressbar li").eq(1).removeClass('active');
 	$("#progressbar li").eq(2).removeClass('active');
-	$("fieldset:last").hide();
-	$("fieldset:first").css({'opacity':1,'position':'relative','display':'block','transform':'scale(1)'})
+	$("fieldset").eq(0).css({'opacity':1,'position':'relative','display':'block','transform':'scale(1)'})
 	$("fieldset").eq(1).css({'transform':'scale(1)','position':'relative'});
+	$("fieldset").eq(2).hide();
 
 }
 

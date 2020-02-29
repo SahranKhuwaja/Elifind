@@ -77,18 +77,13 @@ const projectSchema = new mongoose.Schema({
 projectSchema.statics.createProject = async(id,data)=>{
 
     try{
-       const projectFind = await Project.findOne({Owner:id});
-       let CreateProject = undefined;
-       if(!projectFind){
-           CreateProject = new Project({Owner:id})
+       let createProject = await Project.findOne({Owner:id});
+       if(!createProject){
+           createProject = new Project({Owner:id})
        }
-       else{
-           CreateProject = projectFind;
-       }
-       CreateProject.Projects = await  CreateProject.Projects.concat(data);
-       CreateProject.save();
-    //    console.log(CreateProject)
-       return CreateProject.Projects.filter((objData)=>{
+       createProject.Projects = await  createProject.Projects.concat(data);
+       createProject.save();
+       return createProject.Projects.filter((objData)=>{
            objData.Project = undefined;
            return objData.Title === data.Title;
        })  

@@ -7,6 +7,7 @@ const User = require('../models/user');
 const role = require('../middleware/Role');
 const Project = require('../models/project');
 const Portfolio = require('../models/portfolio');
+const Post = require('../models/posts');
 
 router.use(express.json()); 
 router.use(express.urlencoded( {extended: true}));
@@ -66,6 +67,7 @@ router.post('/Profile/Portfolio/Create',auth,async(req,res)=>{
 
          return res.send(null);
      }
+     await Post.createPost(req.user._id,{Type:'Portfolio',ReferenceID:createPortfolio[0]._id,Visibility:'Private'});
      res.send(createPortfolio);
 
    }catch(e){
@@ -118,6 +120,7 @@ router.post('/Profile/Portfolios/Projects/Create',auth,async(req,res)=>{
   if(Object.entries(createProject).length===0){
     return res.send(null);
   }
+  await Post.createPost(req.user._id,{Type:'Portfolio/Project',ReferenceID:createProject[0]._id,Visibility:'Private'});
   res.send(createProject)
   }
   catch(e){
@@ -157,6 +160,11 @@ router.post('/Profile/Portfolios/Projects/Album/Upload',auth,upload.any('file'),
       if(status ===null){
           return res.sendStatus(500);
       }
+      let post=[];
+      await status.reverse().forEach(async e => {
+          post.push({Type:'Portfolio/Project/Image',ReferenceID:req.body.id,MediaID:e._id,Visibility:'Public',})
+      });
+      await Post.createPost(req.user._id,post);
       res.send(status);
 
    }catch(e){
@@ -172,6 +180,11 @@ router.post('/Profile/Portfolios/Projects/Videos/Upload',auth,uploadV.any('file'
      if(status ===null){
          return res.sendStatus(500);
      }
+     let post=[];
+     await status.reverse().forEach(async e => {
+          post.push({Type:'Portfolio/Project/Video',ReferenceID:req.body.id,MediaID:e._id,Visibility:'Public',})
+     });
+     await Post.createPost(req.user._id,post);
      res.send(status);
 
   }catch(e){
