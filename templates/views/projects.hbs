@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="/profileAssets/css/font-awesome.min.css" />
     <link rel="stylesheet" href="/inomash/fonts/material-design-iconic-font/css/material-design-iconic-font.css">
     <link rel="stylesheet" href="/dropzone/css/dropzone.css" />
+    <link  rel="stylesheet" href="/rating-review/css/star-rating.css">
+    
     
 
     
@@ -53,7 +55,8 @@
                <div class="card-header">
                    <i class="fa fa-plus-circle fa-5x" aria-hidden="true"></i>
                    <h5 class="card-title">Create Project</h5>
-                   
+                    
+                     
                </div>
                  <div class="card-body text-primary">
                      
@@ -321,6 +324,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js" type="text/javascript"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script src="/dropzone/js/dropzone.js"></script>
+    <script src="/rating-review/js/star-rating.js"></script> 
     
     <script id="project-thumbnail" type="text/x-handlebars-template">
          \{{#Projects}}
@@ -331,12 +335,18 @@
                         <div class="box-content">
                     
                            <a href="javascript:open('\{{_id}}')"> <i class="fa fa-folder-open-o fa-4x icon-set " aria-hidden="true"></i></a>
-                           
+ 
                             
                         </div>
                     </div>
+                     <input class="rating rating-loading rated" value="4" data-min="0" data-max="5" data-step="0.5" data-size="lg">
+                     <span style="float: right;">(5)</span>
+                  
                 </div> 
+        
           \{{/Projects}}
+       
+                 
     </script>
     <script id="directory" type="text/x-handlebars-template">
       <div id="page-contents2" class="back">
@@ -345,6 +355,8 @@
               <ul class="edit-menu" style="margin-top: 120px">
               	<li class="active" id="pDetails"><i class="icon ion-information-circled active" id="pD"style=""></i><a href="" id="projectDetails">Project Details</a></li>
               	<li id="pFiles"><i class="icon ion-ios-folder-outline" id="pF" ></i><a href="" id="projectFiles">Project Files</a></li>
+                <li id="pRatings"><i class="icon ion-ios-heart-outline" id="pR" ></i><a href="" id="projectRatings">Rating and Review</a></li>
+
               </ul>
             </div>
             
@@ -352,7 +364,9 @@
             <div class="col-md-7" id="main-content-directory">
                 <div class="edit-profile-container" id="info">
                  <div class="block-title">
-                   <h4 class="grey"><i class="ion-ios-folder"></i><a href="javascript:back()">Projects</a> / \{{Project.Title}}</h4>
+                   <h4 class="grey"><i class="ion-ios-folder"></i><a href="javascript:back()">Projects</a> / \{{Project.Title}}
+                   
+                   </h4>  
                   <div class="line"></div>
                 </div>
                 </div>
@@ -442,6 +456,11 @@
                    </label>
                </div>
                
+              </div>
+              <div class="about-profile" id="projectRatingsSection">
+                 <h4 class="set-title-visitor">Ratings</h4>
+                 <div class="line"></div>
+       
               </div>
 
           </div> 
@@ -754,7 +773,92 @@
                  </div>
                  \{{/data}}
     </script>
-
+    <script id="avgRating" type="text/x-handlebars-template">
+        <div class="well well-sm">
+             <div class="row">
+                  <div class="col-xs-12 col-md-6 text-center">
+                       <h1 class="rating-num">
+                          4.0</h1>
+                        <div class="rating2">
+                            <span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star">
+                            </span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star">
+                            </span><span class="glyphicon glyphicon-star-empty"></span>
+                        </div>
+                        <div>
+                            <span class="glyphicon glyphicon-user"></span>1,050,008 total
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="row rating-desc">
+                            <div class="col-xs-3 col-md-3 text-right">
+                                <span class="glyphicon glyphicon-star"></span>5
+                            </div>
+                            <div class="col-xs-8 col-md-9">
+                                <div class="progress progress-striped">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20"
+                                        aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+                                        <span class="sr-only">80%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                             <div class="col-xs-3 col-md-3 text-right">
+                                <span class="glyphicon glyphicon-star"></span>4
+                            </div>
+                            <div class="col-xs-8 col-md-9">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20"
+                                        aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                                        <span class="sr-only">60%</span>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            <div class="col-xs-3 col-md-3 text-right">
+                                <span class="glyphicon glyphicon-star"></span>3
+                            </div>
+                            <div class="col-xs-8 col-md-9">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20"
+                                        aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                        <span class="sr-only">40%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="col-xs-3 col-md-3 text-right">
+                                <span class="glyphicon glyphicon-star"></span>2
+                            </div>
+                            <div class="col-xs-8 col-md-9">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="20"
+                                        aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                                        <span class="sr-only">20%</span>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                           <div class="col-xs-3 col-md-3 text-right">
+                                <span class="glyphicon glyphicon-star"></span>1
+                            </div>
+                            <div class="col-xs-8 col-md-9">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80"
+                                        aria-valuemin="0" aria-valuemax="100" style="width: 15%">
+                                        <span class="sr-only">15%</span>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </script>
+    <script id="userRating" type="text/x-handlebars-template">
+    <h4>Your Rating</h4>
+    <input class="rating rating-loading rate" value="\{{value}}" data-min="0" data-max="5" data-step="0.1" data-size="xl">
+    <span id="ratedTime">\{{time}}</span>
+    </script>
 
 
 </html>
@@ -776,6 +880,5 @@
 textarea.form-control{
   height: 135px !important;
 }
-
 
 </style>

@@ -7,7 +7,7 @@ const User = require('../models/user');
 const role = require('../middleware/Role');
 const Project = require('../models/project');
 const Portfolio = require('../models/portfolio');
-const Post = require('../models/posts');
+const Post = require('../models/post');
 
 router.use(express.json()); 
 router.use(express.urlencoded( {extended: true}));

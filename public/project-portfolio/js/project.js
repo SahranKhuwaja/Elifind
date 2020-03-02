@@ -68,7 +68,9 @@ const renderProjects = (data)=>{
 	else{
 
 	}
-	parentDiv.insertAdjacentHTML('beforeend',html)
+
+	parentDiv.insertAdjacentHTML('beforeend',html);
+	ratingConfig();
 
 
 }
@@ -78,6 +80,7 @@ const  renderIndividualProject  = (data)=>{
 	const parentDiv = document.querySelector('#projectsList');
 	const html = Mustache.render(template,{Projects:data});
 	parentDiv.insertAdjacentHTML('beforebegin',html);
+	ratingConfig();
 };
 
 const open = (id)=>{
@@ -91,8 +94,10 @@ const open = (id)=>{
 const openDirectory = (data)=>{
 	$('#page-contents').hide('slow');
 	directoryDetails(data);
-    directoryFiles(data.Project,data._id);
+	directoryFiles(data.Project,data._id);
+	directoryRatings(data._id);
 	$('#projectFilesSection').hide('fast');
+	$('#projectRatingsSection').hide('fast');
 	$('#projectFiles').click((e)=>{
 		e.preventDefault();
 		toggleToFiles();
@@ -100,6 +105,10 @@ const openDirectory = (data)=>{
 	$('#projectDetails').click((e)=>{
 	   e.preventDefault();
 	   toggleToDetails();
+	})
+	$('#projectRatings').click((e)=>{
+		e.preventDefault();
+		toggleToRating();
 	})
 }
 
@@ -110,6 +119,7 @@ const directoryDetails = (data)=>{
 	delete Project.Project
 	const html = Mustache.render(template,{Project:data,createdAt:moment(data.createdAt).fromNow(),updatedAt:moment(data.updatedAt).fromNow()})
 	parentDiv.insertAdjacentHTML('beforeend',html);
+	
 }
 const directoryFiles = async (data,id)=>{
 
@@ -126,9 +136,12 @@ const directoryFiles = async (data,id)=>{
 		$('#albumSecLabel').removeClass('active');
 		$('#videoSecLabel').addClass('active');
 		toggleCheck();
-	})
-	
+	})	
 
+}
+const directoryRatings = async(id)=>{
+	await renderAverageRating(id);
+	await getUserRating(id,userID);
 }
 
 const back = (e)=>{
@@ -142,9 +155,12 @@ const toggleToFiles = ()=>{
 
 	$('#pDetails').removeClass('active');
 	$('#pD').removeClass('active');
+	$('#pRatings').removeClass('active');
+	$('#pR').removeClass('active');
 	$('#pFiles').addClass('active');
 	$('#pF').addClass('active');
 	$('#projectDetailsSection').hide('slow');
+	$('#projectRatingsSection').hide('slow');
 	$('#projectFilesSection').show('slow');
 	
 }
@@ -153,11 +169,27 @@ const toggleToDetails = ()=>{
 
 	$('#pFiles').removeClass('active');
 	$('#pF').removeClass('active');
+	$('#pRatings').removeClass('active');
+	$('#pR').removeClass('active');
 	$('#pDetails').addClass('active');
 	$('#pD').addClass('active');
 	$('#projectFilesSection').hide('slow');
+	$('#projectRatingsSection').hide('slow');
 	$('#projectDetailsSection').show('slow');
 
+}
+
+const toggleToRating = ()=>{
+	$('#pDetails').removeClass('active');
+	$('#pD').removeClass('active');
+	$('#pFiles').removeClass('active');
+	$('#pF').removeClass('active');
+	$('#pRatings').addClass('active');
+	$('#pR').addClass('active');
+	$('#projectDetailsSection').hide('slow');
+	$('#projectFilesSection').hide('slow');
+	$('#projectRatingsSection').show('slow');
+	
 }
 
 
@@ -231,6 +263,38 @@ const renderVideos = async(data,id)=>{
 	
 }
 
+const renderAverageRating = async(id)=>{
+	const template = document.querySelector('#avgRating').innerHTML;
+	const parentDiv = document.querySelector('#projectRatingsSection');
+	const html = await Mustache.render(template);
+	await parentDiv.insertAdjacentHTML('beforeend',html);
+}
+
+const getUserRating = async(id,userID)=>{
+	$.get('/Profile/Media/Ratings/MyRating',{id,userID},(data,status,xhr)=>{
+		console.log(data)
+		if(status==='success' && data !==""){
+			 renderUserRating(data.Rating,data.createdAt)
+		}
+		else{
+			renderUserRating(0,undefined,id);
+		}
+	})
+	
+}
+
+const renderUserRating = async(value,time,id)=>{
+	
+	const template = document.querySelector('#userRating').innerHTML;
+	const parentDiv = document.querySelector('#projectRatingsSection');
+	const html = await Mustache.render(template,{value,time: time?await moment(time).fromNow():undefined});
+	await parentDiv.insertAdjacentHTML('beforeend',html);
+	await rateConfig();
+	if(value ===0){
+		return await allowRating(id); 
+	}
+	await renderRating();
+}
 
 
 const toggleCheck = ()=>{
@@ -246,7 +310,46 @@ const toggleCheck = ()=>{
 		$('#vS').show('fast');
 	}
 }
+const rateConfig = async()=>{
+	$('.rate').rating({
+		min: 0, max: 5, step: 0.1, size: "lg", stars: "5",
+		theme:'krajee-fa',
+		filledStar:'<i class="icon fa fa-star"></i>',
+		emptyStar: '<i class="icon fa fa-star"></i>',
+		
+	});
+}
+const ratingConfig= ()=>{
+	$(".rated").rating({
+		min: 0, max: 5, step: 0.1, size: "lg", stars: "5",displayOnly: true,showCaption:false,
+        theme:'krajee-fa',
+		filledStar:'<i class="icon fa fa-star"></i>',
+        emptyStar: '<i class="icon fa fa-star"></i>',
+	});
+}
 
+const allowRating = async(id)=>{
+	$('.rate').rating().change(async(e)=>{
+		await rate(id,e.target.value);
+	})
+}
+
+const rate = (id,rating)=>{
+	$.post('/Profile/Media/Rate',{rating,id,userID},(data,status,xhr)=>{
+		if(status === 'success' && data === true){
+			renderRating();
+			$('#ratedTime').html(moment(Date.now()).fromNow())
+		}
+
+	});
+}
+
+const renderRating = ()=>{
+	
+		$('.rate').rating('refresh',{disabled:true,readonly:true,displayOnly:true,showClear:true});
+
+	
+}
 
 
 

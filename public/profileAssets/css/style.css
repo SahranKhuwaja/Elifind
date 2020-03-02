@@ -3094,4 +3094,12 @@ textarea.error{
   margin-top: 15px;
 }
 
+.post-content-set{
+  margin-top: 80px;
+}
+
+.rating-stars{
+  margin-top: 5px !important;
+}
+
 

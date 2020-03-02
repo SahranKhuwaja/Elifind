@@ -6,7 +6,7 @@ const multer = require('multer');
 const User = require('../models/user');
 const role = require('../middleware/Role');
 const Project = require('../models/project');
-const Post = require('../models/posts');
+const Post = require('../models/post');
 
 router.use(express.json()); 
 router.use(express.urlencoded( {extended: true}));

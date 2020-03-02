@@ -16,6 +16,7 @@ const Filter = require('bad-words');
 const Hire = require('./models/hire');
 const projectRouter = require('./routes/projects');
 const portfolioRouter = require('./routes/portfolio');
+const ratingRouter = require('./routes/rating');
 const newsfeedRouter = require('./routes/newsfeed');
 require('./db/mongoose');
 
@@ -40,6 +41,7 @@ app.use(companyRouter);
 app.use(hireRouter);
 app.use(projectRouter);
 app.use(portfolioRouter);
+app.use(ratingRouter);
 app.use(newsfeedRouter);
 app.use(express.json());
 
