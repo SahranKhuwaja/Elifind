@@ -327,23 +327,27 @@
     <script src="/rating-review/js/star-rating.js"></script> 
     
     <script id="project-thumbnail" type="text/x-handlebars-template">
+  
          \{{#Projects}}
-          <div class="col-md-4">
+          <div class="col-md-4 project">
                     <div class="box">
                         <img src="/project-portfolio/images/project2.jpg">
                         <h3 class="title">\{{Title}}</h3>
                         <div class="box-content">
                     
-                           <a href="javascript:open('\{{_id}}')"> <i class="fa fa-folder-open-o fa-4x icon-set " aria-hidden="true"></i></a>
+                           <a href="javascript:open('\{{_id}}',
+                           '\{{Ratings.total}}','\{{Ratings.average}}',
+                           '\{{Ratings.rating.1}}', '\{{Ratings.rating.2}}', '\{{Ratings.rating.3}}', '\{{Ratings.rating.4}}',
+                            '\{{Ratings.rating.5}}'
+                           )"> <i class="fa fa-folder-open-o fa-4x icon-set " aria-hidden="true"></i></a>
  
                             
                         </div>
                     </div>
-                     <input class="rating rating-loading rated" value="4" data-min="0" data-max="5" data-step="0.5" data-size="lg">
-                     <span style="float: right;">(5)</span>
+                     <input class="rating rating-loading rated" value="\{{Ratings.average}}" data-min="0" data-max="5" data-step="0.5" data-size="lg">
+                     <span style="float: right;"><span class="glyphicon glyphicon-user"></span>\{{Ratings.total}} \{{^Ratings}} 0 \{{/Ratings}} total ratings</span>
                   
                 </div> 
-        
           \{{/Projects}}
        
                  
@@ -458,8 +462,7 @@
                
               </div>
               <div class="about-profile" id="projectRatingsSection">
-                 <h4 class="set-title-visitor">Ratings</h4>
-                 <div class="line"></div>
+                 
        
               </div>
 
@@ -774,18 +777,21 @@
                  \{{/data}}
     </script>
     <script id="avgRating" type="text/x-handlebars-template">
+      <div id="stats">
+        <h4 class="set-title-visitor">Ratings</h4>
+        <div class="line"></div>
         <div class="well well-sm">
              <div class="row">
                   <div class="col-xs-12 col-md-6 text-center">
                        <h1 class="rating-num">
-                          4.0</h1>
+                          \{{ratings.average}}
+                          \{{^ratings.average}} 0 \{{/ratings.average}}
+                          </h1>
                         <div class="rating2">
-                            <span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star">
-                            </span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star">
-                            </span><span class="glyphicon glyphicon-star-empty"></span>
+                            <input class="rating rating-loading staticRated" value="\{{ratings.average}}" data-min="0" data-max="5" data-step="0.1" data-size="md">
                         </div>
                         <div>
-                            <span class="glyphicon glyphicon-user"></span>1,050,008 total
+                            <span class="glyphicon glyphicon-user"></span>\{{ratings.total}} \{{^ratings.total}} 0 \{{/ratings.total}} total
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-6">
@@ -796,8 +802,8 @@
                             <div class="col-xs-8 col-md-9">
                                 <div class="progress progress-striped">
                                     <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20"
-                                        aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                                        <span class="sr-only">80%</span>
+                                        aria-valuemin="0" aria-valuemax="100" style="width: \{{ratings.fiveStar}}">
+                                        <span class="sr-only">\{{ratings.fiveStar}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -806,10 +812,10 @@
                                 <span class="glyphicon glyphicon-star"></span>4
                             </div>
                             <div class="col-xs-8 col-md-9">
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20"
-                                        aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                        <span class="sr-only">60%</span>
+                                <div class="progress progress-striped">
+                                    <div class="progress-bar " role="progressbar" aria-valuenow="20"
+                                        aria-valuemin="0" aria-valuemax="100" style="width: \{{ratings.fourStar}};">
+                                        <span class="sr-only">\{{ratings.fourStar}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -818,10 +824,10 @@
                                 <span class="glyphicon glyphicon-star"></span>3
                             </div>
                             <div class="col-xs-8 col-md-9">
-                                <div class="progress">
+                                <div class="progress progress-striped">
                                     <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20"
-                                        aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                        <span class="sr-only">40%</span>
+                                        aria-valuemin="0" aria-valuemax="100" style="width: \{{ratings.threeStar}}">
+                                        <span class="sr-only">\{{ratings.threeStar}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -830,10 +836,10 @@
                                 <span class="glyphicon glyphicon-star"></span>2
                             </div>
                             <div class="col-xs-8 col-md-9">
-                                <div class="progress">
+                                <div class="progress progress-striped">
                                     <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="20"
-                                        aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                        <span class="sr-only">20%</span>
+                                        aria-valuemin="0" aria-valuemax="100" style="width: \{{ratings.twoStar}}">
+                                        <span class="sr-only">\{{ratings.twoStar}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -842,10 +848,10 @@
                                 <span class="glyphicon glyphicon-star"></span>1
                             </div>
                             <div class="col-xs-8 col-md-9">
-                                <div class="progress">
+                                <div class="progress progress-striped">
                                     <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80"
-                                        aria-valuemin="0" aria-valuemax="100" style="width: 15%">
-                                        <span class="sr-only">15%</span>
+                                        aria-valuemin="0" aria-valuemax="100" style="width: \{{ratings.oneStar}}">
+                                        <span class="sr-only">\{{ratings.oneStar}}</span>
                                     </div>
                                 </div> 
                             </div>
@@ -853,11 +859,13 @@
                     </div>
                 </div>
             </div>
+        </div>
     </script>
     <script id="userRating" type="text/x-handlebars-template">
     <h4>Your Rating</h4>
     <input class="rating rating-loading rate" value="\{{value}}" data-min="0" data-max="5" data-step="0.1" data-size="xl">
     <span id="ratedTime">\{{time}}</span>
+    
     </script>
 
 

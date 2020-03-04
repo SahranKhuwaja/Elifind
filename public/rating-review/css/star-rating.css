@@ -123,6 +123,7 @@
     text-align: center;
     vertical-align: baseline;
     border-radius: .25rem;
+    background: black;
 }
 
 .rating-container .caption {
@@ -187,6 +188,7 @@
 }
 .glyphicon { 
     margin-right:5px;
+    color: black;
 }
 .rating2 .glyphicon {
     font-size: 22px;
@@ -194,6 +196,7 @@
 .rating-num { 
     margin-top:0px;
     font-size: 54px;
+    color:darkblue;
  }
 .progress { 
     margin-bottom: 5px;
@@ -211,5 +214,8 @@
      clip: auto;
 }
 .well-sm{
-    background:gold !important;
+    background:antiquewhite !important;
 }
+/* .rating2 .filled-stars{
+    color: black !important;
+} */

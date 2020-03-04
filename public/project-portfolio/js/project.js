@@ -48,17 +48,22 @@ $(document).ready(()=>{
 
 const url = window.location.pathname;  
 const userID = url.split('/')[3];
+let updateProjects = false;
 
 const getUserProjects = ()=>{
 	
 	$.get('/Profile/Projects/MyProjects/Get',{userID},(data,status,xhr)=>{
-		renderProjects(data);
+		getProjectRatings(data);
 	})
 	
 }
-
+const getProjectRatings = (projectsInfo)=>{
+	$.get('/Profile/Media/Ratings',{projects:projectsInfo,userID},(data,status,xhr)=>{
+		
+		renderProjects(data);
+	})
+}
 const renderProjects = (data)=>{
-
 	const template = document.querySelector('#project-thumbnail').innerHTML;
 	const parentDiv = document.querySelector('#projectsList');
 	let html = undefined
@@ -68,11 +73,8 @@ const renderProjects = (data)=>{
 	else{
 
 	}
-
 	parentDiv.insertAdjacentHTML('beforeend',html);
 	ratingConfig();
-
-
 }
 
 const  renderIndividualProject  = (data)=>{
@@ -83,19 +85,19 @@ const  renderIndividualProject  = (data)=>{
 	ratingConfig();
 };
 
-const open = (id)=>{
-	
+const open = (id,total,average,oneStar,twoStar,threeStar,fourStar,fiveStar)=>{
+
 	$.get('/Profile/Projects/MyProjects/Project/Open',{id,userID},(data,status,xhr)=>{
-		 openDirectory(...data);
+		 openDirectory(...data,{total,average,oneStar,twoStar,threeStar,fourStar,fiveStar});
 	})
 	
 }
 
-const openDirectory = (data)=>{
+const openDirectory = (data,ratings)=>{
 	$('#page-contents').hide('slow');
 	directoryDetails(data);
 	directoryFiles(data.Project,data._id);
-	directoryRatings(data._id);
+	directoryRatings(data._id,ratings);
 	$('#projectFilesSection').hide('fast');
 	$('#projectRatingsSection').hide('fast');
 	$('#projectFiles').click((e)=>{
@@ -139,15 +141,19 @@ const directoryFiles = async (data,id)=>{
 	})	
 
 }
-const directoryRatings = async(id)=>{
-	await renderAverageRating(id);
+const directoryRatings = async(id,ratings)=>{
+	await renderAverageRating(ratings);
 	await getUserRating(id,userID);
 }
 
-const back = (e)=>{
+const back = async(e)=>{
 
 	$('.back').remove();
 	$('#page-contents').show('slow');
+	if(updateProjects){
+		 $('.project').remove();
+		 await getUserProjects();
+	}
 	
 }
 
@@ -263,21 +269,19 @@ const renderVideos = async(data,id)=>{
 	
 }
 
-const renderAverageRating = async(id)=>{
+
+const renderAverageRating = async(ratings)=>{
 	const template = document.querySelector('#avgRating').innerHTML;
 	const parentDiv = document.querySelector('#projectRatingsSection');
-	const html = await Mustache.render(template);
-	await parentDiv.insertAdjacentHTML('beforeend',html);
+	const html = await Mustache.render(template,{ratings});
+	await parentDiv.insertAdjacentHTML('afterbegin',html);
+	await staticRatedConfig();
 }
 
-const getUserRating = async(id,userID)=>{
+const getUserRating = (id,userID)=>{
 	$.get('/Profile/Media/Ratings/MyRating',{id,userID},(data,status,xhr)=>{
-		console.log(data)
-		if(status==='success' && data !==""){
-			 renderUserRating(data.Rating,data.createdAt)
-		}
-		else{
-			renderUserRating(0,undefined,id);
+		if(status==='success'){
+			 renderUserRating(data.Rating,data.createdAt,id)
 		}
 	})
 	
@@ -290,7 +294,7 @@ const renderUserRating = async(value,time,id)=>{
 	const html = await Mustache.render(template,{value,time: time?await moment(time).fromNow():undefined});
 	await parentDiv.insertAdjacentHTML('beforeend',html);
 	await rateConfig();
-	if(value ===0){
+	if(value ===undefined){
 		return await allowRating(id); 
 	}
 	await renderRating();
@@ -310,7 +314,7 @@ const toggleCheck = ()=>{
 		$('#vS').show('fast');
 	}
 }
-const rateConfig = async()=>{
+const rateConfig = ()=>{
 	$('.rate').rating({
 		min: 0, max: 5, step: 0.1, size: "lg", stars: "5",
 		theme:'krajee-fa',
@@ -319,9 +323,17 @@ const rateConfig = async()=>{
 		
 	});
 }
+const staticRatedConfig = ()=>{
+	$(".staticRated").rating({
+		min: 0, max: 5, step: 0.1, size: "md", stars: "5",displayOnly: true,showCaption:false,readonly:true,
+        theme:'krajee-fa',
+		// filledStar:'<i class="icon fa fa-star"></i>',
+        // emptyStar: '<i class="icon fa fa-star"></i>',
+	});
+}
 const ratingConfig= ()=>{
 	$(".rated").rating({
-		min: 0, max: 5, step: 0.1, size: "lg", stars: "5",displayOnly: true,showCaption:false,
+		min: 0, max: 5, step: 0.1, size: "lg", stars: "5",displayOnly: true,readonly:true,
         theme:'krajee-fa',
 		filledStar:'<i class="icon fa fa-star"></i>',
         emptyStar: '<i class="icon fa fa-star"></i>',
@@ -335,13 +347,26 @@ const allowRating = async(id)=>{
 }
 
 const rate = (id,rating)=>{
-	$.post('/Profile/Media/Rate',{rating,id,userID},(data,status,xhr)=>{
+	$.post('/Profile/Media/Rate',{rating,id,userID,type:'Project'},(data,status,xhr)=>{
 		if(status === 'success' && data === true){
+			$('#stats').remove();
+			updateRatingStats(id,userID)
 			renderRating();
 			$('#ratedTime').html(moment(Date.now()).fromNow())
 		}
 
 	});
+}
+
+const updateRatingStats = async(id,userID)=>{
+
+	$.get('/Profile/Media/Ratings/Overall',{id,userID},(data,status,xhr)=>{
+		if(status === 'success' && data !== null){
+		   updateProjects = true;
+		   renderAverageRating(data);
+		}
+	})
+
 }
 
 const renderRating = ()=>{
