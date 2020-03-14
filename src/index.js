@@ -17,6 +17,7 @@ const Hire = require('./models/hire');
 const projectRouter = require('./routes/projects');
 const portfolioRouter = require('./routes/portfolio');
 const ratingRouter = require('./routes/rating');
+const reviewRouter = require('./routes/review');
 const newsfeedRouter = require('./routes/newsfeed');
 require('./db/mongoose');
 
@@ -42,6 +43,7 @@ app.use(hireRouter);
 app.use(projectRouter);
 app.use(portfolioRouter);
 app.use(ratingRouter);
+app.use(reviewRouter);
 app.use(newsfeedRouter);
 app.use(express.json());
 

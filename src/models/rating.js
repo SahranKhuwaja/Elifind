@@ -72,9 +72,9 @@ ratingSchema.statics.getRatings = async(Owner,ReferenceID)=>{
            return parseInt(e);
          }));
         for(var i=0;i<Object.keys(rating).length;i++){
-            rating[`${i}`] = ((rating[`${i}`]/ratings.length) * 100).toPrecision(3) + '%';
+            rating[`${i}`] = rating[`${i}`]? ((rating[`${i}`]/ratings.length) * 100).toPrecision(3) + '%' : '';
         }
-        return {total:ratings.length,average: average.toPrecision(2),rating}
+        return {total:ratings.length,average: average.toFixed(1),rating}
     }
     return {total:0,average:0};
 

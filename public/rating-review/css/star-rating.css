@@ -216,6 +216,73 @@
 .well-sm{
     background:antiquewhite !important;
 }
-/* .rating2 .filled-stars{
-    color: black !important;
-} */
+.card-inner{
+    margin-left: 4rem;
+  }
+.img-r{
+    width: 110px !important;
+    border-radius: 50%;
+}
+.set-date-review{
+    margin-left: 10px;
+}
+.set-reviews-bottom-icons{
+    margin-top: 10px;
+    float: right;
+}
+.btn-bottom-review{
+    border: 1px solid blue;
+    background-color: white;
+}
+.reviews{
+    border: 1px solid #f1f2f2;
+    background-color: azure;
+    padding: 20px 20px 20px 20px;
+    margin-bottom: 10px;
+}
+.review{
+    padding-left: 20px;
+    font-family: open sans,helvetica neue,Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.573;
+  
+}
+.review-textArea{
+    padding:10px 10px 10px 10px;
+    border-radius: 10px;
+  
+}
+.btn-review{
+background-color: white!important;
+color: #6D6E71 !important;
+border-radius: 10px !important;
+border: 1px solid #6D6E71;
+float: right;
+}
+
+.btn-review:hover{
+    color: white !important;
+    background-color: darkblue !important;
+}
+.sc-r{
+    font-weight: bold;
+}
+.set-role-review{
+    float: right;
+    font-weight: bold;
+    border: 1px solid blue;
+    padding: 5px 5px 5px 5px;
+    border-radius: 5px;
+    background-color: darkblue;
+    color: white;
+}
+
+.set-total-reviews-text{
+    font-size: 13px;
+    color: #6d6e71;
+    font-weight: 500;
+    text-transform: lowercase;
+}
+
+
+

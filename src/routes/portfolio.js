@@ -61,7 +61,6 @@ router.get('/Profile/Portfolios',auth,role,async(req,res)=>{
 router.post('/Profile/Portfolio/Create',auth,async(req,res)=>{
  
    try{
-
      const createPortfolio = await Portfolio.createPortfolio(req.user._id,req.body);
      if(Object.entries(createPortfolio).length === 0){
 
@@ -73,45 +72,31 @@ router.post('/Profile/Portfolio/Create',auth,async(req,res)=>{
    }catch(e){
     console.log(e);
    }
- 
-
 
 });
 
 router.get('/Profile/Portfolios/MyPortfolios/Get',auth,async(req,res)=>{
 
-  let portfolios = undefined;
-  if(!req.query.userID){
-      portfolios = await Portfolio.findOne({Owner:req.user._id},{'Portfolios.Title':-1,'Portfolios._id':-1,'Portfolios.createdAt':-1});
+  let user = req.user._id;
+  if(req.query.userID){
+      user = req.query.userID
   }
-  else{
-      portfolios = await Portfolio.findOne({Owner:req.query.userID},{'Portfolios.Title':1,'Portfolios._id':1,'Portfolios.createdAt':1});
-  }
- 
+  const portfolios = await Portfolio.findOne({Owner:user},{'Portfolios.Title':1,'Portfolios._id':1,'Portfolios.createdAt':1});
   if(portfolios === null){
       return res.send(null);
   }
-  
   res.send(portfolios);
-
-
-
 })
 
 router.get('/Profile/Portfolios/MyPortfolios/Portfolio/Open',auth,async(req,res)=>{
 
-  let portfolioData = undefined;
-  if(!req.query.userID){
-      
-      portfolioData = await Portfolio.findOne({Owner:req.user._id,'Portfolios._id':req.query.id},{'Portfolios.$':1});
+  let user = req.user._id;
+  if(req.query.userID){
+      user = req.query.userID
   }
-  else{
-      
-      portfolioData = await Portfolio.findOne({Owner:req.query.userID,'Portfolios._id':req.query.id},{'Portfolios.$':1});
-  }
+ const portfolioData = await Portfolio.findOne({Owner:user,'Portfolios._id':req.query.id},{'Portfolios.$':1});
   await portfolioData.Portfolios[0].Projects.filter(e=>e.Project = undefined);
   res.send(portfolioData.Portfolios[0]);
-    
 })
 
 router.post('/Profile/Portfolios/Projects/Create',auth,async(req,res)=>{
@@ -130,15 +115,11 @@ router.post('/Profile/Portfolios/Projects/Create',auth,async(req,res)=>{
 })
 
 router.get('/Profile/Portfolios/MyPortfolios/Project/Open',auth,async(req,res)=>{
-  let projectData = undefined;
-    if(!req.query.userID){
-        
-        projectData = await Portfolio.findOne({Owner:req.user._id,'Portfolios._id':req.query.portfolioID,'Portfolios.Projects._id':req.query.id},{'Portfolios.Projects.$._id':1});
-    }
-    else{
-        
-        projectData = await Portfolio.findOne({Owner:req.query.userID,'Portfolios._id':req.query.portfolioID,'Portfolios.Projects._id':req.query.id},{'Portfolios.Projects.$._id':1});
-    }
+  let user = req.user._id;
+  if(req.query.userID){
+        user = req.query.userID;
+  }
+  let projectData = await Portfolio.findOne({Owner:user,'Portfolios._id':req.query.portfolioID,'Portfolios.Projects._id':req.query.id},{'Portfolios.Projects.$._id':1}); 
   projectData = await {Projects:projectData.Portfolios[0].Projects.filter(e=>e._id.toString() === req.query.id).toObject()};
     res.send(await projectData.Projects.filter(async(data)=>{
            await data.Project.Images.reverse().filter(async(e)=>{
@@ -192,10 +173,6 @@ router.post('/Profile/Portfolios/Projects/Videos/Upload',auth,uploadV.any('file'
 }
 
 })
-
-
-
-
 
 
 module.exports = router;

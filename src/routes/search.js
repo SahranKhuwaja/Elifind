@@ -432,11 +432,11 @@ router.get('/Profile/View/:id/Projects',auth,async(req,res)=>{
 
   if(req.user.Role ==='Company'){
     await req.user.populate('company').execPopulate();
-    loggedInUser = await {CompanyName:req.user.company[0].CompanyName,_id:req.user._id} 
+    loggedInUser = await {CompanyName:req.user.company[0].CompanyName,_id:req.user._id,Role:req.user.Role} 
   }
   else{
 
-   loggedInUser = await {FirstName:req.user.FirstName,LastName:req.user.LastName,_id:req.user._id}
+   loggedInUser = await {FirstName:req.user.FirstName,LastName:req.user.LastName,_id:req.user._id,Role:req.user.Role}
    
   }
   res.render('projects',{data,image,Pimage,loggedInUser,created:moment(userData.createdAt).fromNow(),updated:moment(userData.updatedAt).fromNow(),age:age });

@@ -81,50 +81,36 @@ router.post('/Profile/Projects/Create',auth,async(req,res)=>{
 
 router.get('/Profile/Projects/MyProjects/Get',auth,async(req,res)=>{
 
-    let projects = undefined;
-    if(!req.query.userID){
-        projects = await Project.findOne({Owner:req.user._id},{'Projects.Title':1,'Projects._id':1,'Projects.createdAt':1});
+    let user = req.user._id
+    if(req.query.userID){
+        user = req.query.userID
     }
-    else{
-        projects = await Project.findOne({Owner:req.query.userID},{'Projects.Title':1,'Projects._id':1,'Projects.createdAt':1});
-    }
-
+    const projects = await Project.findOne({Owner:user},{'Projects.Title':1,'Projects._id':1,'Projects.createdAt':1});
     if(projects === null){
         return res.send({});
     }
     res.send(projects)
-
-
-
 })
 
 router.get('/Profile/Projects/MyProjects/Project/Open',auth,async(req,res)=>{
 
-    let projectData = undefined;
-    if(!req.query.userID){
-        
-        projectData = await Project.findOne({Owner:req.user._id,'Projects._id':req.query.id},{'Projects.$':1});
+    let user = req.user._id;
+    if(req.query.userID){
+        user = req.query.userID
     }
-    else{
-        
-        projectData = await Project.findOne({Owner:req.query.userID,'Projects._id':req.query.id},{'Projects.$':1});
-    }
-   projectData = await {...projectData.toObject()}
+    let projectData = await Project.findOne({Owner:user,'Projects._id':req.query.id},{'Projects.$':1});
+    projectData = await {...projectData.toObject()}
+
     res.send(await projectData.Projects.filter(async(data)=>{
            await data.Project.Images.reverse().filter(async(e)=>{
                return await Buffer.from(e.image).toString('base64');
            })
            await data.Project.Videos.reverse().filter(async(e)=>{
                return await Buffer.from(e.video).toString('base64');
-        })
-       
-        
-          
+        })     
     })
     );
-      
 })
-
 
 router.post('/Profile/Projects/Album/Upload',auth,upload.any('file'),async(req,res)=>{
 
