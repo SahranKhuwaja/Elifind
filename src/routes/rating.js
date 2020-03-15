@@ -9,19 +9,13 @@ router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
 router.post('/Profile/Media/Rate', auth, ratingCheck, async (req, res) => {
-    let user = req.user._id;
-    if(req.body.userID) {
-        user = req.body.userID
-    }
+    const user = req.body.userID ? req.body.userID : req.user._id;
     const rate = await Rating.rate(user, req.body.id, req.user._id, req.body.rating, req.body.type);
     res.send(rate);
 })
 
 router.get('/Profile/Media/Ratings/MyRating', auth, async (req, res) => {
-    let user = req.user._id;
-    if(req.query.userID) {
-        user = req.query.userID;
-    }
+    const user = req.query.userID ? req.query.userID : req.user._id;
     const rate = await Rating.findOne({Owner:user, 'Ratings.ReferenceID': req.query.id }, { 'Ratings.$': 1 });
     if (rate) {
         return res.send(...await rate.Ratings[0].Rating.filter(e => e.RatedBy.equals(req.user._id)));
@@ -30,21 +24,17 @@ router.get('/Profile/Media/Ratings/MyRating', auth, async (req, res) => {
 })
 router.get('/Profile/Media/Ratings', auth, async (req, res) => {
 
-    let user = req.user._id
-    if (req.query.userID) {
-        user = req.query.userID
+    const user = req.query.userID ? req.query.userID : req.user._id;
+    let data = req.query.projects?req.query.projects.Projects:req.query.portfolios.Portfolios;
+
+    for (var i = 0; i < data.length; i++) {
+        data[i].Ratings = await Rating.getRatings(user, data[i]._id)
     }
-    for (var i = 0; i < req.query.projects.Projects.length; i++) {
-        req.query.projects.Projects[i].Ratings = await Rating.getRatings(user, req.query.projects.Projects[i]._id)
-    }
-    res.send(req.query.projects);
+    res.send(req.query.projects?req.query.projects:req.query.portfolios);
 })
 
 router.get('/Profile/Media/Ratings/Overall', auth, async (req, res) => {
-    let user = req.user._id
-    if (req.query.userID) {
-        user = req.query.userID;
-    }
+    const user = req.query.userID ? req.query.userID : req.user._id;
     let rating = await Rating.getRatings(user, req.query.id);
     rating.oneStar = rating.rating['1']
     rating.twoStar = rating.rating['2']

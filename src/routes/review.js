@@ -9,20 +9,14 @@ router.use(express.json());
 router.use(express.urlencoded( {extended: true}));
 
 router.post('/Profile/Media/Review',auth,reviewCheck,async(req,res)=>{
-    let user = req.user._id;
-    if(req.body.userID){
-        user = req.body.userID
-    }
+    const user = req.body.userID ? req.body.userID : req.user._id;
     const review = await Review.review(user,req.body.id,req.user._id,req.body.review,req.body.type);
     res.send(review);
 })
 
 router.get('/Profile/Media/Reviews',auth,async(req,res)=>{
    try{
-      let user = req.user._id;
-      if(req.query.userID){
-        user = req.query.userID;
-      }
+      const user = req.query.userID ? req.query.userID : req.user._id;
       let reviews = await Review.findOne({Owner:user,'Reviews.ReferenceID':req.query.id},{'Reviews.$':1});
       if(reviews !==null){
           let reviewArray = [];

@@ -81,10 +81,7 @@ router.post('/Profile/Projects/Create',auth,async(req,res)=>{
 
 router.get('/Profile/Projects/MyProjects/Get',auth,async(req,res)=>{
 
-    let user = req.user._id
-    if(req.query.userID){
-        user = req.query.userID
-    }
+    const user = req.query.userID ? req.query.userID : req.user._id;
     const projects = await Project.findOne({Owner:user},{'Projects.Title':1,'Projects._id':1,'Projects.createdAt':1});
     if(projects === null){
         return res.send({});
@@ -94,10 +91,7 @@ router.get('/Profile/Projects/MyProjects/Get',auth,async(req,res)=>{
 
 router.get('/Profile/Projects/MyProjects/Project/Open',auth,async(req,res)=>{
 
-    let user = req.user._id;
-    if(req.query.userID){
-        user = req.query.userID
-    }
+    const user = req.query.userID ? req.query.userID : req.user._id;
     let projectData = await Project.findOne({Owner:user,'Projects._id':req.query.id},{'Projects.$':1});
     projectData = await {...projectData.toObject()}
 

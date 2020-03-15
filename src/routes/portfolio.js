@@ -77,10 +77,7 @@ router.post('/Profile/Portfolio/Create',auth,async(req,res)=>{
 
 router.get('/Profile/Portfolios/MyPortfolios/Get',auth,async(req,res)=>{
 
-  let user = req.user._id;
-  if(req.query.userID){
-      user = req.query.userID
-  }
+  const user = req.query.userID ? req.query.userID : req.user._id;
   const portfolios = await Portfolio.findOne({Owner:user},{'Portfolios.Title':1,'Portfolios._id':1,'Portfolios.createdAt':1});
   if(portfolios === null){
       return res.send(null);
@@ -90,11 +87,8 @@ router.get('/Profile/Portfolios/MyPortfolios/Get',auth,async(req,res)=>{
 
 router.get('/Profile/Portfolios/MyPortfolios/Portfolio/Open',auth,async(req,res)=>{
 
-  let user = req.user._id;
-  if(req.query.userID){
-      user = req.query.userID
-  }
- const portfolioData = await Portfolio.findOne({Owner:user,'Portfolios._id':req.query.id},{'Portfolios.$':1});
+  const user = req.query.userID ? req.query.userID : req.user._id;
+  const portfolioData = await Portfolio.findOne({Owner:user,'Portfolios._id':req.query.id},{'Portfolios.$':1});
   await portfolioData.Portfolios[0].Projects.filter(e=>e.Project = undefined);
   res.send(portfolioData.Portfolios[0]);
 })
@@ -115,13 +109,11 @@ router.post('/Profile/Portfolios/Projects/Create',auth,async(req,res)=>{
 })
 
 router.get('/Profile/Portfolios/MyPortfolios/Project/Open',auth,async(req,res)=>{
-  let user = req.user._id;
-  if(req.query.userID){
-        user = req.query.userID;
-  }
+
+  const user = req.query.userID ? req.query.userID : req.user._id;
   let projectData = await Portfolio.findOne({Owner:user,'Portfolios._id':req.query.portfolioID,'Portfolios.Projects._id':req.query.id},{'Portfolios.Projects.$._id':1}); 
   projectData = await {Projects:projectData.Portfolios[0].Projects.filter(e=>e._id.toString() === req.query.id).toObject()};
-    res.send(await projectData.Projects.filter(async(data)=>{
+  res.send(await projectData.Projects.filter(async(data)=>{
            await data.Project.Images.reverse().filter(async(e)=>{
                return await Buffer.from(e.image).toString('base64');
            })
@@ -130,7 +122,7 @@ router.get('/Profile/Portfolios/MyPortfolios/Project/Open',auth,async(req,res)=>
         })
       
     })
-    );
+  );
       
 });
 

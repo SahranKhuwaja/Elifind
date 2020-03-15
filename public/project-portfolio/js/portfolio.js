@@ -40,42 +40,45 @@ const createPortfolio = ()=>{
 
 const url = window.location.pathname;  
 const userID = url.split('/')[3];
+let updatePortfolio = false;
 
 const getUserPortfolios = ()=>{
 	
 	$.get('/Profile/Portfolios/MyPortfolios/Get',{userID},(data,status,xhr)=>{
-		renderPortfolios(data);
+		getPortfolioRatings(data);
 	})
 	
 }
+const getPortfolioRatings = (portfolioInfo) => {
+	$.get('/Profile/Media/Ratings', { portfolios: portfolioInfo, userID }, (data, status, xhr) => {
+		renderPortfolios(data);
+	})
+}
 
 const renderPortfolios = (data)=>{
-
 	const template = document.querySelector('#portfolio-thumbnail').innerHTML;
 	const parentDiv = document.querySelector('#portfoliosList');
     let html = undefined;
-	if(!Object.entries(data).length!==0){
+	if(Object.entries(data).length!==0){
 	html = Mustache.render(template,{Portfolios:data.Portfolios.reverse()})
 	}
-	else{
-
-	}
 	parentDiv.insertAdjacentHTML('beforeend',html)
-
+    ratingConfig();
 
 }
 
  const  renderIndividualPortfolio  = (data)=>{
 	const template = document.querySelector('#portfolio-thumbnail').innerHTML;
 	const parentDiv = document.querySelector('#portfoliosList');
-	const html = Mustache.render(template,{Portfolios:data})
-	parentDiv.insertAdjacentHTML('beforebegin',html)
+	const html = Mustache.render(template,{Portfolios:data});
+	parentDiv.insertAdjacentHTML('beforebegin',html);
+	ratingConfig()
 };
 
-const openPortfolio = (id)=>{
+const openPortfolio = (id,total, average, oneStar, twoStar, threeStar, fourStar, fiveStar)=>{
 
     $.get('/Profile/Portfolios/MyPortfolios/Portfolio/Open',{id,userID},(data,status,xhr)=>{
-	   openPortfolioDirectory(data);
+	   openPortfolioDirectory(data,{total, average, oneStar, twoStar, threeStar, fourStar, fiveStar});
 	   portfolioID = id;
 	   portfolioName = data.Title
         
@@ -83,11 +86,13 @@ const openPortfolio = (id)=>{
    })
 }
  
-const openPortfolioDirectory = (data)=>{
+const openPortfolioDirectory = (data,ratings)=>{
 	$('#page-contents').hide('slow');
 	portfolioDirectoryDetails(data);
-    portfolioDirectoryFiles(data.Projects,data._id);
+	portfolioDirectoryFiles(data.Projects,data._id);
+	portfolioDirectoryRatings(data._id, ratings);
 	$('#portfolioFilesSection').hide('fast');
+	$('#portfolioRatingsSection').hide('fast');
 	$('#portfolioFiles').click((e)=>{
 		e.preventDefault();
 		toggleToPortfolioFiles();
@@ -95,6 +100,10 @@ const openPortfolioDirectory = (data)=>{
 	$('#portfolioDetails').click((e)=>{
 	   e.preventDefault();
 	   toggleToPortfolioDetails();
+	})
+	$('#portfolioRatings').click((e) => {
+		e.preventDefault();
+		toggleToPortfolioRating();
 	})
 }
 const portfolioDirectoryDetails = (data)=>{
@@ -107,13 +116,27 @@ const portfolioDirectoryDetails = (data)=>{
 	
 }
 
+const portfolioDirectoryFiles = (data,id)=>{
+	renderPortfolioProjects(data,id);
+}
+
+const portfolioDirectoryRatings = async (id, ratings) => {
+   await renderAverageRating(ratings);
+   await getUserRating(id, userID);
+   await getReviews(id);
+}
+
+
 const toggleToPortfolioFiles = ()=>{
 
 	$('#portDetails').removeClass('active');
 	$('#portD').removeClass('active');
+	$('#portRatings').removeClass('active');
+	$('#portR').removeClass('active');
 	$('#portFiles').addClass('active');
 	$('#portF').addClass('active');
 	$('#portfolioDetailsSection').hide('slow');
+	$('#portfolioRatingsSection').hide('slow');
 	$('#portfolioFilesSection').show('slow');
 	
 }
@@ -122,18 +145,37 @@ const toggleToPortfolioDetails = ()=>{
 
 	$('#portFiles').removeClass('active');
 	$('#portF').removeClass('active');
+	$('#portRatings').removeClass('active');
+	$('#portR').removeClass('active');
 	$('#portDetails').addClass('active');
 	$('#portD').addClass('active');
 	$('#portfolioFilesSection').hide('slow');
+	$('#portfolioRatingsSection').hide('slow');
 	$('#portfolioDetailsSection').show('slow');
 
 }
+const toggleToPortfolioRating = () => {
+	$('#portDetails').removeClass('active');
+	$('#portD').removeClass('active');
+	$('#portFiles').removeClass('active');
+	$('#portF').removeClass('active');
+	$('#portRatings').addClass('active');
+	$('#portR').addClass('active');
+	$('#portfolioDetailsSection').hide('slow');
+	$('#portfolioFilesSection').hide('slow');
+	$('#portfolioRatingsSection').show('slow');
 
-const backToPortfolios = (e)=>{
+}
+
+const backToPortfolios = async(e)=>{
 
 	$('.backToPortfolios').remove();
 	$('.backToProjects').remove();
 	$('#page-contents').show('slow');
+	if (updatePortfolio) {
+		$('.portfolio').remove();
+		await getUserPortfolios();
+	}
 	
 }
 
@@ -144,10 +186,6 @@ $('#proCreate').click(()=>{
 	   $('#proCreate').attr('data-dismiss','modal')
 	}
 })
-
-const portfolioDirectoryFiles = (data,id)=>{
-     renderPortfolioProjects(data,id);
-}
 
 const createProject = ()=>{
 
@@ -363,3 +401,161 @@ const backToProjects = ()=>{
 	$('.backToProjects').remove();
 	$('.backToPortfolios').show('slow')
 }
+
+const renderAverageRating = async (ratings) => {
+	const template = document.querySelector('#avgRating').innerHTML;
+	const parentDiv = document.querySelector('#portfolioRatingsSection');
+	const html = await Mustache.render(template, { ratings });
+	await parentDiv.insertAdjacentHTML('afterbegin', html);
+	await staticRatedConfig();
+}
+
+const getUserRating = (id, userID) => {
+	$.get('/Profile/Media/Ratings/MyRating', { id, userID }, (data, status, xhr) => {
+		if (status === 'success') {
+			renderUserRating(data.Rating, data.createdAt, id)
+		}
+	})
+
+}
+
+const renderUserRating = async (value, time, id) => {
+
+	const template = document.querySelector('#userRating').innerHTML;
+	const parentDiv = document.querySelector('#portfolioRatingsSection');
+	const html = await Mustache.render(template, { value, time: time ? await moment(time).fromNow() : undefined });
+	await parentDiv.insertAdjacentHTML('beforeend', html);
+	await rateConfig();
+	if (value === undefined) {
+		return await allowRating(id);
+	}
+	await renderRating();
+}
+
+const rateConfig = () => {
+	$('.rate').rating({
+		min: 0, max: 5, step: 0.1, size: "lg", stars: "5",
+		theme: 'krajee-fa',
+		filledStar: '<i class="icon fa fa-star"></i>',
+		emptyStar: '<i class="icon fa fa-star"></i>',
+
+	});
+}
+const getReviews = (id) => {
+
+	$.get('/Profile/Media/Reviews',{id,userID},(data,status,xhr)=>{
+
+		if(status==='success'){
+
+			renderReviews(id,data);
+		}
+		
+	})
+
+	
+
+}
+const renderReviews = async (id,data) => {
+	const template = document.querySelector('#userReviews').innerHTML;
+	const parentDiv = document.querySelector('#portfolioRatingsSection');
+	let reviewed = data.length===0?"":data.filter(e=>e.reviewed===true)
+	setTimeout(async () => {
+		const html = await Mustache.render(template,{rating:$('.rate').val(),data,total:data.length,reviewed:reviewed.length!==0?true:false});
+		await parentDiv.insertAdjacentHTML('beforeend', html);
+		await staticRatedForReviewConfig();
+		await setListenerForReview(id)
+	}, 700);
+}
+
+const staticRatedConfig = () => {
+	$(".staticRated").rating({
+		min: 0, max: 5, step: 0.1, size: "md", stars: "5", displayOnly: true, showCaption: false, readonly: true,
+		theme: 'krajee-fa',
+		// filledStar:'<i class="icon fa fa-star"></i>',
+		// emptyStar: '<i class="icon fa fa-star"></i>',
+	});
+}
+const ratingConfig = () => {
+	$(".rated").rating({
+		min: 0, max: 5, step: 0.1, size: "lg", stars: "5", displayOnly: true, readonly: true,
+		theme: 'krajee-fa',
+		filledStar: '<i class="icon fa fa-star"></i>',
+		emptyStar: '<i class="icon fa fa-star"></i>',
+	});
+}
+
+const staticRatedForReviewConfig = () => {
+	$('.ratedForReview').rating({
+		min: 0, max: 5, step: 0.1, size: "sm", stars: "5", displayOnly: true, readonly: true, showCaption: false,
+		theme: 'krajee-fa',
+		filledStar: '<i class="icon fa fa-star"></i>',
+		emptyStar: '<i class="icon fa fa-star"></i>',
+	});
+}
+const allowRating = async (id) => {
+	$('.rate').rating().change(async (e) => {
+		await rate(id, e.target.value);
+	})
+}
+
+const rate = (id, rating) => {
+	$.post('/Profile/Media/Rate', { rating, id, userID, type: 'Portfolio' }, (data, status, xhr) => {
+		if (status === 'success' && data === true) {
+			$('#stats').remove();
+			updateRatingStats(id, userID)
+			renderRating(rating);
+			$('#ratedTime').html(moment(Date.now()).fromNow())
+		}
+
+	});
+}
+const updateRatingStats = async (id, userID) => {
+
+	$.get('/Profile/Media/Ratings/Overall', { id, userID }, (data, status, xhr) => {
+		if (status === 'success' && data !== null) {
+			updatePortfolio = true;
+			renderAverageRating(data);
+		}
+	})
+
+}
+
+const renderRating = (rating) => {
+
+	$('.rate').rating('refresh', { disabled: true, readonly: true, displayOnly: true, showClear: true });
+	if($('#myCommentArea').length !==0){
+		$('#myRating').rating('update',rating)
+	}
+    
+
+}
+
+
+const setListenerForReview = (id) => {
+	$('#btnReview').click(() => {
+		review(id);
+	})
+}
+
+const review = async (id) => {
+    const review = $('#comment').val();
+	$.post('/Profile/Media/Review', { review, id, userID, type: 'Portfolio' }, (data, status, xhr) => {
+
+		if (status === 'success' && data === true) {
+			$('#myCommentArea').remove()
+			renderSuccessMessage(review)
+		}
+
+	});
+}
+
+const renderSuccessMessage = async(comment)=>{
+	const template = document.querySelector('#successReviewed').innerHTML;
+	const parentDiv = document.querySelector('#portfolioRatingsSection');
+	const html = await Mustache.render(template,{comment,time:await moment(Date.now()).fromNow(),rating:$('.rate').val()});
+	await parentDiv.insertAdjacentHTML('beforeend', html);
+	await staticRatedForReviewConfig();
+	$('#total-reviews').html(parseInt($('#total-reviews').html()) + 1);
+	
+}
+

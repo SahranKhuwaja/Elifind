@@ -66,11 +66,8 @@ const renderProjects = (data) => {
 	const template = document.querySelector('#project-thumbnail').innerHTML;
 	const parentDiv = document.querySelector('#projectsList');
 	let html = undefined
-	if (!Object.entries(data).length !== 0) {
+	if (Object.entries(data).length !== 0) {
 		html = Mustache.render(template, { Projects: data.Projects.reverse() })
-	}
-	else {
-
 	}
 	parentDiv.insertAdjacentHTML('beforeend', html);
 	ratingConfig();

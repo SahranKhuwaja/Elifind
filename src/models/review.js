@@ -19,6 +19,10 @@ const reviewSchema = new mongoose.Schema({
             type:mongoose.Schema.Types.ObjectId,
             required:true,
         },
+        Type:{
+            type:String,
+            required:true
+        },
         Review:[{
            ReviewedBy:{
               type:mongoose.Schema.Types.ObjectId,
