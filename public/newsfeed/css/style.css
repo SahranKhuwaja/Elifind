@@ -1,0 +1,56 @@
+
+.carousel .newsfeed-image{
+    width: 100% !important;
+    height: 630px !important;
+    border-radius: 5px;
+}
+
+.post-text{
+    margin-top: 70px !important;
+}
+
+.about-line-set{
+    padding-left: 10px !important;
+    margin-top: 80px;
+}
+.ico-set{
+    font-size: 40px !important;
+}
+
+.text-yellow{
+    color: chartreuse;
+}
+
+.set-reaction{
+    margin-left: 0px !important;
+}
+
+.text-green, .text-red, .text-yellow{
+    padding-bottom: 0px !important;
+    margin-bottom: 0px !important;
+    margin-top: 10px !important;
+
+} 
+
+.left-arrow{
+    float: left;
+    margin-left: 10px;
+    
+    
+}
+
+.right-arrow{
+    float: right;
+    margin-right: 10px;
+   
+}
+
+.set-indicators{
+    position: relative;
+    margin-top: -345px;
+    font-size: 60px !important;
+    color: azure;
+}
+.media .media-grid img.post-image, video{
+    width: 100% !important;
+}

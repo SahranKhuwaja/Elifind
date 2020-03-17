@@ -68,9 +68,10 @@ const renderProjects = (data) => {
 	let html = undefined
 	if (Object.entries(data).length !== 0) {
 		html = Mustache.render(template, { Projects: data.Projects.reverse() })
+		parentDiv.insertAdjacentHTML('beforeend', html);
+	    ratingConfig();
 	}
-	parentDiv.insertAdjacentHTML('beforeend', html);
-	ratingConfig();
+	
 }
 
 const renderIndividualProject = (data) => {

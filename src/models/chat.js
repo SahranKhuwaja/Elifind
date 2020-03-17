@@ -44,7 +44,7 @@ const chatSchema = new mongoose.Schema({
         Date:{
             type:Date,
             required:true,
-            default:new Date()
+            default:Date.now
         },
         Type:{
             type:Object,

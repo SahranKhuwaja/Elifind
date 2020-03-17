@@ -63,7 +63,7 @@ const portfolioSchema = new mongoose.Schema({
                 },
                 createdAt:{
                   type:Date,
-                  default:Date.now()
+                  default:Date.now
                 }
             }],
             Videos:[{
@@ -72,30 +72,30 @@ const portfolioSchema = new mongoose.Schema({
                   required:true
                 },
                 createdAt:{
-                    type:Date,
-                    default:Date.now()
+                  type:Date,
+                  default:Date.now
                 }
             }],
            
         },
         createdAt:{
             type:Date,
-            default:Date.now()
+            default:Date.now
         
         },
         updatedAt:{
-            default:Date.now(),
-            type:Date
+            type:Date,
+            default:Date.now
         }
     }],
     createdAt:{
         type:Date,
-        default:Date.now()
+        default:Date.now
     
     },
     updatedAt:{
-        default:Date.now(),
-        type:Date
+        type:Date,
+        default:Date.now
     }
 }]
 });

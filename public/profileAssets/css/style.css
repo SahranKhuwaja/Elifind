@@ -1212,7 +1212,6 @@ ul.online-users li span.online-dot{
 }
 
 .post-content .post-container .post-detail .reaction{
-  position: absolute;
   right: 0;
   top: 0;
 }

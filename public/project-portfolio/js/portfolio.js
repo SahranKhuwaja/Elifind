@@ -61,9 +61,10 @@ const renderPortfolios = (data)=>{
     let html = undefined;
 	if(Object.entries(data).length!==0){
 	html = Mustache.render(template,{Portfolios:data.Portfolios.reverse()})
-	}
 	parentDiv.insertAdjacentHTML('beforeend',html)
     ratingConfig();
+	}
+	
 
 }
 

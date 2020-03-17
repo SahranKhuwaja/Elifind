@@ -25,12 +25,12 @@ router.get('/Profile/Media/Ratings/MyRating', auth, async (req, res) => {
 router.get('/Profile/Media/Ratings', auth, async (req, res) => {
 
     const user = req.query.userID ? req.query.userID : req.user._id;
-    let data = req.query.projects?req.query.projects.Projects:req.query.portfolios.Portfolios;
+    let data = req.query.projects?req.query.projects.Projects:req.query.portfolios?req.query.portfolios.Portfolios:"";
 
     for (var i = 0; i < data.length; i++) {
         data[i].Ratings = await Rating.getRatings(user, data[i]._id)
     }
-    res.send(req.query.projects?req.query.projects:req.query.portfolios);
+    res.send(req.query.projects?req.query.projects:req.query.portfolios?req.query.portfolios:undefined);
 })
 
 router.get('/Profile/Media/Ratings/Overall', auth, async (req, res) => {
