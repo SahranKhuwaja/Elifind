@@ -452,7 +452,8 @@
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <script src="/dropzone/js/dropzone.js"></script>
 <script src="/rating-review/js/star-rating.js"></script>
-
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="/notification/js/notify.js"></script>
 <script id="portfolio-thumbnail" type="text/x-handlebars-template">
          \{{#Portfolios}}
           <div class="col-md-4 portfolio">
@@ -1149,8 +1150,12 @@
 	    <div class="card-body">
 	        <div class="row">
         	    <div class="col-md-2">
+        	        \{{#Dp}}
         	        <img src="data:image/png;base64, \{{Dp}}" class="img img-rounded img-fluid img-r"/>
-        	      
+                  \{{/Dp}}
+        	        \{{^Dp}}
+                   <img src="/profileAssets/images/male.jpg" class="img img-rounded img-fluid img-r"/>
+                  \{{/Dp}}
         	    </div>
         	    <div class="col-md-10">
         	        <p class="review">
@@ -1182,8 +1187,11 @@
 	    <div class="card-body">
 	        <div class="row">
         	    <div class="col-md-2">
-        	        <img src="data:image/png;base64, {{Pimage}}" class="img img-rounded img-fluid img-r"/>
-        	      
+        	       {{#if Pimage}}
+        	           <img src="data:image/png;base64, {{Pimage}}" class="img img-rounded img-fluid img-r"/>
+                  {{else}}
+                     <img src="/profileAssets/images/male.jpg" class="img img-rounded img-fluid img-r"/>
+                  {{/if}}
         	    </div>
         	    <div class="col-md-10">
         	        <p class="review">

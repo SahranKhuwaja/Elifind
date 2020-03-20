@@ -77,6 +77,7 @@ const projectSchema = new mongoose.Schema({
 projectSchema.statics.createProject = async(id,data)=>{
 
     try{
+
        let createProject = await Project.findOne({Owner:id});
        if(!createProject){
            createProject = new Project({Owner:id})

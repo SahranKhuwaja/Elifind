@@ -1,5 +1,8 @@
 
-     $("#dp").click(function(){
+
+$("#dp").click(function(){
     $("#uploadImage").trigger('click');
 });
+
+
  

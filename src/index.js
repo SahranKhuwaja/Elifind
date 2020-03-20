@@ -8,17 +8,18 @@ const inomashRouter = require('./routes/inomash');
 const searchRouter = require('./routes/search');
 const companyRouter = require('./routes/company');
 const hireRouter = require('./routes/hire');
+const projectRouter = require('./routes/projects');
+const portfolioRouter = require('./routes/portfolio');
+const ratingRouter = require('./routes/rating');
+const reviewRouter = require('./routes/review');
+const newsfeedRouter = require('./routes/newsfeed');
 const flash = require('connect-flash');
 const http = require('http');
 const socketio = require('socket.io');
 const Chat = require('./models/chat');
 const Filter = require('bad-words');
 const Hire = require('./models/hire');
-const projectRouter = require('./routes/projects');
-const portfolioRouter = require('./routes/portfolio');
-const ratingRouter = require('./routes/rating');
-const reviewRouter = require('./routes/review');
-const newsfeedRouter = require('./routes/newsfeed');
+const Notification = require('./models/notification');
 require('./db/mongoose');
 
 
@@ -47,7 +48,7 @@ app.use(reviewRouter);
 app.use(newsfeedRouter);
 app.use(express.json());
 
-users = {};
+let users = {};
 let clients = 0;
 
 io.on('connection',(socket)=>{
@@ -79,6 +80,7 @@ const message = await Chat.messages(mData.message,socket.userID,mData.to)
 if(!users[mData.to]){
     return io.to(users[socket.userID].id).emit('displayMessage',message);
 }
+
 io.to(users[mData.to].id).emit('displayMessage',message);
 io.to(users[socket.userID].id).emit('displayMessage',message);
 
@@ -149,7 +151,18 @@ socket.on('Offer', SendOffer)
 socket.on('Answer', SendAnswer)
 socket.on('disconnect', Disconnect)
 
-
+socket.on('notification',async(data)=>{
+    
+    const notification = await Notification.createNotification(data.userID,data.myID,data.notificationText,data.notificationAbout,
+        data.mediaName);
+    const nData = await Notification.getOwnerDetails(notification);
+    if(users[data.userID]){
+        if(data.welcome){
+            return io.to(users[data.userID].id).emit('notifyWelcome',nData);
+        }
+        io.to(users[data.userID].id).emit('notify',nData);
+    }
+})
 
 });
 

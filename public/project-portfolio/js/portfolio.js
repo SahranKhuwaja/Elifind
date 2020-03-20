@@ -1,5 +1,3 @@
-let portfolioID;
-let portfolioName;
 $('#create').click(()=>{
 	
 	if($('#msform').validate().form()){
@@ -41,7 +39,9 @@ const createPortfolio = ()=>{
 const url = window.location.pathname;  
 const userID = url.split('/')[3];
 let updatePortfolio = false;
-
+const myID = document.querySelector('#clogged').innerHTML.trim();
+let portfolioID = undefined;
+let portfolioTitle = undefined;
 const getUserPortfolios = ()=>{
 	
 	$.get('/Profile/Portfolios/MyPortfolios/Get',{userID},(data,status,xhr)=>{
@@ -81,7 +81,7 @@ const openPortfolio = (id,total, average, oneStar, twoStar, threeStar, fourStar,
     $.get('/Profile/Portfolios/MyPortfolios/Portfolio/Open',{id,userID},(data,status,xhr)=>{
 	   openPortfolioDirectory(data,{total, average, oneStar, twoStar, threeStar, fourStar, fiveStar});
 	   portfolioID = id;
-	   portfolioName = data.Title
+	   portfolioTitle = data.Title
         
         
    })
@@ -269,9 +269,9 @@ const projectDirectoryDetails = (data)=>{
 	const parentDiv = document.querySelector('#timeline');
 	let Project = {...data};
 	delete Project.Project
-	const html = Mustache.render(template,{Project:data,createdAt:moment(data.createdAt).fromNow(),portfolioName,updatedAt:moment(data.updatedAt).fromNow()})
+	const html = Mustache.render(template,{Project:data,createdAt:moment(data.createdAt).fromNow(),portfolioTitle,updatedAt:moment(data.updatedAt).fromNow()})
 	parentDiv.insertAdjacentHTML('beforeend',html);
-	
+	portfolioTitle = data.Title;
 }
 
 const projectDirectoryFiles = async(data,id)=>{
@@ -506,6 +506,9 @@ const rate = (id, rating) => {
 			updateRatingStats(id, userID)
 			renderRating(rating);
 			$('#ratedTime').html(moment(Date.now()).fromNow())
+			if(userID){
+				socket.emit('notification',{myID,userID,notificationText:'recently rated on your',notificationAbout:'portfolio',mediaName:portfolioTitle})
+			 }
 		}
 
 	});
@@ -557,6 +560,8 @@ const renderSuccessMessage = async(comment)=>{
 	await parentDiv.insertAdjacentHTML('beforeend', html);
 	await staticRatedForReviewConfig();
 	$('#total-reviews').html(parseInt($('#total-reviews').html()) + 1);
-	
+	if(userID){
+		socket.emit('notification',{myID,userID,notificationText:'just reviewed on your',notificationAbout:'portfolio',mediaName:portfolioTitle})
+	 }
 }
 

@@ -37,6 +37,12 @@
         
     }
     
+    $(document).ready(function () {
+      $("#notify-open").click(function (e) {
+        $("#notify").toggleClass("active");
+        $("#notify-tray").toggleClass("active")
+      })
+    });
 
 
 

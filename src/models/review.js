@@ -62,14 +62,18 @@ reviewSchema.statics.review = async(Owner,ReferenceID,ReviewedBy,Reviews,Type)=>
  reviewSchema.statics.reviewedBy= async(id,Owner,ReferenceID,MyID)=>{
 
   const user = await User.findById(id,{FirstName:1,LastName:1,Dp:1,Role:1});
-  let Dp = await Buffer.from(user.Dp).toString('base64');
+  let Dp = undefined;
+  if(user.Dp){
+    Dp =  await Buffer.from(user.Dp).toString('base64');
+    delete user.Dp;
+  }
   let userRating = await Rating.findOne({Owner,'Ratings.ReferenceID':ReferenceID},{'Ratings.$':1});
   userRating = userRating.Ratings[0].Rating.filter(e=>e.RatedBy.equals(id));
   if(user.Role === 'Company'){
       const company = await Company.findOne({Owner:id},{CompanyName:1});
       return {...company.toObject(),Dp,_id:id,userRating:userRating[0].Rating,Role:user.Role,reviewed:id.equals(MyID)?true:false}
   }
-  delete user.Dp;
+  
   return {...user.toObject(),Dp,userRating:userRating[0].Rating,reviewed:id.equals(MyID)?true:false};
 
  }

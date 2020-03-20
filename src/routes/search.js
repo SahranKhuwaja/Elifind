@@ -101,7 +101,7 @@ router.get('/autocomplete/', async(req, res)=> {
     let data = undefined;
     let age = undefined;
     const userData = await User.findById(req.params.id,{'FirstName':1,'LastName':1,'Birthday':1,'Dp':1,'createdAt':1,'updatedAt':1,'Email':1,'Role':1});
-
+    
     if(userData.Dp){
   
       image = await Buffer.from(userData.Dp).toString('base64');

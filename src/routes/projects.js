@@ -7,10 +7,38 @@ const User = require('../models/user');
 const role = require('../middleware/Role');
 const Project = require('../models/project');
 const Post = require('../models/post');
-
+const mongoose = require('mongoose');
+const Grid = require('gridfs-stream');
+const GridFsStorage = require('multer-gridfs-storage');
+const crypto = require('crypto');
+const path = require('path');
+const db = require('../db/mongoose');
 router.use(express.json()); 
 router.use(express.urlencoded( {extended: true}));
+let gfs;
+mongoose.connection.once('open',()=>{
+    gfs = Grid(mongoose.connection.db,mongoose.mongo);
+    gfs.collection('uploads');
+})
 
+// var storage = new GridFsStorage({
+//   db,
+//   file: (req, file) => {
+//     return new Promise((resolve, reject) => {
+//       crypto.randomBytes(16, (err, buf) => {
+//         if (err) {
+//           return reject(err);
+//         }
+//         const filename = buf.toString('hex') + path.extname(file.originalname);
+//         const fileInfo = {
+//           filename: filename,
+//           bucketName: 'uploads'
+//         };
+//         resolve(fileInfo);
+//       });
+//     });
+//   }
+// });
 const upload = multer({
 
     limits:{
@@ -23,7 +51,8 @@ const upload = multer({
       }
     
       cb(undefined,true);
-    }
+    },
+    //storage
     
     });
 
@@ -45,8 +74,8 @@ const upload = multer({
 
 router.get('/Profile/Projects',auth,role,async(req,res)=>{
     
-    let image = null;
 
+    let image = null;
     if(req.user.Dp){
     image = Buffer.from(req.user.Dp).toString('base64');
     }

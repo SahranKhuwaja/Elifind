@@ -49,7 +49,8 @@ $(document).ready(() => {
 const url = window.location.pathname;
 const userID = url.split('/')[3];
 let updateProjects = false;
-
+const myID = document.querySelector('#clogged').innerHTML.trim();
+let projectTitle = undefined;
 const getUserProjects = () => {
 
 	$.get('/Profile/Projects/MyProjects/Get', { userID }, (data, status, xhr) => {
@@ -118,6 +119,7 @@ const directoryDetails = (data) => {
 	delete Project.Project
 	const html = Mustache.render(template, { Project: data, createdAt: moment(data.createdAt).fromNow(), updatedAt: moment(data.updatedAt).fromNow() })
 	parentDiv.insertAdjacentHTML('beforeend', html);
+	projectTitle = data.Title
 
 }
 const directoryFiles = async (data, id) => {
@@ -385,7 +387,10 @@ const rate = (id, rating) => {
 			$('#stats').remove();
 			updateRatingStats(id, userID)
 			renderRating(rating);
-			$('#ratedTime').html(moment(Date.now()).fromNow())
+			$('#ratedTime').html(moment(Date.now()).fromNow());
+			if(userID){
+			   socket.emit('notification',{myID,userID,notificationText:'recently rated on your',notificationAbout:'project',mediaName:projectTitle})
+			}
 		}
 
 	});
@@ -438,8 +443,13 @@ const renderSuccessMessage = async(comment)=>{
 	await parentDiv.insertAdjacentHTML('beforeend', html);
 	await staticRatedForReviewConfig();
 	$('#total-reviews').html(parseInt($('#total-reviews').html()) + 1);
+	if(userID){
+		socket.emit('notification',{myID,userID,notificationText:'just reviewed on your',notificationAbout:'project',mediaName:projectTitle})
+	 }
 	
 }
+
+
 
 
 
