@@ -36,10 +36,10 @@ const createPortfolio = ()=>{
 	getUserPortfolios();
 })
 
-const url = window.location.pathname;  
-const userID = url.split('/')[3];
+//const url = window.location.pathname;  
+//const userID = url.split('/')[3];
 let updatePortfolio = false;
-const myID = document.querySelector('#clogged').innerHTML.trim();
+//const myID = document.querySelector('#clogged').innerHTML.trim();
 let portfolioID = undefined;
 let portfolioTitle = undefined;
 const getUserPortfolios = ()=>{

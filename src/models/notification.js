@@ -25,15 +25,25 @@ const notificationSchema = new mongoose.Schema({
     },
     MediaName:{
         type:String,
+    },
+    Welcome:{
+        type:Boolean,
+        default:false,
+        required:true
+    },
+    Read:{
+        type:Boolean,
+        default:false,
+        required:true
     }    
 },{
     timestamps:true
 });
 
-notificationSchema.statics.createNotification = async(Owner,NotifiedBy,NotificationText,NotificationAbout,MediaName)=>{
+notificationSchema.statics.createNotification = async(Owner,NotifiedBy,NotificationText,NotificationAbout,MediaName,Welcome)=>{
 
     try{
-        const notification = new Notification({Owner,NotifiedBy,Notification:NotificationText,NotificationAbout,MediaName});
+        const notification = new Notification({Owner,NotifiedBy,Notification:NotificationText,NotificationAbout,MediaName,Welcome});
         await notification.save();
         return notification;
 
@@ -54,9 +64,10 @@ notificationSchema.statics.getOwnerDetails = async(data)=>{
        }
        if(user.Role === 'Company'){
            let company = await Company.findOne({Owner:user._id},{CompanyName:1,Owner:1})
-           return {...company.toObject(),Dp,...data.toObject()}
+           return {...company.toObject(),Dp,...data.toObject(),time:moment(data.createdAt).fromNow()}
        }
-       return {...user.toObject(),Dp,...data.toObject()}
+
+       return {...user.toObject(),Dp,...data.toObject(),time:moment(data.createdAt).fromNow()}
     }
     catch(e){
         console.log(e);

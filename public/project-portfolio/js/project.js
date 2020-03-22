@@ -1,4 +1,3 @@
-
 $('#create').click(() => {
 
 	if ($('#msform').validate().form()) {
@@ -46,10 +45,10 @@ $(document).ready(() => {
 	getUserProjects();
 })
 
-const url = window.location.pathname;
-const userID = url.split('/')[3];
+//const url = window.location.pathname;
+//const userID = url.split('/')[3];
 let updateProjects = false;
-const myID = document.querySelector('#clogged').innerHTML.trim();
+//const myID = document.querySelector('#clogged').innerHTML.trim();
 let projectTitle = undefined;
 const getUserProjects = () => {
 

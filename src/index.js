@@ -13,6 +13,7 @@ const portfolioRouter = require('./routes/portfolio');
 const ratingRouter = require('./routes/rating');
 const reviewRouter = require('./routes/review');
 const newsfeedRouter = require('./routes/newsfeed');
+const notificationRouter = require('./routes/notification');
 const flash = require('connect-flash');
 const http = require('http');
 const socketio = require('socket.io');
@@ -46,8 +47,8 @@ app.use(portfolioRouter);
 app.use(ratingRouter);
 app.use(reviewRouter);
 app.use(newsfeedRouter);
+app.use(notificationRouter)
 app.use(express.json());
-
 let users = {};
 let clients = 0;
 
@@ -154,12 +155,9 @@ socket.on('disconnect', Disconnect)
 socket.on('notification',async(data)=>{
     
     const notification = await Notification.createNotification(data.userID,data.myID,data.notificationText,data.notificationAbout,
-        data.mediaName);
+        data.mediaName,data.welcome);
     const nData = await Notification.getOwnerDetails(notification);
     if(users[data.userID]){
-        if(data.welcome){
-            return io.to(users[data.userID].id).emit('notifyWelcome',nData);
-        }
         io.to(users[data.userID].id).emit('notify',nData);
     }
 })

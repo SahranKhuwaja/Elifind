@@ -3136,8 +3136,21 @@ textarea.error{
 	display: flex ;
 	align-items: center;
 	padding: 10px 0 ;
-	border-bottom: 1px solid #dbdaff ;
+  border-bottom: 1px solid #dbdaff ;
+  height: 93.2px;
 }
+.badge {
+  position: absolute !important;
+  right: -1px;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+  font-size: 12px !important;
+}
+
+
+
 
 .notification_wrap .dropdown .notify_item:last-child{
 	border-bottom: 0px;
@@ -3260,6 +3273,23 @@ textarea.error{
 .toast-link{
   text-decoration: none !important;
   color: chartreuse;
+}
+
+.ddl{
+  max-height: 400px;
+}
+.no-notification{
+  color: chocolate !important;
+  margin-top: 3px !important;
+}
+
+.notify-link{
+  padding: 0px 0px !important;
+  text-decoration: none !important;
+}
+
+.setColor{
+  color: darkblue !important;
 }
 
 

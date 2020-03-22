@@ -1,4 +1,3 @@
-
     const urlParameter = window.location.pathname;  
     const user_id = urlParameter.split('/')[3];
     if(location.pathname==='/Profile/Timeline' || location.pathname ===`/Profile/View/${user_id}/Timeline`){
@@ -37,10 +36,29 @@
         
     }
     
-    $(document).ready(function () {
-      $("#notify-open").click(function (e) {
-        $("#notify").toggleClass("active");
-        $("#notify-tray").toggleClass("active")
+    $(document).ready(()=> {
+      let reRender = false;
+      let delay = 0;
+      $("#notify-open").click((e)=>{
+        if(reRender){
+          getNotifications();
+          reRender = false;
+        } 
+        setTimeout(()=>{
+          $("#notify").toggleClass("active");
+          $("#notify-tray").toggleClass("active");
+      },delay)
+          delay = 0;
+          if($("#badgeValue").length !==0){
+             $("#badgeValue").remove();
+             $.get('/Profile/Notifications/Read',undefined,(data,status,xhr)=>{
+              if(status === 'success'){
+                 reRender = true;
+                 delay = 200;
+              }
+            })
+          }
+       
       })
     });
 
