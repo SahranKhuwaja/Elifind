@@ -68,7 +68,7 @@
           <a href="/Profile/Newsfeed" class="nav-link dropdown-toggle user-action">Newsfeed</a>
         </li>
         <li class="nav-item dropdown" style="font-size: 14px;margin-top:8px;color:cyan;pointer-events:none">
-          <a href="/Profile/Newsfeed" class="nav-link dropdown-toggle user-action">|</a>
+          <a href="#" class="nav-link dropdown-toggle user-action" style="pointer-events: none;">|</a>
         </li>
 
         <li class="nav-item dropdown" style="font-size: 14px;margin-top:7px">
@@ -337,6 +337,7 @@
         </div>
      </div>
  \{{/Notifications}}
+  <a href="/Profile/Notifications/All" class="set-all-notifications"><span class="set-text-notifications">Show all notifications</span></a>
  </div>
 </script>
 <script id="badge-template" type="text/x-handlebars-template">
@@ -365,7 +366,6 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="/chat/js/chat.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-peer/9.6.2/simplepeer.min.js"></script>
-<script src="/hireMe/js/hire.js"></script>
 <script src="/notification/js/notifyMe.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js" type="text/javascript"></script>
 <script src="https://unpkg.com/simplebar@latest/dist/simplebar.min.js"></script>

@@ -3149,6 +3149,17 @@ textarea.error{
   font-size: 12px !important;
 }
 
+.set-all-notifications{
+ text-decoration: none !important;
+ margin-left: 80px;
+}
+
+.set-text-notifications{
+  color: darkblue !important;
+  text-align: center !important;
+  font-weight: bold;
+}
+
 
 
 
@@ -3292,7 +3303,46 @@ textarea.error{
   color: darkblue !important;
 }
 
+.set-text-leftbar{
+  text-decoration: none !important;
+}
 
+.set-bell-icon{
+
+  color: darkblue;
+}
+
+.n-container{
+
+  padding: 20px 20px 20px 20px;
+  background-color: azure;
+  margin-bottom: 13px;
+ 
+
+}
+
+.n-heading{
+  text-align: center;
+  color: darkblue !important;
+}
+
+.set-n-image{
+ border-radius: 50%;
+  width: 100px;
+  height: 100px;
+}
+
+.n-para{
+  margin-top: -80px;
+  margin-left: 130px;
+  font-size: 15px !important;
+  
+}
+
+.n-anchor{
+  text-decoration: none !important;
+  color: darkblue !important;
+}
 
 
 

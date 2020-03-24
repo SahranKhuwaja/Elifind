@@ -35,29 +35,34 @@
     else{
         
     }
-    
+
+    let render = false;
+    let reRender = false;
     $(document).ready(()=> {
-      let reRender = false;
-      let delay = 0;
+      
       $("#notify-open").click((e)=>{
-        if(reRender){
-          getNotifications();
-          reRender = false;
-        } 
-        setTimeout(()=>{
+        
+          if(reRender){
+            getNotifications();
+            reRender = false;
+          }
           $("#notify").toggleClass("active");
           $("#notify-tray").toggleClass("active");
-      },delay)
-          delay = 0;
           if($("#badgeValue").length !==0){
-             $("#badgeValue").remove();
-             $.get('/Profile/Notifications/Read',undefined,(data,status,xhr)=>{
-              if(status === 'success'){
-                 reRender = true;
-                 delay = 200;
-              }
-            })
-          }
+            $("#badgeValue").remove();
+            $.get('/Profile/Notifications/Read',undefined,(data,status,xhr)=>{
+             if(status === 'success'){
+                if(render){
+                  getNotifications();
+                  render = false;
+                }else{
+                    reRender = true;
+                }
+             }
+           })
+         }
+   
+          
        
       })
     });

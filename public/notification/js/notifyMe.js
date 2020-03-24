@@ -3,6 +3,7 @@ $(document).ready(()=>{
         return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
     });
     getNotifications();
+
 })
 
 
@@ -21,10 +22,13 @@ socket.on('notify',async(data)=>{
     );
     getNotifications();
     if($('#notify').hasClass('active')){
-        $('#notify-tray').toggleClass('active');
+       $('#notify-tray').toggleClass('active');
         setTimeout(()=>{
-            $('#notify-tray').toggleClass('active'); 
+           // alert('yeeee')
+            $('#notify-tray').toggleClass('active');
+            render = true; 
         },200)
+     
       
     }
 })

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{{>header}}
+
+<head>
+
+
+
+  <title>Newsfeed</title>
+
+  <link rel="stylesheet" href="/profileAssets/css/style.css" />
+  <link rel="stylesheet" href="/profileAssets/css/ionicons.min.css" />
+  <link rel="stylesheet" href="/profileAssets/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="/inomash/fonts/material-design-iconic-font/css/material-design-iconic-font.css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,700i" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
+  <link rel="stylesheet" href="/newsfeed/css/style.css">
+
+
+
+
+
+</head>
+
+<body>
+
+
+
+  <div id="page-contents" style="margin-bottom: 500px">
+    <div class="container" style="margin-top: 60px;margin-bottom:20px;">
+      <div class="row">
+
+        {{>profileTop2}}
+
+        <div class="col-md-7">
+          <div class="friend-list">
+            <div class="row" id="row">
+              <div class="create-post">
+                <div class="row">
+                  <div class="col-md-7 col-sm-7">
+                    <div class="form-group">
+                      {{#if Pimage}}
+                      <img src="data:image/png;base64, {{Pimage}}" class="profile-photo-md">
+                      {{else}}
+                      <img src="/profileAssets/images/male.jpg" id="i" alt="user" name="user"
+                        class="profile-photo-md" />
+                      {{/if}}
+
+                      <textarea name="texts" id="exampleTextarea" cols="80" rows="1" class="form-control"
+                        placeholder="Write what you wish"></textarea>
+                    </div>
+                  </div>
+                  <div class="col-md-5 col-sm-5">
+                    <div class="tools">
+                      <ul class="publishing-tools list-inline">
+                        <li><a href="#"><i class="ion-compose"></i></a></li>
+                        <li><a href="#"><i class="ion-images"></i></a></li>
+                        <li><a href="#"><i class="ion-ios-videocam"></i></a></li>
+                        <li><a href="#"><i class="ion-map"></i></a></li>
+                      </ul>
+                      <button class="btn btn-primary pull-right">Publish</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hgroup class="mb20" id="">
+                <div id="result-info-head"></div>
+
+              </hgroup>
+
+              <div id="contentDiv">
+                <h2 class="n-heading">Notifications</h2>
+
+
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 static">
+          <div class="suggestions" id="sticky-sidebar">
+            <h4 class="grey">Suggestions</h4>
+            <div class="follow-user">
+              <img src="/profileAssets/images/users/user-15.jpg" alt="" class="profile-photo-sm pull-left" />
+              <div>
+                <h5><a href="#">Sahran Khuwaja</a></h5>
+                <a href="#" class="text-green">View Profile</a>
+              </div>
+            </div>
+            <div class="follow-user">
+              <img src="/profileAssets/images/users/user-12.jpg" alt="" class="profile-photo-sm pull-left" />
+              <div>
+                <h5><a href="#">Sameer Khuwaja</a></h5>
+                <a href="#" class="text-green">View Profile</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{>footer}}
+
+  <div id="spinner-wrapper">
+    <div class="spinner"></div>
+  </div>
+
+
+
+  <script src="/profileAssets/js/jquery.sticky-kit.min.js"></script>
+  <script src="/profileAssets/js/jquery.scrollbar.min.js"></script>
+  <script src="/profileAssets/js/script.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="/js/upload.js"></script>
+  <script src="/js/mustache.js"></script>
+  <script src="/js/handlebars.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <script src="/notification/js/notify.js"></script>
+  <script src="/notification/js/notifications.js"></script>
+  <script id="n-item" type="text/x-handlebars-template">
+         \{{#Notifications}}
+                <div class="n-container">
+                  <img src="data:image/png;base64,\{{Dp}}" class="set-n-image">
+                  <p class="n-para" \{{#unless Read}} style="font-weight: bold;color:black" \{{/unless}}>
+                  <strong><a href="/Profile/View/\{{NotifiedBy}}/Timeline" class="n-anchor">\{{FirstName}} \{{LastName}} \{{CompanyName}}</a></strong>
+                  \{{Notification}} \{{NotificationAbout}} 
+                  <strong>
+                    \{{#if MediaName}}
+                      <a href=
+                        \{{#ifEquals NotificationAbout "project"}}
+                          "/Profile/Projects"
+                        \{{/ifEquals}}
+                        \{{#ifEquals NotificationAbout "portfolio"}}
+                          "/Profile/Portfolios"
+                        \{{/ifEquals}}
+                        \{{#ifEquals NotificationAbout "company"}}
+                          "/Profile/View/\{{Owner}}/Timeline"
+                        \{{/ifEquals}}
+                      class="n-anchor"> \{{MediaName}}</a>  
+                    \{{/if}}
+                    \{{#if Welcome}}
+                      <a href="/Profile/View/\{{NotifiedBy}}/Timeline" class="n-anchor">
+                      \{{CompanyName}}</a>
+                    \{{/if}}  
+                    </strong>
+                  <br><br>
+                    <span class="notify_time">\{{time}}</span>
+                  </p>
+                </div>
+                \{{/Notifications}}
+  
+  </script>
+
+
+
+</body>
+
+
+</html>
+
+<style>
+  .upload {
+    display: none;
+
+  }
+
+  .cursor {
+    pointer-events: none;
+    cursor: default;
+  }
+
+  .band {
+    color: green;
+  }
+
+  input:checked+.slider {
+    background-color: darkblue;
+  }
+</style>
