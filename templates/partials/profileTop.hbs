@@ -101,6 +101,7 @@
                      {{/if}}
                  
                      </li>
+                
                      <li>
                        {{#if data}}
                        <a href="/Profile/View/{{data._id}}/Projects" id="pro">Projects</a>
@@ -116,6 +117,11 @@
                        <a href="/Profile/Portfolios" id="port">Portfolios</a>
                        {{/if}}
                   </li>
+                      {{#if companyDetails}}
+                       <li>
+                        <a href="/Profile/SkillDetection" id="sd">Skill Detection</a>
+                       </li>
+                      {{/if}}
                 </ul>
                 <ul class="follow-me list-inline profile-menu">
                  <li id="hiredByBar"> </li>

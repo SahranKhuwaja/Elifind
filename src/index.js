@@ -14,6 +14,7 @@ const ratingRouter = require('./routes/rating');
 const reviewRouter = require('./routes/review');
 const newsfeedRouter = require('./routes/newsfeed');
 const notificationRouter = require('./routes/notification');
+const textminerRouter = require('./routes/textminer');
 const flash = require('connect-flash');
 const http = require('http');
 const socketio = require('socket.io');
@@ -47,7 +48,8 @@ app.use(portfolioRouter);
 app.use(ratingRouter);
 app.use(reviewRouter);
 app.use(newsfeedRouter);
-app.use(notificationRouter)
+app.use(notificationRouter);
+app.use(textminerRouter);
 app.use(express.json());
 let users = {};
 let clients = 0;

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{{>header}}
+
+<head>
+
+
+
+    <title>Profile</title>
+    <link rel="stylesheet" href="/profileAssets/css/style.css" />
+    <link rel="stylesheet" href="/profileAssets/css/ionicons.min.css" />
+    <link rel="stylesheet" href="/profileAssets/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/inomash/fonts/material-design-iconic-font/css/material-design-iconic-font.css">
+    <link rel="stylesheet" href="/fileUploader/jquery.fileuploader.min.css">
+    <link rel="stylesheet" href="/fileUploader/font/font-fileuploader.css">
+
+</head>
+
+<body>
+
+
+
+
+    <div class="container" style="margin-bottom: 500px">
+        <div class="timeline" style="margin-top: 50px;margin-bottom:20px;">
+
+            {{>profileTop}}
+
+
+
+
+
+
+
+            <div id="page-contents">
+
+
+
+
+                <div class="row">
+
+                    <div class="col-md-3">
+
+
+                        <ul class="edit-menu" style="margin-top: 120px">
+                            <li class="active" id="s-a"><i class="icon ion-document-text active" style=""></i><a
+                                    href="">Text Mining</a></li>
+
+
+                        </ul>
+                    </div>
+
+                    <div class="col-md-7">
+
+                        <div class="edit-profile-container" id="info">
+                            <div class="block-title">
+                                <h4 class="grey"><i class="ion-ios-information-outline icon-in-title"></i>Skill
+                                    Detection </h4>
+                                <div class="line"></div>
+                            </div>
+                        </div>
+                        <p>Please upload only pdf, txt or doc document for analysis. After uploading, it takes few
+                            seconds
+                            to apply sentiment analysis to delect useful info from particular resume or document.
+                        </p>
+                        <div class="custom-file">
+                            <form method="post" enctype="multipart/form-data" id="sd-form">
+                                <input type="file" class="custom-file-input" id="sd-file" name="sd-file">
+                            </form>
+
+
+                        </div>
+                        <div class="invalid-type-error" id="type-error"></div>
+                        <div id="progress-loading-analyzer"></div>
+                        <div id="extracted-info"></div>
+
+
+                    </div>
+                    <div class="col-md-2 static">
+
+
+                        <div id="sticky-sidebar">
+                            <h4 class="grey">
+                                {{#if data}}
+                                {{#if data.CompanyName}}
+                                {{data.CompanyName}}'s Activity
+                                {{else}}
+                                {{data.FirstName}}'s Activity
+                                {{/if}}
+                                {{else}}
+                                My Activity
+                                {{/if}}
+
+                            </h4>
+                            <div class="feed-item">
+                                <div class="live-activity">
+                                    <p><a href="#" class="profile-link">Profile Created</a></p>
+                                    <p class="text-muted">{{created}}</p>
+                                </div>
+                            </div>
+
+                            {{#if updated}}
+                            <div class="feed-item">
+                                <div class="live-activity">
+                                    <p><a href="#" class="profile-link">Last Updated</a></p>
+                                    <p class="text-muted">{{updated}}</p>
+                                </div>
+                            </div>
+                            {{/if}}
+
+                            <div id="messageBoxDiv">
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" id="video" style="margin-top: 100px;margin-bottom:300px;">
+        <div class="row h-10 w-100">
+            <div class="col">
+                <select id="filter" class="w-100 bg-dark text-light ml-2 mt-2 select font-weight-bold border">
+                    <option value="none">Normal</option>
+                    <option value="grayscale(100%)">B & W</option>
+                    <option value="sepia(100%)">Old School</option>
+                    <option value="contrast(150%)">Lumination</option>
+                    <option value="blur(20px)">Hidden Mist</option>
+                    <option value="invert(100%)">Dracula</option>
+                    <option value="hue-rotate(180deg">X-men Beast</option>
+                    <option value="saturate(25)">Super Saiyan God</option>
+                </select>
+            </div>
+            <div class="col">
+                <div class="float-right mt-3" style="margin-left:10px">
+                    <input class="form-check-input" type="checkbox" id="theme">
+                    <label class="form-check-label" for="theme">
+                        Dark Theme
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row h-90 w-100">
+            <div class="col-12 col-sm-6 d-flex justify-content-center">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <video class="embed-responsive-item" muted></video>
+                </div>
+                <button class="btn btn-primary" style="margin-top: 25px;" id="end">End Call</button>
+            </div>
+            <div class="col-12 col-sm-6 d-flex justify-content-center">
+                <div id="peerDiv" class="embed-responsive embed-responsive-16by9">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    {{>footer}}
+
+    <div id="spinner-wrapper">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="/profileAssets/js/jquery-3.1.1.min.js"></script>
+    <script src="/profileAssets/js/bootstrap.min.js"></script>
+    <script src="/notification/js/notify.js"></script>
+    <script src="/profileAssets/js/jquery.sticky-kit.min.js"></script>
+    <script src="/profileAssets/js/jquery.scrollbar.min.js"></script>
+    <script src="/profileAssets/js/script.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/js/upload.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="/notification/js/notify.js"></script>
+    <script src="/skillDetection/text-mining.js"></script>
+    <script src="/fileUploader/jquery.fileuploader.min.js"></script>
+    <script id="analyzing-loader" type="text/x-handlebars-template">
+        <div class="wrap" id="analyzing-loader">
+                            <div class="loader"></div>
+                            <div class="loaderbefore"></div>
+                            <div class="circular"></div>
+                            <div class="circular another"></div>
+                            <div class="text">Analyzing</div>
+                        </div>
+    </script>
+    <script id="view-extracted-info" type="text/x-handlebars-template">
+        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">FIELDS</th>
+                                    <th scope="col">DATA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">NAME</th>
+                                    <td>\{{name}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">EMAIL</th>
+                                    <td>\{{email}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">PHONE</th>
+                                    <td>\{{phone}}</td>
+                                </tr>
+                                  <tr>
+                                    <th scope="row">SKILLS</th>
+                                    <td> \{{#each skills}}
+                                          \{{this}}
+                                         \{{/each}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+    </script>
+</body>
+
+
+</html>
+
+<style>
+    .upload {
+        display: none;
+
+    }
+
+    .cursor {
+        pointer-events: none;
+        cursor: default;
+    }
+
+    .band {
+        color: green;
+    }
+</style>

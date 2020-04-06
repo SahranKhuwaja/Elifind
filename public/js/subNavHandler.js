@@ -32,6 +32,13 @@
   
          });
     }
+    else if(location.pathname==='/Profile/SkillDetection'){
+      $(document).ready(function(){
+           document.getElementById('sd').style.pointerEvents = 'none';
+           $('#sd').addClass('active');
+           $('#about').removeClass('active');
+      })
+    }
     else{
         
     }
