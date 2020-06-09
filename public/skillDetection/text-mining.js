@@ -2,7 +2,7 @@ $(document).ready(()=>{
   $('#sd-file').fileuploader({
     addMore: false,
     limit:1,
-    extensions:['pdf','docx','doc','text/plain','txt']
+    extensions:['pdf','docx','doc','text/plain','txt'],
 });
 
 })
@@ -37,6 +37,7 @@ $('#sd-file').on('change',(e)=>{
     const size = filesize>990?(parseInt(file.size)/1000)/1000 + " MB" : filesize + " KB"
     var fileName =  file.name;
     //e.innerText = "1 file uploaded! "+ fileName + " " + size + " of size";
+    document.querySelector("input[name='fileuploader-list-sd-file']").innerHTML = `[{"file":"0:/${fileName}/"}]`
     sendToServer(file)
 
   }

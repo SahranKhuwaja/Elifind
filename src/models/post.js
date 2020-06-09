@@ -12,10 +12,8 @@ const postSchema = new mongoose.Schema({
         ref:'Users',
         type:mongoose.Schema.Types.ObjectId,
         required:true,
-        unique:true
     },
     Posts:[{
-        Post:[{
             Type:{
                 type:String,
                 required:true
@@ -31,21 +29,18 @@ const postSchema = new mongoose.Schema({
                 type:String,
                 required:true
             },
-            createdAt:{
-                type:Date,
-                default:Date.now
-            }
-        }]
-    }]
+    }],
+    Country:{
+        type:String,
+        required:true
+    }
+},{
+    timestamps:true
 });
 
-postSchema.statics.createPost = async(id,data)=>{
+postSchema.statics.createPost = async(Owner,Posts,Country)=>{
     try{
-     let post= await Post.findOne({Owner:id});
-     if(!post){
-         post = new Post({Owner:id})
-     }
-     post.Posts = await post.Posts.concat({Post:data});
+     const post = new Post({Owner,Posts,Country}) 
      await post.save();
      return true;
     }catch(e){

@@ -10,11 +10,15 @@ const companyRouter = require('./routes/company');
 const hireRouter = require('./routes/hire');
 const projectRouter = require('./routes/projects');
 const portfolioRouter = require('./routes/portfolio');
+const imageRouter = require('./routes/image');
+const videoRouter = require('./routes/video');
 const ratingRouter = require('./routes/rating');
 const reviewRouter = require('./routes/review');
 const newsfeedRouter = require('./routes/newsfeed');
 const notificationRouter = require('./routes/notification');
 const textminerRouter = require('./routes/textminer');
+const recommendationRouter = require('./routes/recommendation');
+const viewRouter = require('./routes/view');
 const flash = require('connect-flash');
 const http = require('http');
 const socketio = require('socket.io');
@@ -45,14 +49,19 @@ app.use(companyRouter);
 app.use(hireRouter);
 app.use(projectRouter);
 app.use(portfolioRouter);
+app.use(imageRouter);
+app.use(videoRouter);
 app.use(ratingRouter);
 app.use(reviewRouter);
 app.use(newsfeedRouter);
 app.use(notificationRouter);
 app.use(textminerRouter);
+app.use(recommendationRouter);
+app.use(viewRouter)
 app.use(express.json());
 let users = {};
 let clients = 0;
+
 
 io.on('connection',(socket)=>{
 socket.on('currentUser',(id)=>{

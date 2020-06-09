@@ -58,16 +58,18 @@ const getUserProjects = () => {
 
 }
 const getProjectRatings = (projectsInfo) => {
-	$.get('/Profile/Media/Ratings', { projects: projectsInfo, userID }, (data, status, xhr) => {
-		renderProjects(data);
-	})
+	// $.get('/Profile/Media/Ratings', { projects: projectsInfo, userID }, (data, status, xhr) => {
+	// 	renderProjects(data);
+	// })
+	renderProjects(projectsInfo);
 }
 const renderProjects = (data) => {
+
 	const template = document.querySelector('#project-thumbnail').innerHTML;
 	const parentDiv = document.querySelector('#projectsList');
 	let html = undefined
-	if (Object.entries(data).length !== 0) {
-		html = Mustache.render(template, { Projects: data.Projects.reverse() })
+	if (data.length !== 0) {
+		html = Mustache.render(template, { Projects: data.reverse() })
 		parentDiv.insertAdjacentHTML('beforeend', html);
 	    ratingConfig();
 	}
@@ -83,17 +85,17 @@ const renderIndividualProject = (data) => {
 };
 
 const open = (id, total, average, oneStar, twoStar, threeStar, fourStar, fiveStar) => {
-
+    
 	$.get('/Profile/Projects/MyProjects/Project/Open', { id, userID }, (data, status, xhr) => {
-		openDirectory(...data, { total, average, oneStar, twoStar, threeStar, fourStar, fiveStar });
+		openDirectory(data, { total, average, oneStar, twoStar, threeStar, fourStar, fiveStar });
 	})
 
 }
 
-const openDirectory = (data, ratings) => {
+const openDirectory = async(data, ratings) => {
 	$('#page-contents').hide('slow');
 	directoryDetails(data);
-	directoryFiles(data.Project, data._id);
+	directoryFiles(data._id)
 	directoryRatings(data._id, ratings);
 	$('#projectFilesSection').hide('fast');
 	$('#projectRatingsSection').hide('fast');
@@ -111,20 +113,17 @@ const openDirectory = (data, ratings) => {
 	})
 }
 
+
 const directoryDetails = (data) => {
 	const template = document.querySelector('#directory').innerHTML;
 	const parentDiv = document.querySelector('#timeline');
-	let Project = { ...data };
-	delete Project.Project
 	const html = Mustache.render(template, { Project: data, createdAt: moment(data.createdAt).fromNow(), updatedAt: moment(data.updatedAt).fromNow() })
 	parentDiv.insertAdjacentHTML('beforeend', html);
 	projectTitle = data.Title
 
 }
-const directoryFiles = async (data, id) => {
-
-	await renderAlbum(data.Images, id);
-	await renderVideos(data.Videos, id);
+const directoryFiles = async (id) => {
+	await getProjectFiles(id);
 	await toggleCheck();
 
 	$('#albumSecLabel').click(() => {
@@ -144,6 +143,33 @@ const directoryRatings = async (id, ratings) => {
 	await getUserRating(id, userID);
 	await getReviews(id);
 }
+
+const getProjectFiles = async(id)=>{
+
+	await getProjectImages(id);
+	await getProjectVideos(id)
+   
+   
+}
+
+const getProjectImages = async(id)=>{
+   $.get('/Project/Images/Get',{id},(data,status,xhr)=>{
+		if(status==='success'){
+			renderAlbum(data,id)
+			
+		}
+   })
+}
+
+const getProjectVideos = async(id)=>{
+	$.get('/Project/Videos/Get',{id},(data,status,xhr)=>{
+		 if(status==='success'){
+			 renderVideos(data,id)
+			 
+		 }
+	})
+ }
+
 
 const back = async (e) => {
 
@@ -202,7 +228,7 @@ const renderAlbum = async (data, id) => {
 
 	const template = document.querySelector('#albumSection').innerHTML;
 	const parentDiv = document.querySelector('#projectFilesSection');
-	const html = await Mustache.render(template, { data, id });
+	const html = await Mustache.render(template, { id, data });
 	await parentDiv.insertAdjacentHTML('beforeend', html);
 	if ($('#dropzoneImages').length !== 0) {
 		let imageDropzone = new Dropzone("#dropzoneImages", { url: '/Profile/Projects/Album/Upload' });
@@ -222,9 +248,9 @@ const renderAlbum = async (data, id) => {
 		const listItemTemplate = document.querySelector('#albumListItem').innerHTML;
 		const parentDivForListItem = document.querySelector('#albumPhotos');
 		let html2 = undefined;
+	   
 		imageDropzone.on("successmultiple", async function (file, responseText) {
-
-			html2 = await Mustache.render(listItemTemplate, { data: responseText });
+			html2 = await Mustache.render(listItemTemplate, { data:responseText });
 			await parentDivForListItem.insertAdjacentHTML('afterbegin', html2);
 
 		});
@@ -237,8 +263,7 @@ const renderVideos = async (data, id) => {
 
 	const template = document.querySelector('#videoSection').innerHTML;
 	const parentDiv = document.querySelector('#projectFilesSection');
-	await data.filter(async (e) => e.created = await moment(e.createdAt).fromNow())
-	const html = await Mustache.render(template, { data, id });
+	const html = await Mustache.render(template, { id, data });
 	await parentDiv.insertAdjacentHTML('beforeend', html);
 	if ($('#dropzoneVideos').length !== 0) {
 		let videoDropzone = new Dropzone("#dropzoneVideos", { url: '/Profile/Projects/Video/Upload' });

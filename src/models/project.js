@@ -8,9 +8,7 @@ const projectSchema = new mongoose.Schema({
         ref:'Users',
         type:mongoose.Schema.Types.ObjectId,
         required:true,
-        unique:true
     },
-    Projects:[{
     Title:{
         type:String,
         required:true,
@@ -38,39 +36,16 @@ const projectSchema = new mongoose.Schema({
         type:String
       
     },
-    Project:{
-        Images:[{
-            image:{
-              type:Buffer,
-              required:true
-            },
-            createdAt:{
-              type:Date,
-              default:Date.now
-            }
-        }],
-        Videos:[{
-            video:{
-              type:Buffer,
-              required:true
-            },
-            createdAt:{
-              type:Date,
-              default:Date.now
-            }
-        }],
-       
+    IsPortfolioProject:{
+        type:Boolean,
+        required:true,
+        default:false
     },
-    createdAt:{
-        type:Date,
-        default:Date.now
-    
+    PortfolioID:{
+        type:mongoose.Schema.Types.ObjectId
     },
-    updatedAt:{
-        type:Date,
-        default:Date.now
-    }
-}]
+},{
+    timestamps:true
 });
 
 
@@ -78,16 +53,11 @@ projectSchema.statics.createProject = async(id,data)=>{
 
     try{
 
-       let createProject = await Project.findOne({Owner:id});
-       if(!createProject){
-           createProject = new Project({Owner:id})
-       }
-       createProject.Projects = await  createProject.Projects.concat(data);
-       createProject.save();
-       return createProject.Projects.filter((objData)=>{
-           objData.Project = undefined;
-           return objData.Title === data.Title;
-       })  
+    
+          const createProject = new Project({Owner:id,...data})
+          await createProject.save();
+          return createProject
+      
     }
     catch(e){
         console.log(e);
@@ -96,29 +66,6 @@ projectSchema.statics.createProject = async(id,data)=>{
 
 }
 
-projectSchema.statics.updateAlbum = async(files,projectId,userId)=>{
-
-    let project = await Project.findOne({Owner:userId,'Projects._id':projectId},{'Projects.$':1});
-    for(var i=0;i<files.length;i++){
-
-        project.Projects[0].Project.Images = await project.Projects[0].Project.Images.concat({image:await sharp(files[i].buffer).png().toBuffer()})
-    
-    }
-    const status = await Project.updateOne({Owner:userId,'Projects._id':projectId},{$set:{'Projects.$.Project':project.Projects[0].Project,'Projects.$.updatedAt':Date.now()}});
-    
-    if(status.nModified ==='0'){
-        return null;
-    }
-    let recentAdded = []
-    let reverse = await project.Projects[0].Project.Images.reverse().map((e)=>e);
-    for(var i=0;i<files.length;i++){
-     
-         recentAdded.push({image:await Buffer.from(reverse[i].image).toString('base64'),_id:reverse[i]._id,created:moment(reverse[i].createdAt).fromNow()})
-
-    }
-    
-    return recentAdded;
-}
 
 projectSchema.statics.updateVideos = async(files,projectId,userId)=>{
    

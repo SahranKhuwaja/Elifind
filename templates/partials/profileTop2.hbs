@@ -1,42 +1,77 @@
+<div class="col-md-3" style="position:static;">
+  <div class="profile-card">
+
+    {{#if Pimage}}
+    <img src="data:image/png;base64, {{Pimage}}" class="profile-photo">
+    {{else}}
+    <img src="/profileAssets/images/male.jpg" id="i" class="profile-photo" />
+    {{/if}}
+
+    <h5><a href="/Profile/Timeline" class="text-white" style="text-decoration: none;">
+        {{#if user}}
+        {{user.FirstName}} {{user.LastName}}
+        {{else}}
+        {{companyDetails.CompanyName}}
+        {{/if}}
+      </a></h5>
 
 
 
 
+    <a href="#" class="text-white" style="text-decoration: none;"><i class="ion ion-android-person-add"></i> 1,299
+      Ratings</a>
+  </div>
+  <ul class="nav-news-feed">
+    <li><i class="icon ion-ios-paper"></i>
+      <div><a href="/Profile/Newsfeed" class="set-text-leftbar">My Newsfeed</a></div>
+    </li>
+    <li><i class="icon ion-ios-people"></i>
+      <div><a href="/Profile/Recommendations" class="set-text-leftbar">Recommendations</a></div>
+    </li>
+    <li><i class="icon ion-chatboxes"></i>
+      <div><a href="" class="set-text-leftbar">Messages</a></div>
+    </li>
+    <li><i class="icon ion-android-notifications set-bell-icon"></i>
+      <div><a href="/Notifications/Show" class="set-text-leftbar">Notifications</a></div>
+    </li>
+    <li><i class="icon ion-images"></i>
+      <div><a href="/Profile/Projects" class="set-text-leftbar">Projects</a></div>
+    </li>
+    <li><i class="icon ion-ios-videocam"></i>
+      <div><a href="/Profile/Portfolios" class="set-text-leftbar">Portfolios</a></div>
+    </li>
+  </ul>
 
-	<div class="col-md-3" style="position:static;">
-            <div class="profile-card">
-            	
-            {{#if Pimage}}
-             <img src="data:image/png;base64, {{Pimage}}" class="profile-photo">
-            {{else}}
-                 <img src="/profileAssets/images/male.jpg" id="i" 
-                class="profile-photo" />
-            {{/if}}
-              
-            	<h5><a href="/Profile/Timeline" class="text-white" style="text-decoration: none;">
-              {{#if user}}
-              {{user.FirstName}} {{user.LastName}}
-              {{else}}
-              {{companyDetails.CompanyName}}
-              {{/if}}
-              </a></h5>
-              
-           
-             
-
-            	<a href="#" class="text-white" style="text-decoration: none;"><i class="ion ion-android-person-add" ></i> 1,299 Ratings</a>
+</div>
+<script src="/js/subNavHandler.js"></script>
+<script src="/js/visit.js"></script>
+<script id="side-bar-template" type="text/x-handlebars-template">
+                   <h4 class="grey">\{{Title}}</h4>
+            \{{#data}}
+            <div class="follow-user">
+              \{{#Dp}}
+                <img src="data:image/png;base64,\{{Dp}}" alt="" class="profile-photo-sm pull-left" />
+              \{{/Dp}}
+              \{{^Dp}}
+                <img src="/profileAssets/images/male.jpg" alt="" class="profile-photo-sm pull-left" />
+              \{{/Dp}}
+              <div>
+                <h5><a href="/Profile/View/\{{_id}}/Timeline">\{{FirstName}} \{{LastName}} \{{CompanyName}}</a></h5>
+                \{{#views}}
+                <span>\{{views}} views</span><br>
+                \{{/views}}
+                <a href="/Profile/View/\{{_id}}/Timeline" class="text-green">View Profile</a>
+              </div>
             </div>
-            <ul class="nav-news-feed">
-              <li><i class="icon ion-ios-paper"></i><div><a href="/Profile/Newsfeed" class="set-text-leftbar">My Newsfeed</a></div></li>
-              <li><i class="icon ion-ios-people"></i><div><a href="" class="set-text-leftbar">People Nearby</a></div></li>
-              <li><i class="icon ion-chatboxes"></i><div><a href="" class="set-text-leftbar" >Messages</a></div></li>
-              <li><i class="icon ion-android-notifications set-bell-icon"></i><div><a href="/Profile/Notifications/All" class="set-text-leftbar" >Notifications</a></div></li>
-              <li><i class="icon ion-images"></i><div><a href="" class="set-text-leftbar" >Projects</a></div></li>
-              <li><i class="icon ion-ios-videocam"></i><div><a href=""class="set-text-leftbar" >Portfolios</a></div></li>
-            </ul>
-       
-          </div>
-           <script src="/js/subNavHandler.js"></script>
-
-         
-          
+            \{{/data}}
+             \{{#recommend}}
+               <span> 
+                  \{{#predict}}
+                    <a href="/Profile/Recommendations?initial=predictions" class="text-green">Show All</a>
+                  \{{/predict}}
+                  \{{^predict}}
+                    <a href="/Profile/Recommendations" class="text-green">Show All</a>
+                  \{{/predict}}
+               </span>
+             \{{/recommend}}
+            </script>

@@ -576,14 +576,14 @@
                 \{{#data}}
                 <li>
                   <div class="img-wrapper" data-toggle="modal" data-target="#photo-\{{_id}}">
-                    <img class="set-image-thumbnail"src="data:image/png;base64, \{{image}}" alt="photo"/>
+                    <img class="set-image-thumbnail"src="/Image/\{{ImageID}}/\{{FileName}}" alt="photo"/>
                   </div>
                   <div class="modal fade" id="photo-\{{_id}}" tabindex="-1" role="dialog" aria-hidden="true">
                     
                     <div class="modal-dialog modal-lg">
                       <div class="modal-content">
                         
-                        <img src="data:image/png;base64,\{{image}}" alt="photo" />
+                        <img src="/Image/\{{ImageID}}/\{{FileName}}" alt="photo" />
                       </div>
                     </div>
                   </div>
@@ -601,12 +601,12 @@
                 \{{#data}}
                 <li>
                   <div class="img-wrapper" data-toggle="modal" data-target="#photo-\{{_id}}">
-                    <img class="set-image-thumbnail"src="data:image/png;base64, \{{image}}" alt="photo"/>
+                    <img class="set-image-thumbnail"src="/Image/\{{ImageID}}/\{{FileName}}" alt="photo"/>
                   </div>
                   <div class="modal fade" id="photo-\{{_id}}" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                       <div class="modal-content">
-                        <img src="data:image/png;base64,\{{image}}" alt="photo" />
+                        <img src="/Image/\{{ImageID}}/\{{FileName}}" alt="photo" />
                       </div>
                     </div>
                   </div>
@@ -660,7 +660,7 @@
             			<div class="media-grid">
                     <div class="img-wrapper" data-toggle="modal" data-target="#video-\{{_id}}">
                       <video controls class="set-video-controls">
-                        <source src="data:video/mp4;base64, \{{video}}"  >
+                        <source src="/Video/\{{VideoID}}/\{{FileName}}"  >
                       </video>
                     </div>
                     <div class="media-info">
@@ -683,7 +683,7 @@
                           <div class="post-content">
 														<div class="video-wrapper">
 															<video controls class="set-video-controls">
-																<source src="data:video/mp4;base64, \{{video}}" >
+																<source src="/Video/\{{VideoID}}/\{{FileName}}" >
 															</video>
 														</div>
                             <div class="post-container">
@@ -738,7 +738,7 @@
             			<div class="media-grid">
                     <div class="img-wrapper" data-toggle="modal" data-target="#video-\{{_id}}">
                       <video controls class="set-video-controls">
-                        <source src="data:video/mp4;base64, \{{video}}"  >
+                        <source src="/Video/\{{VideoID}}/\{{FileName}}"  >
                       </video>
                     </div>
                     <div class="media-info">
@@ -761,7 +761,7 @@
                           <div class="post-content">
 														<div class="video-wrapper">
 															<video controls class="set-video-controls">
-																<source src="data:video/mp4;base64, \{{video}}" >
+																<source src="/Video/\{{VideoID}}/\{{FileName}}" >
 															</video>
 														</div>
                             <div class="post-container">

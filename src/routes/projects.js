@@ -3,43 +3,20 @@ const router = express.Router();
 const auth = require('../middleware/auth')
 const moment = require('moment');
 const multer = require('multer');
-const User = require('../models/user');
 const role = require('../middleware/Role');
 const Project = require('../models/project');
 const Post = require('../models/post');
-const mongoose = require('mongoose');
-const Grid = require('gridfs-stream');
-const GridFsStorage = require('multer-gridfs-storage');
-const crypto = require('crypto');
-const path = require('path');
-const db = require('../db/mongoose');
+const Image = require('../models/image');
+const Video = require('../models/video');
+const {imageStorage,videoStorage} = require('../functions/gridFs');
+require('../db/mongoose');
+
 router.use(express.json()); 
 router.use(express.urlencoded( {extended: true}));
-let gfs;
-mongoose.connection.once('open',()=>{
-    gfs = Grid(mongoose.connection.db,mongoose.mongo);
-    gfs.collection('uploads');
-})
 
-// var storage = new GridFsStorage({
-//   db,
-//   file: (req, file) => {
-//     return new Promise((resolve, reject) => {
-//       crypto.randomBytes(16, (err, buf) => {
-//         if (err) {
-//           return reject(err);
-//         }
-//         const filename = buf.toString('hex') + path.extname(file.originalname);
-//         const fileInfo = {
-//           filename: filename,
-//           bucketName: 'uploads'
-//         };
-//         resolve(fileInfo);
-//       });
-//     });
-//   }
-// });
-const upload = multer({
+
+
+const uploadI = multer({
 
     limits:{
       fileSize:1000000000000,
@@ -52,25 +29,22 @@ const upload = multer({
     
       cb(undefined,true);
     },
-    //storage
+    storage:imageStorage
     
     });
 
     const uploadV = multer({
 
-        limits:{
-            fileSize:1000000000000,
-            fieldSize:1000000000000
-        },
         fileFilter(req,file,cb){
           if(!file.originalname.toLowerCase().match(/\.(webm||mpg||mp2||mpeg||mpe||mpv||ogg||mp4||m4p||m4v||avi||wmv||mov||qt||flv||swf||avchd||3gp)$/)){
             return cb(new Error('Please upload video!'));
           }
           cb(undefined,true);
     
-        }
+        },
+        storage:videoStorage
         
-        });
+    });
 
 router.get('/Profile/Projects',auth,role,async(req,res)=>{
     
@@ -98,7 +72,7 @@ router.post('/Profile/Projects/Create',auth,async(req,res)=>{
 
            return res.send({});
        }
-       await Post.createPost(req.user._id,{Type:'Project',ReferenceID:createProject[0]._id,Visibility:'Private'});
+       await Post.createPost(req.user._id,{Type:'Project',ReferenceID:createProject._id,Visibility:'Private'});
        res.send(createProject);
 
     }catch(e){
@@ -111,9 +85,9 @@ router.post('/Profile/Projects/Create',auth,async(req,res)=>{
 router.get('/Profile/Projects/MyProjects/Get',auth,async(req,res)=>{
 
     const user = req.query.userID ? req.query.userID : req.user._id;
-    const projects = await Project.findOne({Owner:user},{'Projects.Title':1,'Projects._id':1,'Projects.createdAt':1});
+    const projects = await Project.find({Owner:user},{'Title':1,'createdAt':1});
     if(projects === null){
-        return res.send({});
+        return res.send(null);
     }
     res.send(projects)
 })
@@ -121,35 +95,22 @@ router.get('/Profile/Projects/MyProjects/Get',auth,async(req,res)=>{
 router.get('/Profile/Projects/MyProjects/Project/Open',auth,async(req,res)=>{
 
     const user = req.query.userID ? req.query.userID : req.user._id;
-    let projectData = await Project.findOne({Owner:user,'Projects._id':req.query.id},{'Projects.$':1});
-    projectData = await {...projectData.toObject()}
-
-    res.send(await projectData.Projects.filter(async(data)=>{
-           await data.Project.Images.reverse().filter(async(e)=>{
-               return await Buffer.from(e.image).toString('base64');
-           })
-           await data.Project.Videos.reverse().filter(async(e)=>{
-               return await Buffer.from(e.video).toString('base64');
-        })     
-    })
-    );
+    let projectData = await Project.findOne({_id:req.query.id,Owner:user});
+    projectData = await {...projectData.toObject()};
+    res.send(projectData);
 })
 
-router.post('/Profile/Projects/Album/Upload',auth,upload.any('file'),async(req,res)=>{
+router.post('/Profile/Projects/Album/Upload',auth,uploadI.any('file'),async(req,res)=>{
 
     try{
-   
-       const status = await Project.updateAlbum(req.files,req.body.id,req.user._id);
-
-       if(status ===null){
-           return res.sendStatus(500);
-       }
-       let post=[];
-       await status.reverse().forEach(async e => {
-           post.push({Type:'Project/Image',ReferenceID:req.body.id,MediaID:e._id,Visibility:'Public',})
-       });
-       await Post.createPost(req.user._id,post);
-       res.send(status);
+       
+        const images = await Image.upload(req.body.id,req.files);
+        let post=[];
+        await images.forEach(async e => {
+           post.push({Type:'Project/Image',ReferenceID:req.body.id,MediaID:e._id,Visibility:'Public'})
+        });
+        await Post.createPost(req.user._id,post,req.user.Country);
+        res.send(images);
    
     }catch(e){
         console.log(e);
@@ -159,17 +120,13 @@ router.post('/Profile/Projects/Album/Upload',auth,upload.any('file'),async(req,r
 router.post('/Profile/Projects/Video/Upload',auth,uploadV.any('file'),async(req,res)=>{
 
     try{
-        const status = await Project.updateVideos(req.files,req.body.id,req.user._id);
-        if(status ===null){
-            return res.sendStatus(500);
-        }
-        let post=[];
-        await status.reverse().forEach(async e => {
-           post.push({Type:'Project/Video',ReferenceID:req.body.id,MediaID:e._id,Visibility:'Public',})
-        });
-        await Post.createPost(req.user._id,post);
- 
-        res.send(status);
+      const videos = await Video.upload(req.body.id,req.files);
+      let post=[];
+      await videos.forEach(async e => {
+         post.push({Type:'Project/Video',ReferenceID:req.body.id,MediaID:e._id,Visibility:'Public'});
+      });
+      await Post.createPost(req.user._id,post,req.user.Country);
+      res.send(videos);
     
      }catch(e){
          console.log(e);

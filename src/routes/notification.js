@@ -49,7 +49,7 @@ router.get('/Profile/Notifications/Read',auth,async(req,res)=>{
 })
 
 
-router.get('/Profile/Notifications/All',auth,async(req,res)=>{
+router.get('/Notifications/Show',auth,async(req,res)=>{
     let image = null;
 
   if (req.user.Dp) {
