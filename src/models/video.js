@@ -42,9 +42,11 @@ videoSchema.statics.upload = async(ProjectID,Files)=>{
 videoSchema.statics.getProjectVideos = async(id)=>{
 
     try{
-        const videos = await Video.find({ProjectID:id});
-        return videos;
-
+        let videos = await Video.find({ProjectID:id});
+        videos = await Promise.all(videos.map(async e=>{
+            return {...e.toObject(),created:await moment(e.createdAt).fromNow()}
+        }) ) 
+        return await videos;
     }
     catch(e){
 

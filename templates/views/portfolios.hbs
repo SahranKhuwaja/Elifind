@@ -648,7 +648,7 @@
             <div class="col-md-7" id="main-content-directory">
                 <div class="edit-profile-container" id="info">
                  <div class="block-title">
-                   <h4 class="grey"><i class="ion-ios-folder"></i><a href="javascript:backToPortfolios()">Portfolios</a> /  <a href="javascript:backToProjects()">\{{portfolioName}}</a> / \{{Project.Title}}</h4>
+                   <h4 class="grey"><i class="ion-ios-folder"></i><a href="javascript:backToPortfolios()">Portfolios</a> /  <a href="javascript:backToProjects()">\{{portfolioTitle}}</a> / \{{Project.Title}}</h4>
                   <div class="line"></div>
                 </div>
                 </div>
@@ -790,7 +790,7 @@
                              </button></h5>
                              </div>
                              <div class="modal-body">
-                               <form action="/Profile/Portfolios/Projects/Album/Upload" method="POST" enctype="multipart/form-data" 
+                               <form action="/Profile/Projects/Album/Upload" method="POST" enctype="multipart/form-data" 
                                class="dropzone needsclick dz-clickable " id="dropzoneImages">
                                <input type="text" value="\{{id}}" name="id" hidden/>
                                </form>
@@ -820,14 +820,14 @@
                 \{{#data}}
                 <li>
                   <div class="img-wrapper" data-toggle="modal" data-target="#photo-\{{_id}}">
-                    <img class="set-image-thumbnail"src="data:image/png;base64, \{{image}}" alt="photo"/>
+                    <img class="set-image-thumbnail"src="/Image/\{{ImageID}}/\{{FileName}}" alt="photo"/>
                   </div>
                   <div class="modal fade" id="photo-\{{_id}}" tabindex="-1" role="dialog" aria-hidden="true">
                     
                     <div class="modal-dialog modal-lg">
                       <div class="modal-content">
                         
-                        <img src="data:image/png;base64,\{{image}}" alt="photo" />
+                        <img src="/Image/\{{ImageID}}/\{{FileName}}" alt="photo" />
                       </div>
                     </div>
                   </div>
@@ -845,12 +845,12 @@
                 \{{#data}}
                 <li>
                   <div class="img-wrapper" data-toggle="modal" data-target="#photo-\{{_id}}">
-                    <img class="set-image-thumbnail"src="data:image/png;base64, \{{image}}" alt="photo"/>
+                    <img class="set-image-thumbnail"src="/Image/\{{ImageID}}/\{{FileName}}" alt="photo"/>
                   </div>
                   <div class="modal fade" id="photo-\{{_id}}" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                       <div class="modal-content">
-                        <img src="data:image/png;base64,\{{image}}" alt="photo" />
+                        <img src="/Image/\{{ImageID}}/\{{FileName}}" alt="photo" />
                       </div>
                     </div>
                   </div>
@@ -876,7 +876,7 @@
                              </button></h5>
                              </div>
                              <div class="modal-body">
-                               <form action="/Profile/Portfolios/Projects/Videos/Upload" method="POST" enctype="multipart/form-data" 
+                               <form action="/Profile/Projects/Video/Upload" method="POST" enctype="multipart/form-data" 
                                class="dropzone needsclick dz-clickable " id="dropzoneVideos">
                                <input type="text" value="\{{id}}" name="id" hidden/>
                                </form>
@@ -904,7 +904,7 @@
             			<div class="media-grid">
                     <div class="img-wrapper" data-toggle="modal" data-target="#video-\{{_id}}">
                       <video controls class="set-video-controls">
-                        <source src="data:video/mp4;base64, \{{video}}"  >
+                        <source src="/Video/\{{VideoID}}/\{{FileName}}"  >
                       </video>
                     </div>
                     <div class="media-info">
@@ -927,7 +927,7 @@
                           <div class="post-content">
 														<div class="video-wrapper">
 															<video controls class="set-video-controls">
-																<source src="data:video/mp4;base64, \{{video}}" >
+																<source src="/Video/\{{VideoID}}/\{{FileName}}" >
 															</video>
 														</div>
                             <div class="post-container">
@@ -943,7 +943,7 @@
                                 </div>
                                 <div class="line-divider"></div>
                                 <div class="post-text">
-                                  <p>This video is the prototype of my project. It depicts the working of my real project. I hope you all like it. It is just my starting point of my career. If you like it, dont forget to rate and review my project.<i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
+                                  <p>This video is uploaded for the purpose of showcasing. <i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
                                 </div>
                                 <div class="line-divider"></div>
                                 <div class="post-comment">
@@ -982,13 +982,13 @@
             			<div class="media-grid">
                     <div class="img-wrapper" data-toggle="modal" data-target="#video-\{{_id}}">
                       <video controls class="set-video-controls">
-                        <source src="data:video/mp4;base64, \{{video}}"  >
+                        <source src="/Video/\{{VideoID}}/\{{FileName}}"  >
                       </video>
                     </div>
                     <div class="media-info">
                       <div class="reaction">
-                        <a class="btn text-green"><i class="fa fa-thumbs-up"></i> 46</a>
-                        <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 11</a>
+                        <a class="btn text-green"><i class="fa fa-thumbs-up"></i> 0</a>
+                        <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a>
                       </div>
                       <div class="user-info">
                         
@@ -1005,7 +1005,7 @@
                           <div class="post-content">
 														<div class="video-wrapper">
 															<video controls class="set-video-controls">
-																<source src="data:video/mp4;base64, \{{video}}" >
+																<source src="/Video/\{{VideoID}}/\{{FileName}}" >
 															</video>
 														</div>
                             <div class="post-container">
@@ -1021,7 +1021,7 @@
                                 </div>
                                 <div class="line-divider"></div>
                                 <div class="post-text">
-                                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
+                                  <p>This video is the prototype of my project. It depicts the working of my real project. I hope you all like it. It is just my starting point of my career. If you like it, dont forget to rate and review my project. <i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
                                 </div>
                                 <div class="line-divider"></div>
                                 <div class="post-comment">

@@ -49,12 +49,11 @@ const projectSchema = new mongoose.Schema({
 });
 
 
-projectSchema.statics.createProject = async(id,data)=>{
+projectSchema.statics.createProject = async(Owner,data)=>{
 
     try{
-
-    
-          const createProject = new Project({Owner:id,...data})
+      
+          const createProject = new Project({Owner,...data})
           await createProject.save();
           return createProject
       
@@ -66,31 +65,5 @@ projectSchema.statics.createProject = async(id,data)=>{
 
 }
 
-
-projectSchema.statics.updateVideos = async(files,projectId,userId)=>{
-   
-
-    let project = await Project.findOne({Owner:userId,'Projects._id':projectId},{'Projects.$':1});
-    for(var i=0;i<files.length;i++){
-
-        project.Projects[0].Project.Videos = await project.Projects[0].Project.Videos.concat({video:files[i].buffer})
-    
-    }
-
-    const status = await Project.updateOne({Owner:userId,'Projects._id':projectId},{$set:{'Projects.$.Project':project.Projects[0].Project,'Projects.$.updatedAt':Date.now()}});
-    
-    if(status.nModified ==='0'){
-        return null;
-    }
-    let recentAdded = []
-    let reverse = await project.Projects[0].Project.Videos.reverse().map((e)=>e);
-    for(var i=0;i<files.length;i++){
-         
-         recentAdded.push({video:await Buffer.from(reverse[i].video).toString('base64'),_id:reverse[i]._id,created:await moment(reverse[i].createdAt).fromNow()})
-
-    }
-    
-    return recentAdded;
-}
 const Project = mongoose.model('Projects',projectSchema);
 module.exports = Project;

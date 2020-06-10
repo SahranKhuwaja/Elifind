@@ -67,12 +67,8 @@ router.post('/Profile/Projects/Create',auth,async(req,res)=>{
 
     try{
 
-       const createProject = await Project.createProject(req.user._id,req.body);
-       if(Object.entries(createProject).length === 0){
-
-           return res.send({});
-       }
-       await Post.createPost(req.user._id,{Type:'Project',ReferenceID:createProject._id,Visibility:'Private'});
+       const createProject = await Project.createProject(req.user._id,req.body.createProject);
+       await Post.createPost(req.user._id,{ReferenceID:createProject._id},req.body.postType,undefined,'Private');
        res.send(createProject);
 
     }catch(e){
@@ -83,33 +79,33 @@ router.post('/Profile/Projects/Create',auth,async(req,res)=>{
 });
 
 router.get('/Profile/Projects/MyProjects/Get',auth,async(req,res)=>{
-
     const user = req.query.userID ? req.query.userID : req.user._id;
-    const projects = await Project.find({Owner:user},{'Title':1,'createdAt':1});
+    const projects = await Project.find({Owner:user,IsPortfolioProject:req.query.IsPortfolioProject,
+        PortfolioID:req.query.id!==undefined?req.query.id:null},{'Title':1,'createdAt':1});
     if(projects === null){
         return res.send(null);
     }
-    res.send(projects)
+    res.send(projects.reverse())
 })
 
 router.get('/Profile/Projects/MyProjects/Project/Open',auth,async(req,res)=>{
 
-    const user = req.query.userID ? req.query.userID : req.user._id;
-    let projectData = await Project.findOne({_id:req.query.id,Owner:user});
-    projectData = await {...projectData.toObject()};
+    const user = req.query.userID!==undefined ? req.query.userID : req.user._id;
+    let projectData = await Project.findOne({IsPortfolioProject:req.query.IsPortfolioProject,_id:req.query.id,Owner:user,
+    PortfolioID:req.query.portfolioID!==undefined?req.query.portfolioID:null});
     res.send(projectData);
 })
 
 router.post('/Profile/Projects/Album/Upload',auth,uploadI.any('file'),async(req,res)=>{
 
     try{
-       
         const images = await Image.upload(req.body.id,req.files);
         let post=[];
         await images.forEach(async e => {
-           post.push({Type:'Project/Image',ReferenceID:req.body.id,MediaID:e._id,Visibility:'Public'})
+           post.push({ReferenceID:req.body.id,MediaID:e._id})
         });
-        await Post.createPost(req.user._id,post,req.user.Country);
+        await Post.createPost(req.user._id,post,req.query.portfolio?'Portfolio/Project/Images':'Project/Images',
+        req.user.Country,'Public');
         res.send(images);
    
     }catch(e){
@@ -123,9 +119,10 @@ router.post('/Profile/Projects/Video/Upload',auth,uploadV.any('file'),async(req,
       const videos = await Video.upload(req.body.id,req.files);
       let post=[];
       await videos.forEach(async e => {
-         post.push({Type:'Project/Video',ReferenceID:req.body.id,MediaID:e._id,Visibility:'Public'});
+         post.push({ReferenceID:req.body.id,MediaID:e._id});
       });
-      await Post.createPost(req.user._id,post,req.user.Country);
+      await Post.createPost(req.user._id,post,req.query.portfolio?'Portfolio/Project/Videos':'Project/Images',
+      req.user.Country,'Public');
       res.send(videos);
     
      }catch(e){

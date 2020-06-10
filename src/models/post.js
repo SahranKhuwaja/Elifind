@@ -14,10 +14,6 @@ const postSchema = new mongoose.Schema({
         required:true,
     },
     Posts:[{
-            Type:{
-                type:String,
-                required:true
-            },
             ReferenceID:{
                 type: mongoose.Schema.Types.ObjectId,
                 required:true
@@ -25,12 +21,16 @@ const postSchema = new mongoose.Schema({
             MediaID:{
                 type: mongoose.Schema.Types.ObjectId,
             },
-            Visibility:{
-                type:String,
-                required:true
-            },
+           
     }],
+    Type:{
+        type:String,
+        required:true
+    },
     Country:{
+        type:String,
+    },
+    Visibility:{
         type:String,
         required:true
     }
@@ -38,9 +38,9 @@ const postSchema = new mongoose.Schema({
     timestamps:true
 });
 
-postSchema.statics.createPost = async(Owner,Posts,Country)=>{
+postSchema.statics.createPost = async(Owner,Posts,Type,Country,Visibility)=>{
     try{
-     const post = new Post({Owner,Posts,Country}) 
+     const post = new Post({Owner,Posts,Type,Country,Visibility}) 
      await post.save();
      return true;
     }catch(e){

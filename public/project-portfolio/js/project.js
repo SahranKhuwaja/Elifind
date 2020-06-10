@@ -19,7 +19,7 @@ const createProject = () => {
 		Tags: $('#pTag').val() !== "" ? $('#pTag').val() : undefined,
 	}
 
-	$.post('/Profile/Projects/Create', createProject, (data, status, xhr) => {
+	$.post('/Profile/Projects/Create', { createProject, postType: 'Project' }, (data, status, xhr) => {
 		if (Object.entries(data).length !== 0 && status === 'success') {
 			renderIndividualProject(data);
 			resetForm();
@@ -52,7 +52,7 @@ let updateProjects = false;
 let projectTitle = undefined;
 const getUserProjects = () => {
 
-	$.get('/Profile/Projects/MyProjects/Get', { userID }, (data, status, xhr) => {
+	$.get('/Profile/Projects/MyProjects/Get', { userID, IsPortfolioProject: false }, (data, status, xhr) => {
 		getProjectRatings(data);
 	})
 
@@ -64,16 +64,16 @@ const getProjectRatings = (projectsInfo) => {
 	renderProjects(projectsInfo);
 }
 const renderProjects = (data) => {
-
+	
 	const template = document.querySelector('#project-thumbnail').innerHTML;
 	const parentDiv = document.querySelector('#projectsList');
 	let html = undefined
 	if (data.length !== 0) {
-		html = Mustache.render(template, { Projects: data.reverse() })
+		html = Mustache.render(template, { Projects: data })
 		parentDiv.insertAdjacentHTML('beforeend', html);
-	    ratingConfig();
+		ratingConfig();
 	}
-	
+
 }
 
 const renderIndividualProject = (data) => {
@@ -85,14 +85,16 @@ const renderIndividualProject = (data) => {
 };
 
 const open = (id, total, average, oneStar, twoStar, threeStar, fourStar, fiveStar) => {
-    
-	$.get('/Profile/Projects/MyProjects/Project/Open', { id, userID }, (data, status, xhr) => {
-		openDirectory(data, { total, average, oneStar, twoStar, threeStar, fourStar, fiveStar });
+
+	$.get('/Profile/Projects/MyProjects/Project/Open', { id, userID, IsPortfolioProject:false }, (data, status, xhr) => {
+		if (status === 'success') {
+			openDirectory(data, { total, average, oneStar, twoStar, threeStar, fourStar, fiveStar });
+		}
 	})
 
 }
 
-const openDirectory = async(data, ratings) => {
+const openDirectory = async (data, ratings) => {
 	$('#page-contents').hide('slow');
 	directoryDetails(data);
 	directoryFiles(data._id)
@@ -123,9 +125,7 @@ const directoryDetails = (data) => {
 
 }
 const directoryFiles = async (id) => {
-	await getProjectFiles(id);
-	await toggleCheck();
-
+	await getProjectFiles(id)
 	$('#albumSecLabel').click(() => {
 		$('#videoSecLabel').removeClass('active');
 		$('#albumSecLabel').addClass('active');
@@ -144,31 +144,30 @@ const directoryRatings = async (id, ratings) => {
 	await getReviews(id);
 }
 
-const getProjectFiles = async(id)=>{
+const getProjectFiles = async (id) => {
 
 	await getProjectImages(id);
 	await getProjectVideos(id)
-   
-   
+
 }
 
-const getProjectImages = async(id)=>{
-   $.get('/Project/Images/Get',{id},(data,status,xhr)=>{
-		if(status==='success'){
-			renderAlbum(data,id)
-			
+const getProjectImages = async (id) => {
+	$.get('/Project/Images/Get', { id }, (data, status, xhr) => {
+		if (status === 'success') {
+			renderAlbum(data, id)
+
 		}
-   })
+	})
 }
 
-const getProjectVideos = async(id)=>{
-	$.get('/Project/Videos/Get',{id},(data,status,xhr)=>{
-		 if(status==='success'){
-			 renderVideos(data,id)
-			 
-		 }
+const getProjectVideos = async (id) => {
+	$.get('/Project/Videos/Get', { id }, (data, status, xhr) => {
+		if (status === 'success') {
+			renderVideos(data, id)
+
+		}
 	})
- }
+}
 
 
 const back = async (e) => {
@@ -248,9 +247,9 @@ const renderAlbum = async (data, id) => {
 		const listItemTemplate = document.querySelector('#albumListItem').innerHTML;
 		const parentDivForListItem = document.querySelector('#albumPhotos');
 		let html2 = undefined;
-	   
+
 		imageDropzone.on("successmultiple", async function (file, responseText) {
-			html2 = await Mustache.render(listItemTemplate, { data:responseText });
+			html2 = await Mustache.render(listItemTemplate, { data: responseText });
 			await parentDivForListItem.insertAdjacentHTML('afterbegin', html2);
 
 		});
@@ -290,7 +289,7 @@ const renderVideos = async (data, id) => {
 
 		});
 	}
-
+    await toggleCheck()
 }
 
 
@@ -326,24 +325,24 @@ const renderUserRating = async (value, time, id) => {
 
 const getReviews = (id) => {
 
-	$.get('/Profile/Media/Reviews',{id,userID},(data,status,xhr)=>{
+	$.get('/Profile/Media/Reviews', { id, userID }, (data, status, xhr) => {
 
-		if(status==='success'){
+		if (status === 'success') {
 
-			renderReviews(id,data);
+			renderReviews(id, data);
 		}
-		
+
 	})
 
-	
+
 
 }
-const renderReviews = async (id,data) => {
+const renderReviews = async (id, data) => {
 	const template = document.querySelector('#userReviews').innerHTML;
 	const parentDiv = document.querySelector('#projectRatingsSection');
-	let reviewed = data.length===0?"":data.filter(e=>e.reviewed===true)
+	let reviewed = data.length === 0 ? "" : data.filter(e => e.reviewed === true)
 	setTimeout(async () => {
-		const html = await Mustache.render(template,{rating:$('.rate').val(),data,total:data.length,reviewed:reviewed.length!==0?true:false});
+		const html = await Mustache.render(template, { rating: $('.rate').val(), data, total: data.length, reviewed: reviewed.length !== 0 ? true : false });
 		await parentDiv.insertAdjacentHTML('beforeend', html);
 		await staticRatedForReviewConfig();
 		await setListenerForReview(id)
@@ -412,8 +411,8 @@ const rate = (id, rating) => {
 			updateRatingStats(id, userID)
 			renderRating(rating);
 			$('#ratedTime').html(moment(Date.now()).fromNow());
-			if(userID){
-			   socket.emit('notification',{myID,userID,notificationText:'recently rated on your',notificationAbout:'project',mediaName:projectTitle})
+			if (userID) {
+				socket.emit('notification', { myID, userID, notificationText: 'recently rated on your', notificationAbout: 'project', mediaName: projectTitle })
 			}
 		}
 
@@ -434,10 +433,10 @@ const updateRatingStats = async (id, userID) => {
 const renderRating = (rating) => {
 
 	$('.rate').rating('refresh', { disabled: true, readonly: true, displayOnly: true, showClear: true });
-	if($('#myCommentArea').length !==0){
-		$('#myRating').rating('update',rating)
+	if ($('#myCommentArea').length !== 0) {
+		$('#myRating').rating('update', rating)
 	}
-    
+
 
 }
 
@@ -449,7 +448,7 @@ const setListenerForReview = (id) => {
 }
 
 const review = async (id) => {
-    const review = $('#comment').val();
+	const review = $('#comment').val();
 	$.post('/Profile/Media/Review', { review, id, userID, type: 'Project' }, (data, status, xhr) => {
 
 		if (status === 'success' && data === true) {
@@ -460,17 +459,17 @@ const review = async (id) => {
 	});
 }
 
-const renderSuccessMessage = async(comment)=>{
+const renderSuccessMessage = async (comment) => {
 	const template = document.querySelector('#successReviewed').innerHTML;
 	const parentDiv = document.querySelector('#projectRatingsSection');
-	const html = await Mustache.render(template,{comment,time:await moment(Date.now()).fromNow(),rating:$('.rate').val()});
+	const html = await Mustache.render(template, { comment, time: await moment(Date.now()).fromNow(), rating: $('.rate').val() });
 	await parentDiv.insertAdjacentHTML('beforeend', html);
 	await staticRatedForReviewConfig();
 	$('#total-reviews').html(parseInt($('#total-reviews').html()) + 1);
-	if(userID){
-		socket.emit('notification',{myID,userID,notificationText:'just reviewed on your',notificationAbout:'project',mediaName:projectTitle})
-	 }
-	
+	if (userID) {
+		socket.emit('notification', { myID, userID, notificationText: 'just reviewed on your', notificationAbout: 'project', mediaName: projectTitle })
+	}
+
 }
 
 

@@ -12,7 +12,7 @@ const createPortfolio = ()=>{
         Title : $('#pTitle').val(),
         Type : $('#pType').val(),
         Category : $('#pCat').val(),
-        Description : $('#pDes').val(),
+		Description : $('#pDes').val(),
      }
     
      $.post('/Profile/Portfolio/Create',portfolio,(data,status,xhr)=>{
@@ -42,6 +42,7 @@ let updatePortfolio = false;
 //const myID = document.querySelector('#clogged').innerHTML.trim();
 let portfolioID = undefined;
 let portfolioTitle = undefined;
+
 const getUserPortfolios = ()=>{
 	
 	$.get('/Profile/Portfolios/MyPortfolios/Get',{userID},(data,status,xhr)=>{
@@ -50,9 +51,10 @@ const getUserPortfolios = ()=>{
 	
 }
 const getPortfolioRatings = (portfolioInfo) => {
-	$.get('/Profile/Media/Ratings', { portfolios: portfolioInfo, userID }, (data, status, xhr) => {
-		renderPortfolios(data);
-	})
+	// $.get('/Profile/Media/Ratings', { portfolios: portfolioInfo, userID }, (data, status, xhr) => {
+	// 	renderPortfolios(data);
+	// })
+	renderPortfolios(portfolioInfo);
 }
 
 const renderPortfolios = (data)=>{
@@ -60,7 +62,7 @@ const renderPortfolios = (data)=>{
 	const parentDiv = document.querySelector('#portfoliosList');
     let html = undefined;
 	if(Object.entries(data).length!==0){
-	html = Mustache.render(template,{Portfolios:data.Portfolios.reverse()})
+	html = Mustache.render(template,{Portfolios:data})
 	parentDiv.insertAdjacentHTML('beforeend',html)
     ratingConfig();
 	}
@@ -90,7 +92,7 @@ const openPortfolio = (id,total, average, oneStar, twoStar, threeStar, fourStar,
 const openPortfolioDirectory = (data,ratings)=>{
 	$('#page-contents').hide('slow');
 	portfolioDirectoryDetails(data);
-	portfolioDirectoryFiles(data.Projects,data._id);
+	portfolioDirectoryFiles(data._id);
 	portfolioDirectoryRatings(data._id, ratings);
 	$('#portfolioFilesSection').hide('fast');
 	$('#portfolioRatingsSection').hide('fast');
@@ -117,14 +119,22 @@ const portfolioDirectoryDetails = (data)=>{
 	
 }
 
-const portfolioDirectoryFiles = (data,id)=>{
-	renderPortfolioProjects(data,id);
+const portfolioDirectoryFiles = async(id)=>{
+	
+	await getProtfolioProjects(id)
+	
 }
 
 const portfolioDirectoryRatings = async (id, ratings) => {
    await renderAverageRating(ratings);
    await getUserRating(id, userID);
    await getReviews(id);
+}
+
+const getProtfolioProjects = async(id)=>{
+	$.get('/Profile/Projects/MyProjects/Get',{id,IsPortfolioProject:true,userID},(data,status,xhr)=>{
+		renderPortfolioProjects(data,id);
+	})
 }
 
 
@@ -181,7 +191,6 @@ const backToPortfolios = async(e)=>{
 }
 
 $('#proCreate').click(()=>{
-	
 	if($('#msform2').validate().form()){
 	   createProject();
 	   $('#proCreate').attr('data-dismiss','modal')
@@ -198,9 +207,11 @@ const createProject = ()=>{
 	   Description : $('#proDes').val(),
 	   GitLink : $('#proGit').val() !== "" ? $('#proGit').val() : undefined,
 	   Tags : $('#proTag').val() !== "" ?$('#proTag').val():undefined,
+	   IsPortfolioProject:true,
+	   PortfolioID:portfolioID
 	}
    
-	$.post('/Profile/Portfolios/Projects/Create',{createProject,portfolioID},(data,status,xhr)=>{
+	$.post('/Profile/Projects/Create',{createProject,postType:'Portfolio/Project'},(data,status,xhr)=>{
 		if(Object.entries(data).length !==0 && status ==='success'){
             renderIndividualProject(data);
 			resetForm2();			
@@ -213,7 +224,7 @@ const renderPortfolioProjects = (data,id)=>{
 	const parentDiv = document.querySelector('#projectsList');
 	let html = undefined
 	if(!Object.entries(data).length!==0){
-	html = Mustache.render(template,{Projects:data.reverse()})
+	html = Mustache.render(template,{Projects:data})
 	}
 	else{
 
@@ -241,9 +252,10 @@ const resetForm2 = ()=>{
 
 const openProject = (id)=>{
 
-	$.get('/Profile/Portfolios/MyPortfolios/Project/Open',{id,portfolioID,userID},(data,status,xhr)=>{
-
-		openProjectDirectory(...data);
+	$.get('/Profile/Projects/MyProjects/Project/Open',{id,portfolioID,userID,IsPortfolioProject:true},(data,status,xhr)=>{
+       if(status==='success'){
+		openProjectDirectory(data);
+	   }
 		
    })
 }
@@ -252,7 +264,7 @@ const openProjectDirectory = (data)=>{
 	
 	$('#page-contents2').hide('slow');
 	projectDirectoryDetails(data);
-    projectDirectoryFiles(data.Project,data._id);
+    projectDirectoryFiles(data._id);
 	$('#projectFilesSection').hide('fast');
 	$('#projectFiles').click((e)=>{
 	 	e.preventDefault();
@@ -267,18 +279,14 @@ const projectDirectoryDetails = (data)=>{
 	
 	const template = document.querySelector('#projectDirectory').innerHTML;
 	const parentDiv = document.querySelector('#timeline');
-	let Project = {...data};
-	delete Project.Project
 	const html = Mustache.render(template,{Project:data,createdAt:moment(data.createdAt).fromNow(),portfolioTitle,updatedAt:moment(data.updatedAt).fromNow()})
 	parentDiv.insertAdjacentHTML('beforeend',html);
 	portfolioTitle = data.Title;
 }
 
-const projectDirectoryFiles = async(data,id)=>{
+const projectDirectoryFiles = async(id)=>{
 
-	await renderAlbum(data.Images,id);
-	await renderVideos(data.Videos,id);
-	await toggleCheck();
+	await getProjectFiles(id);
 	$('#albumSecLabel').click(()=>{
 		$('#videoSecLabel').removeClass('active');
 		$('#albumSecLabel').addClass('active');
@@ -313,76 +321,104 @@ const toggleToProjectDetails = ()=>{
 
 }
 
+const getProjectFiles = async (id) => {
 
-const renderAlbum = async(data,id)=>{
+	await getProjectImages(id);
+	await getProjectVideos(id)
+
+
+}
+
+const getProjectImages = async (id) => {
+	$.get('/Project/Images/Get', { id }, (data, status, xhr) => {
+		if (status === 'success') {
+			renderAlbum(data, id)
+
+		}
+	})
+}
+
+const getProjectVideos = async (id) => {
+	$.get('/Project/Videos/Get', { id }, (data, status, xhr) => {
+		if (status === 'success') {
+			renderVideos(data, id)
+
+		}
+	})
+}
+
+const renderAlbum = async (data, id) => {
 
 	const template = document.querySelector('#albumSection').innerHTML;
 	const parentDiv = document.querySelector('#projectFilesSection');
-	const html = await Mustache.render(template,{data,id});
-	await parentDiv.insertAdjacentHTML('beforeend',html);
-	if($('#dropzoneImages').length !==0){
-	let imageDropzone = new Dropzone("#dropzoneImages",{url:'/Profile/Portfolios/Projects/Album/Upload'});
-	imageDropzone.options.uploadMultiple = true;
-	imageDropzone.options.parallelUploads = 100;
-	imageDropzone.options.retryChunks = true;
-	imageDropzone.options.addRemoveLinks = true;
-	imageDropzone.options.accept = (file,done)=>{
-		if(!file.name.toLowerCase().match(/\.(jpg||jpeg||png||gif)$/)){
-			return done('Not an image file!');
+	const html = await Mustache.render(template, { id, data });
+	await parentDiv.insertAdjacentHTML('beforeend', html);
+	if ($('#dropzoneImages').length !== 0) {
+		let imageDropzone = new Dropzone("#dropzoneImages", { url: '/Profile/Projects/Album/Upload?portfolio=true' });
+		imageDropzone.options.uploadMultiple = true;
+		imageDropzone.options.parallelUploads = 100;
+		imageDropzone.options.retryChunks = true;
+		imageDropzone.options.addRemoveLinks = true;
+		imageDropzone.options.accept = (file, done) => {
+			if (!file.name.toLowerCase().match(/\.(jpg||jpeg||png||gif)$/)) {
+				return done('Not an image file!');
+			}
+			done();
 		}
-		done();
-	}
 
-	document.querySelectorAll('div.dz-message')[0].querySelector('span').innerHTML = "Drag and drop files here <br /><br /> or <br /><br /> Click to upload" +
-	"<br /> <br /> <img src='/images/upload-ico.png' />";
-	const listItemTemplate = document.querySelector('#albumListItem').innerHTML;
-	const parentDivForListItem = document.querySelector('#albumPhotos');
-	let html2 = undefined;
-	imageDropzone.on("successmultiple", async function(file, responseText) { 
-      
-		html2 = await Mustache.render(listItemTemplate,{data:responseText});
-        await parentDivForListItem.insertAdjacentHTML('afterbegin',html2);
-		
-	 });
+		document.querySelectorAll('div.dz-message')[0].querySelector('span').innerHTML = "Drag and drop files here <br /><br /> or <br /><br /> Click to upload" +
+			"<br /> <br /> <img src='/images/upload-ico.png' />";
+		const listItemTemplate = document.querySelector('#albumListItem').innerHTML;
+		const parentDivForListItem = document.querySelector('#albumPhotos');
+		let html2 = undefined;
+
+		imageDropzone.on("successmultiple", async function (file, responseText) {
+			html2 = await Mustache.render(listItemTemplate, { data: responseText });
+			await parentDivForListItem.insertAdjacentHTML('afterbegin', html2);
+
+		});
 	}
 
 }
 
 
-const renderVideos = async(data,id)=>{
+const renderVideos = async (data, id) => {
 
 	const template = document.querySelector('#videoSection').innerHTML;
 	const parentDiv = document.querySelector('#projectFilesSection');
-	await data.filter(async(e)=>e.created = await moment(e.createdAt).fromNow())
-	const html = await Mustache.render(template,{data,id});
-	await parentDiv.insertAdjacentHTML('beforeend',html);
-	if($('#dropzoneVideos').length !==0){
-	let videoDropzone = new Dropzone("#dropzoneVideos",{url:'/Profile/Portfolios/Projects/Videos/Upload'});
-	videoDropzone.options.maxFilesize = 1000000;
-	videoDropzone.options.uploadMultiple = true;
-	videoDropzone.options.parallelUploads = 100;
-	videoDropzone.options.retryChunks = true;
-	videoDropzone.options.timeout = 600000;
-	videoDropzone.options.addRemoveLinks = true
-	videoDropzone.options.accept = (file,done)=>{
-		if(!file.name.toLowerCase().match(/\.(webm||mpg||mp2||mpeg||mpe||mpv||ogg||mp4||m4p||m4v||avi||wmv||mov||qt||flv||swf||avchd||3gp)$/)){
-			return done('Not an video file!');
+	const html = await Mustache.render(template, { id, data });
+	await parentDiv.insertAdjacentHTML('beforeend', html);
+	if ($('#dropzoneVideos').length !== 0) {
+		let videoDropzone = new Dropzone("#dropzoneVideos", { url: '/Profile/Projects/Video/Upload?portfolio=true' });
+		videoDropzone.options.maxFilesize = 1000000;
+		videoDropzone.options.uploadMultiple = true;
+		videoDropzone.options.parallelUploads = 100;
+		videoDropzone.options.retryChunks = true;
+		videoDropzone.options.timeout = 600000;
+		videoDropzone.options.addRemoveLinks = true
+		videoDropzone.options.accept = (file, done) => {
+			if (!file.name.toLowerCase().match(/\.(webm||mpg||mp2||mpeg||mpe||mpv||ogg||mp4||m4p||m4v||avi||wmv||mov||qt||flv||swf||avchd||3gp)$/)) {
+				return done('Not an video file!');
+			}
+			done();
 		}
-		done();
+		document.querySelectorAll('div.dz-message')[1].querySelector('span').innerHTML = "Drag and drop files here <br /><br /> or <br /><br /> Click to upload" +
+			"<br /> <br /> <img src='/images/upload-ico.png' />";
+		const listItemTemplate = document.querySelector('#videoListItem').innerHTML;
+		const parentDivForListItem = document.querySelector('#videosList');
+		let html2 = undefined;
+		videoDropzone.on("successmultiple", async function (file, responseText) {
+			html2 = await Mustache.render(listItemTemplate, { data: responseText });
+			await parentDivForListItem.insertAdjacentHTML('afterbegin', html2);
+
+		});
 	}
-	document.querySelectorAll('div.dz-message')[1].querySelector('span').innerHTML = "Drag and drop files here <br /><br /> or <br /><br /> Click to upload" +
-	"<br /> <br /> <img src='/images/upload-ico.png' />";
-	const listItemTemplate = document.querySelector('#videoListItem').innerHTML;
-	const parentDivForListItem = document.querySelector('#videosList');
-	let html2 = undefined;
-	videoDropzone.on("successmultiple", async function(file, responseText) { 
-		html2 = await Mustache.render(listItemTemplate,{data:responseText});
-        await parentDivForListItem.insertAdjacentHTML('afterbegin',html2);
-	
-	 });
-	}
-	
+	await toggleCheck()
+
 }
+
+
+
 
 const toggleCheck = ()=>{
 
