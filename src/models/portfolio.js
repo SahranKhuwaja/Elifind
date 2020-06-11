@@ -39,5 +39,15 @@ portfolioSchema.statics.createPortfolio = async(Owner,data)=>{
     }
 }
 
+portfolioSchema.statics.getTitle = async(_id)=>{
+    
+    try{
+        const portfolio = await Portfolio.findById(_id,{Title:1})
+        return portfolio;
+    }catch(e){
+        console.log(e)
+    }
+}
+
 const Portfolio = mongoose.model('Portfolios',portfolioSchema);
 module.exports = Portfolio;

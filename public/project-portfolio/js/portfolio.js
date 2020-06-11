@@ -215,7 +215,7 @@ const createProject = ()=>{
 		if(Object.entries(data).length !==0 && status ==='success'){
             renderIndividualProject(data);
 			resetForm2();			
-			
+			$('#portUpdate').html(moment(Date.now()).fromNow())
 		}
 	})
 }
@@ -375,6 +375,7 @@ const renderAlbum = async (data, id) => {
 		imageDropzone.on("successmultiple", async function (file, responseText) {
 			html2 = await Mustache.render(listItemTemplate, { data: responseText });
 			await parentDivForListItem.insertAdjacentHTML('afterbegin', html2);
+			$('#pUpdate').html(moment(Date.now()).fromNow())
 
 		});
 	}
@@ -410,7 +411,7 @@ const renderVideos = async (data, id) => {
 		videoDropzone.on("successmultiple", async function (file, responseText) {
 			html2 = await Mustache.render(listItemTemplate, { data: responseText });
 			await parentDivForListItem.insertAdjacentHTML('afterbegin', html2);
-
+			$('#pUpdate').html(moment(Date.now()).fromNow())
 		});
 	}
 	await toggleCheck()

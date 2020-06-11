@@ -54,3 +54,28 @@
 .media .media-grid img.post-image, video{
     width: 100% !important;
 }
+
+.div-set{
+    display: flex !important;
+}
+
+.para-set-custom{
+    margin-top: 5px !important;
+    margin-left:3px !important;
+    font-size: 14px !important;
+}
+
+.para-set-custom2{
+    margin-top: -7px !important;
+}
+
+.head-set{
+    margin-top: -4px !important;
+    margin-left:-10px !important;
+}
+
+.title-set{
+    font-weight: bold !important;
+    color: darkblue !important;
+    text-decoration: none !important;
+}

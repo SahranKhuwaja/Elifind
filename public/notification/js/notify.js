@@ -1,4 +1,3 @@
-
 function notify(type, title_name,title_info,notification_about,media_name,message,image,profile,media){
     
     //CREATE TOAST CONTAINER IF IT DOESN'T EXIST

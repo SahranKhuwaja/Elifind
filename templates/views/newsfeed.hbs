@@ -16,7 +16,7 @@
   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,700i" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
   <link rel="stylesheet" href="/newsfeed/css/style.css">
-
+>
 
 
 
@@ -27,8 +27,8 @@
 
 
 
-  <div id="page-contents" style="margin-bottom: 500px">
-    <div class="container" style="margin-top: 60px;margin-bottom:20px;">
+  <div id="page-contents" style="margin-bottom: 500px" data-simplebar>
+    <div class="container" style="margin-top: 60px;margin-bottom:20px">
       <div class="row">
 
         {{>profileTop2}}
@@ -73,7 +73,7 @@
               <div id="filter" class="filter-div">
                 <div class="toggle-switch switch-set">
                   <label class="switch">
-                    <input type="checkbox" id="locationFilter" onchange="filter()" checked>
+                    <input type="checkbox" id="locationFilter" onchange="filter()">
                     <span class="slider round"></span>
                   </label>
                   <div class="col-xs-12 col-sm-12 col-md-7 excerpet">
@@ -102,7 +102,7 @@
         </div>
         <div class="col-md-2 static">
           <div class="suggestions" id="sticky-sidebar">
-            
+
           </div>
         </div>
       </div>
@@ -118,15 +118,18 @@
 
 
   <script src="/profileAssets/js/jquery.sticky-kit.min.js"></script>
+  <script src="/newsfeed/js/newsfeed.js"></script>
   <script src="/profileAssets/js/bootstrap.min.js"></script>
   <script src="/profileAssets/js/jquery.scrollbar.min.js"></script>
   <script src="/profileAssets/js/script.js"></script>
+  {{!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> --}}
+  {{!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script> --}} 
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="/js/upload.js"></script>
   <script src="/js/mustache.js"></script>
   <script src="/js/handlebars.js"></script>
-  <script src="/newsfeed/js/newsfeed.js"></script>
-  {{!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> --}}
   <script src="/notification/js/notify.js"></script>
 
   <script id="newPost" type="text/x-handlebars-template">
@@ -136,36 +139,47 @@
                     <img src="data:image/png;base64,\{{Dp}}" alt="user" class="profile-photo-md pull-left" />
                     <div class="post-detail">
                       <div class="user-info">
-                        <h5><a href="timeline.html" class="profile-link">\{{FirstName}} \{{LastName}} \{{CompanyName}}</a> <span
-                            class="following">following</span></h5>
-                        <p class="text-muted">Published a photo about 3 mins ago</p>
+                        <div class="div-set">
+                        <h5><a href="/Profile/View/\{{_id}}/Timeline" class="profile-link">\{{FirstName}} \{{LastName}} \{{CompanyName}} </a> </h5>
+                             <p class="text-muted para-set-custom"> published \{{#ifEquals Length '1'}}a \{{#ifEquals Type 'image'}}photo \{{else}}
+                          \{{Type}} \{{/ifEquals}} \{{else}}\{{Length}} \{{#ifEquals Type 'image'}}photos \{{else}}\{{Type}}s 
+                          \{{/ifEquals}}\{{/ifEquals}}in the project 
+                          \{{#if PortfolioTitle}} <a class="title-set" href="/Profile/View/\{{_id}}/Portfolios">\{{Title}}</a>  of the portfolio <a class="title-set" href="/Profile/View/\{{_id}}/Portfolios">\{{PortfolioTitle}}</a> 
+                          \{{else}}<a class="title-set" href="/Profile/View/\{{_id}}/Projects">\{{Title}}</a> \{{/if}}</p>
+                           </div>
+                           <div class="div-set">
+                           <p class="text-muted para-set-custom2">\{{CreatedAt}} <h5 class="head-set"><span
+                            class="following">following</span></h5></p>
+                            </div>
+                       
+                       
                       </div>
                     </div>
                   
                     <div id="carouselIndicators-\{{@index}}" class="carousel slide" data-ride="carousel">
                       <ol class="carousel-indicators">
-                          \{{#Post}}
+                          \{{#Media}}
                         <li data-target="#carouselIndicators-\{{@../index}}"  data-slide-to="\{{@index}}" class="\{{#if @first}} active \{{/if}}"></li>
-                        \{{/Post}}
+                        \{{/Media}}
                           
                          
                       </ol>
                        
                       <div class="carousel-inner">
                         
-                             \{{#Post}}
-                               \{{#if image}}
+                             \{{#Media}}
+                               \{{#ifEquals ../Type 'image'}}
                                  <div class="item \{{#if @first}}active\{{/if}}">
-                                   <img class="d-block img-fluid newsfeed-image" src="data:image/png;base64,\{{image}}" >
+                                   <img class="d-block img-fluid newsfeed-image" src="/Image/\{{MediaID}}/\{{FileName}}" >
                                  </div>
                                  \{{else}}
                                  <div class="item \{{#if @first}}active\{{/if}}">
                                   <video controls class="set-video-controls">
-                                      <source src="data:video/mp4;base64, \{{video}}"  >
+                                      <source src="/Video/\{{MediaID}}/\{{FileName}}"  >
                                   </video>
                                 </div>
-                                \{{/if}}
-                             \{{/Post}}
+                                \{{/ifEquals}}
+                             \{{/Media}}
                             
                                            
                       </div>
@@ -178,6 +192,7 @@
                         <i class="fa fa-arrow-right right-arrow set-indicators"></i>
                       </a>
                     </div>
+                    
                       <div class="post-detail set-reaction">
                       
                           <a class="btn text-green"><i class="fa fa-thumbs-o-up ico-set"></i> 13</a> 

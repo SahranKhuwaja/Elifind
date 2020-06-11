@@ -39,10 +39,10 @@ videoSchema.statics.upload = async(ProjectID,Files)=>{
     return videos.reverse();
 }
 
-videoSchema.statics.getProjectVideos = async(id)=>{
+videoSchema.statics.getProjectVideos = async(ProjectID)=>{
 
     try{
-        let videos = await Video.find({ProjectID:id});
+        let videos = await Video.find({ProjectID});
         videos = await Promise.all(videos.map(async e=>{
             return {...e.toObject(),created:await moment(e.createdAt).fromNow()}
         }) ) 
@@ -52,6 +52,20 @@ videoSchema.statics.getProjectVideos = async(id)=>{
 
     }
 }
+
+videoSchema.statics.getVideo = async(_id,ProjectID)=>{
+
+    try{
+        const video = await Video.findOne({_id,ProjectID});
+        return video;
+    
+    }catch(e){
+        console.log(e)
+    }
+
+}
+
+
 
 const Video = new mongoose.model('Videos',videoSchema);
 

@@ -2,7 +2,10 @@ $(document).ready(()=>{
     $('#filter').hide('fast');
     filter();
     getRecommendations();
+    window._$ = jQuery; 
+    
 })
+let append = true;
 
 $('#filter-toggle').click(()=>{
     $('#filter-toggle').hide('fast');
@@ -55,7 +58,7 @@ const getRecommendations = async () => {
 }
 
 const renderPosts = async(data)=>{
-    console.log(data);
+  
     let template = document.querySelector('#newPost').innerHTML;
     let parent = document.querySelector('#contentDiv');
     let html = await Handlebars.compile(template);
@@ -64,7 +67,12 @@ const renderPosts = async(data)=>{
     
       await $(document).ready(()=>{
         $('.carousel').carousel()
-      })  
+      }) 
+
+      if(append){
+        await appendScripts()
+        append = false
+      }
     
 }
 
@@ -125,6 +133,19 @@ const renderHighViewedProfiles = async(data)=>{
   const template = document.querySelector('#side-bar-template').innerHTML;
   const html = Mustache.render(template,{Title:'Most Viewed Profiles',data});
   await parent.insertAdjacentHTML('beforeend',html);
+}
+
+const appendScripts = ()=>{
+  var newscript = document.createElement('script');
+     newscript.type = 'text/javascript';
+     newscript.async = true;
+     newscript.src = 'https://code.jquery.com/jquery-1.12.4.js';
+  document.getElementsByTagName('body')[0].appendChild(newscript);
+  var newscript = document.createElement('script');
+     newscript.type = 'text/javascript';
+     newscript.async = true;
+     newscript.src = 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js';
+  document.getElementsByTagName('body')[0].appendChild(newscript);
 }
 
 

@@ -65,5 +65,16 @@ projectSchema.statics.createProject = async(Owner,data)=>{
 
 }
 
+projectSchema.statics.getTitle = async(_id)=>{
+    
+    try{
+        const project = await Project.findById(_id,{Title:1,PortfolioID:1});
+        return project;
+
+    }catch(e){
+        console.log(e)
+    }
+}
+
 const Project = mongoose.model('Projects',projectSchema);
 module.exports = Project;

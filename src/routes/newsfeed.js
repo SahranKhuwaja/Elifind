@@ -4,6 +4,7 @@ const auth = require('../middleware/auth');
 const moment = require('moment');
 const Post = require('../models/post');
 
+
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
@@ -25,7 +26,7 @@ router.get('/Profile/Newsfeed', auth, async (req, res) => {
 router.get('/Profile/Newsfeed/Posts', auth, async (req, res) => {
 
   try {
-    const posts = await Post.getPublicPosts(req.query.location,req.query.skill);
+    const posts = await Post.getPublicPosts(req.query.location==='true'?req.user.Country:undefined,req.query.skill);
     res.send(posts);
   } catch (e) {
     console.log(e)

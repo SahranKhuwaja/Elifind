@@ -37,16 +37,28 @@ imagesSchema.statics.upload = async(ProjectID,Files)=>{
     return images.reverse();
 }
 
-imagesSchema.statics.getProjectImages = async(id)=>{
+imagesSchema.statics.getProjectImages = async(ProjectID)=>{
 
     try{
-        const images = await Image.find({ProjectID:id});
+        const images = await Image.find({ProjectID});
         return images;
 
     }
     catch(e){
 
     }
+}
+
+imagesSchema.statics.getImage = async(_id,ProjectID)=>{
+
+    try{
+        const image = await Image.findOne({_id,ProjectID});
+        return image;
+
+    }catch(e){
+        console.log(e)
+    }
+
 }
 
 const Image = new mongoose.model('Images',imagesSchema);

@@ -5,6 +5,7 @@ const moment = require('moment');
 const multer = require('multer');
 const role = require('../middleware/Role');
 const Project = require('../models/project');
+const Portfolio = require('../models/portfolio');
 const Post = require('../models/post');
 const Image = require('../models/image');
 const Video = require('../models/video');
@@ -69,6 +70,9 @@ router.post('/Profile/Projects/Create',auth,async(req,res)=>{
 
        const createProject = await Project.createProject(req.user._id,req.body.createProject);
        await Post.createPost(req.user._id,{ReferenceID:createProject._id},req.body.postType,undefined,'Private');
+       if(createProject.PortfolioID!==undefined){
+        await Portfolio.updateOne({_id:createProject.PortfolioID},{$set:{updatedAt:Date.now()}})
+       }
        res.send(createProject);
 
     }catch(e){
@@ -106,6 +110,7 @@ router.post('/Profile/Projects/Album/Upload',auth,uploadI.any('file'),async(req,
         });
         await Post.createPost(req.user._id,post,req.query.portfolio?'Portfolio/Project/Images':'Project/Images',
         req.user.Country,'Public');
+        await Project.updateOne({_id:req.body.id},{$set:{updatedAt:Date.now()}})
         res.send(images);
    
     }catch(e){
@@ -121,8 +126,9 @@ router.post('/Profile/Projects/Video/Upload',auth,uploadV.any('file'),async(req,
       await videos.forEach(async e => {
          post.push({ReferenceID:req.body.id,MediaID:e._id});
       });
-      await Post.createPost(req.user._id,post,req.query.portfolio?'Portfolio/Project/Videos':'Project/Images',
+      await Post.createPost(req.user._id,post,req.query.portfolio?'Portfolio/Project/Videos':'Project/Videos',
       req.user.Country,'Public');
+      await Project.updateOne({_id:req.body.id},{$set:{updatedAt:Date.now()}})
       res.send(videos);
     
      }catch(e){
