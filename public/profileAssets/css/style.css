@@ -2637,11 +2637,17 @@ input:checked + .slider:before{
     height: 40px ;
 }
 
-#msform input:focus, #msform textarea:focus,#msform2 input:focus, #msform2 textarea:focus {
+.select-set-msform{
+  padding: 0px !important;
+  padding-left: 11px !important;
+  
+}
+
+#msform input:focus, #msform textarea:focus, #msform1 select:focus, #msform2 input:focus, #msform2 textarea:focus, #msform2 select:focus,.select-set-msform:focus  {
     -moz-box-shadow: none !important;
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
-    border: 1px solid #ee0979;
+    border: 1px solid #ee0979 !important;
     outline-width: 0;
     transition: All 0.5s ease-in;
     -webkit-transition: All 0.5s ease-in;

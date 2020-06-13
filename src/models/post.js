@@ -11,6 +11,7 @@ const Video = require('./video');
 
 
 
+
 const postSchema = new mongoose.Schema({
 
     Owner: {
@@ -32,6 +33,9 @@ const postSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    About:{
+        type:String
+    },
     Country: {
         type: String,
     },
@@ -43,21 +47,22 @@ const postSchema = new mongoose.Schema({
     timestamps: true
 });
 
-postSchema.statics.createPost = async (Owner, Posts, Type, Country, Visibility) => {
+postSchema.statics.createPost = async (Owner, Posts, Type, About ,Country, Visibility) => {
     try {
-        const post = new Post({ Owner, Posts, Type, Country, Visibility })
+        const post = new Post({ Owner, Posts, Type, About, Country, Visibility })
         await post.save();
-        return true;
+        return post;
     } catch (e) {
         console.log(e);
     }
 }
 
-postSchema.statics.getPublicPosts = async (location, skill) => {
+postSchema.statics.getPublicPosts = async (location, skills) => {
 
     try {
         
-        const posts = await Post.find({ Visibility: 'Public', ...location!==undefined?{Country:location}:null});
+        const posts = await Post.find({ Visibility: 'Public', ...location!==undefined?{Country:location}:null,
+        ...skills!==undefined?{About:{'$in':skills}}:null});
         let postsWithUserInfo = await Promise.all(posts.reverse().map(async e => {
             const type = e.Type.toLowerCase().split('/');
             return {
@@ -67,6 +72,8 @@ postSchema.statics.getPublicPosts = async (location, skill) => {
                     return await Post.getPostsMedia(el.ReferenceID, el.MediaID, e.Type)
                 })),
                 Type: type[2] !== undefined ? type[2].slice(0, -1) : type[1].slice(0, -1),
+                Country:e.Country,
+                About:e.About,
                 Length: e.Posts.length,
                 CreatedAt: await moment(e.createdAt).fromNow()
             }

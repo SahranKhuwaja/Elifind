@@ -30,7 +30,7 @@ router.post('/Profile/Portfolio/Create', auth, async (req, res) => {
 
   try {
     const createPortfolio = await Portfolio.createPortfolio(req.user._id, req.body);
-    await Post.createPost(req.user._id, {ReferenceID: createPortfolio._id },'Portfolio',undefined,'Private');
+    await Post.createPost(req.user._id, {ReferenceID: createPortfolio._id },'Portfolio',undefined,undefined,'Private');
     res.send(createPortfolio);
 
   } catch (e) {

@@ -119,15 +119,55 @@
                           <div class="form-group row">
                             <label for="pType" class="col-sm-2 col-form-label label-set">Type</label>
                             <div class="col-sm-10">
-                              <input type="Text" class="form-control input-set-msform" name="Type" id="pType"
-                                placeholder="Type" required />
+                              <select type="Text" class="form-control input-set-msform select-set-msform" name="Type" id="pType"
+                                placeholder="Type" required >
+                                <option value="" disabled>Select Type</option>
+                                        <option value="Software" selected>
+                                          Software
+                                        </option>
+                                        <option value="Hardware">
+                                          Hardware
+                                        </option>
+                                        <option value="Other">
+                                          Other
+                                        </option>
+                              </select>
                             </div>
                           </div>
                           <div class="form-group row">
                             <label for="pCat" class="col-sm-2 col-form-label label-set">Category</label>
                             <div class="col-sm-10">
-                              <input type="Text" class="form-control input-set-msform" name="Category" id="pCat"
+                              <select type="Text" class="form-control input-set-msform select-set-msform" name="Category" id="pCat"
                                 placeholder="Category" required>
+                                 <option value="" disabled>Select Category</option>
+                                        <option value="Web Development (Software)" selected>
+                                          Web Development (Software)
+                                        </option>
+                                        <option value="Desktop Application (Software)">
+                                          Desktop Application (Software)
+                                        </option>
+                                        <option value="Artificial Intelligence (Software/Hardware)">
+                                          Artificial Intelligence (Software/Hardware)
+                                        </option>
+                                        <option value="Robotics (Software/Hardware)">
+                                          Robotics (Software/Hardware)
+                                        </option>
+                                        <option value="Electronics (Hardware)" >
+                                          Electronics (Hardware)
+                                        </option>
+                                        <option value="IOT (Software/Hardware)">
+                                          IOT (Software/Hardware)
+                                        </option>
+                                        <option value="AnyOtherSoftware (Software)">
+                                          Any Other Software (Software)
+                                        </option>
+                                        <option value="AnyOtherHardware">
+                                          Any Other Hardware (Hardware)
+                                        </option>
+                                        <option value="">
+                                        Other
+                                        </option>
+                              </select>
                             </div>
                           </div>
 

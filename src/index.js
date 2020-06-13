@@ -26,6 +26,8 @@ const Chat = require('./models/chat');
 const Filter = require('bad-words');
 const Hire = require('./models/hire');
 const Notification = require('./models/notification');
+const Post = require('./models/post');
+const moment = require('moment')
 require('./db/mongoose');
 
 
@@ -173,7 +175,32 @@ socket.on('notification',async(data)=>{
     }
 })
 
+socket.on('realTimePost',async(posts)=>{
+   
+   let postsWithUserInfo = await Promise.all([posts].reverse().map(async e => {
+    const type = e.Type.toLowerCase().split('/');
+    return {
+        ...await Post.getProjectDetails(e.Posts[0].ReferenceID),
+        ...await Post.getUserInfo(e.Owner),
+        Media: await Promise.all(e.Posts.map(async el => {
+            return await Post.getPostsMedia(el.ReferenceID, el.MediaID, e.Type)
+        })),
+        Type: type[2] !== undefined ? type[2].slice(0, -1) : type[1].slice(0, -1),
+        Country:e.Country,
+        About:e.About,
+        Length: e.Posts.length,
+        CreatedAt: await moment(e.createdAt).fromNow()
+    }
+}));
+
+ io.emit('realTimePostRender',await postsWithUserInfo)
+
+   
+})
+
 });
+
+
 
 
 io.on('disconnect',()=>{

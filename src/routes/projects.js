@@ -69,7 +69,7 @@ router.post('/Profile/Projects/Create',auth,async(req,res)=>{
     try{
 
        const createProject = await Project.createProject(req.user._id,req.body.createProject);
-       await Post.createPost(req.user._id,{ReferenceID:createProject._id},req.body.postType,undefined,'Private');
+       await Post.createPost(req.user._id,[{ReferenceID:createProject._id}],req.body.postType,undefined,undefined,'Private');
        if(createProject.PortfolioID!==undefined){
         await Portfolio.updateOne({_id:createProject.PortfolioID},{$set:{updatedAt:Date.now()}})
        }
@@ -104,14 +104,15 @@ router.post('/Profile/Projects/Album/Upload',auth,uploadI.any('file'),async(req,
 
     try{
         const images = await Image.upload(req.body.id,req.files);
-        let post=[];
+        let posts=[];
         await images.forEach(async e => {
-           post.push({ReferenceID:req.body.id,MediaID:e._id})
+           posts.push({ReferenceID:req.body.id,MediaID:e._id})
         });
-        await Post.createPost(req.user._id,post,req.query.portfolio?'Portfolio/Project/Images':'Project/Images',
+        const category = await Project.getCategory(req.body.id)
+        const post = await Post.createPost(req.user._id,posts,req.query.portfolio?'Portfolio/Project/Images':'Project/Images',category.Category,
         req.user.Country,'Public');
         await Project.updateOne({_id:req.body.id},{$set:{updatedAt:Date.now()}})
-        res.send(images);
+        res.send({images,post});
    
     }catch(e){
         console.log(e);
@@ -122,14 +123,15 @@ router.post('/Profile/Projects/Video/Upload',auth,uploadV.any('file'),async(req,
 
     try{
       const videos = await Video.upload(req.body.id,req.files);
-      let post=[];
+      let posts=[];
       await videos.forEach(async e => {
-         post.push({ReferenceID:req.body.id,MediaID:e._id});
+         posts.push({ReferenceID:req.body.id,MediaID:e._id});
       });
-      await Post.createPost(req.user._id,post,req.query.portfolio?'Portfolio/Project/Videos':'Project/Videos',
+      const category = await Project.getCategory(req.body.id)
+      const post = await Post.createPost(req.user._id,posts,req.query.portfolio?'Portfolio/Project/Videos':'Project/Videos',category.Category,
       req.user.Country,'Public');
       await Project.updateOne({_id:req.body.id},{$set:{updatedAt:Date.now()}})
-      res.send(videos);
+      res.send({videos,post});
     
      }catch(e){
          console.log(e);

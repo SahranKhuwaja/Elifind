@@ -65,6 +65,18 @@ projectSchema.statics.createProject = async(Owner,data)=>{
 
 }
 
+projectSchema.statics.getCategory = async(_id)=>{
+
+    try{
+        const project = await Project.findById(_id,{Category:1});
+        return project;
+
+    }catch(e){
+        console.log(e)
+    }
+
+}
+
 projectSchema.statics.getTitle = async(_id)=>{
     
     try{

@@ -70,8 +70,8 @@
               </hgroup>
 
               <button class="filter" id="filter-toggle"><i class="icon ion-ios-settings-strong"></i> Filter</button>
-              <div id="filter" class="filter-div">
-                <div class="toggle-switch switch-set">
+              <div id="filter" class="filter-div filter-newsfeed">
+                <div class="toggle-switch switch-set ">
                   <label class="switch">
                     <input type="checkbox" id="locationFilter" onchange="filter()">
                     <span class="slider round"></span>
@@ -119,7 +119,7 @@
 
   <script src="/profileAssets/js/jquery.sticky-kit.min.js"></script>
   <script src="/newsfeed/js/newsfeed.js"></script>
-  <script src="/profileAssets/js/bootstrap.min.js"></script>
+  <script src="/profileAssets/js/bootstrap.min.js" id="b3"></script>
   <script src="/profileAssets/js/jquery.scrollbar.min.js"></script>
   <script src="/profileAssets/js/script.js"></script>
   {{!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> --}}
@@ -134,7 +134,7 @@
 
   <script id="newPost" type="text/x-handlebars-template">
              \{{#data}}
-             <div class="post-content">
+             <div class="post-content post">
                   <div class="post-container">
                     <img src="data:image/png;base64,\{{Dp}}" alt="user" class="profile-photo-md pull-left" />
                     <div class="post-detail">
@@ -148,7 +148,7 @@
                           \{{else}}<a class="title-set" href="/Profile/View/\{{_id}}/Projects">\{{Title}}</a> \{{/if}}</p>
                            </div>
                            <div class="div-set">
-                           <p class="text-muted para-set-custom2">\{{CreatedAt}} <h5 class="head-set"><span
+                           <p class="text-muted para-set-custom2">\{{CreatedAt}}<h5 class="head-set"><span
                             class="following">following</span></h5></p>
                             </div>
                        
@@ -192,7 +192,7 @@
                         <i class="fa fa-arrow-right right-arrow set-indicators"></i>
                       </a>
                     </div>
-                    
+                      <p class="muted" style="margin-top:10px">Project is about \{{About}}. Posted from \{{Country}}</p>
                       <div class="post-detail set-reaction">
                       
                           <a class="btn text-green"><i class="fa fa-thumbs-o-up ico-set"></i> 13</a> 

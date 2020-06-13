@@ -188,7 +188,17 @@ inomash.save();
 return true;
 
 }
+inomashSchema.statics.getSkills = async(Owner)=>{
 
+    try{
+        let skills = await Inomash.findOne({Owner},{'Skills.Category':1})
+        skills = await skills.Skills.map(e=>e.Category);
+        return [...new Set(skills)];
+
+    }catch(e){
+        console.log(e)
+    }
+}
 
 const Inomash = mongoose.model('InoMash',inomashSchema);
 
