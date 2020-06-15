@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
-const sharp = require('sharp');
 const moment = require('moment');
 const User = require('./user');
 const Company = require('./company');
@@ -8,75 +6,85 @@ const Rating = require('./rating');
 
 const reviewSchema = new mongoose.Schema({
 
-    Owner:{
-        ref:'Users',
-        type:mongoose.Schema.Types.ObjectId,
-        required:true,
-        unique:true
+    Type: {
+        type: String,
+        required: true
     },
-    Reviews:[{
-        ReferenceID:{
-            type:mongoose.Schema.Types.ObjectId,
-            required:true,
-        },
-        Type:{
-            type:String,
-            required:true
-        },
-        Review:[{
-           ReviewedBy:{
-              type:mongoose.Schema.Types.ObjectId,
-              required:true,
-           },
-           Review:{
-              type:String,
-              required:true
-           },
-           createdAt:{
-             type:Date,
-             default:Date.now
-           }
-       }]
-        
-    }]
+    ProjectID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Projects'
+    },
+    PortfolioID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Portfolios'
+    },
+    ReviewedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Users'
+    },
+    Review: {
+        type: String,
+        required: true
+    }
 });
 
-reviewSchema.statics.review = async(Owner,ReferenceID,ReviewedBy,Reviews,Type)=>{
-    let review = await Review.findOne({Owner},{Owner:1});
-    if(!review){
-        review = new Review({Owner,Reviews:[{ReferenceID,Type,Review:[{ReviewedBy,Review:Reviews}]}]});
-        await review.save();
-        return true;
-    }
-    review = await Review.findOne({Owner,'Reviews.ReferenceID':ReferenceID},{'Reviews.$':1});
-    if(!review){
-        await Review.updateOne({Owner},{$push:{Reviews:{ReferenceID,Type,Review:{ReviewedBy,Review:Reviews}}}});
-        return true;
-    }
-    review.Reviews[0].Review = await review.Reviews[0].Review.concat({ReviewedBy,Review:Reviews});
-    await Review.updateOne({Owner,'Reviews.ReferenceID':ReferenceID},{$set:{'Reviews.$.Review':review.Reviews[0].Review}});
+reviewSchema.statics.review = async (id, ReviewedBy, ReviewValue, Type) => {
+
+    const review = new Review({ ...Type === 'Project' ? { ProjectID: id } : { PortfolioID: id }, Type, ReviewedBy, Review: ReviewValue });
+    await review.save();
     return true;
- 
- }
 
- reviewSchema.statics.reviewedBy= async(id,Owner,ReferenceID,MyID)=>{
+}
 
-  const user = await User.findById(id,{FirstName:1,LastName:1,Dp:1,Role:1});
-  let Dp = undefined;
-  if(user.Dp){
-    Dp =  await Buffer.from(user.Dp).toString('base64');
-    delete user.Dp;
-  }
-  let userRating = await Rating.findOne({Owner,'Ratings.ReferenceID':ReferenceID},{'Ratings.$':1});
-  userRating = userRating.Ratings[0].Rating.filter(e=>e.RatedBy.equals(id));
-  if(user.Role === 'Company'){
-      const company = await Company.findOne({Owner:id},{CompanyName:1});
-      return {...company.toObject(),Dp,_id:id,userRating:userRating[0].Rating,Role:user.Role,reviewed:id.equals(MyID)?true:false}
-  }
-  
-  return {...user.toObject(),Dp,userRating:userRating[0].Rating,reviewed:id.equals(MyID)?true:false};
+reviewSchema.statics.getReviews = async (id, Type, MyID) => {
 
- }
+    try {
 
-const Review = mongoose.model('Reviews',reviewSchema);
+        const reviews = await Review.find({ ...Type === 'Project' ? { ProjectID: id } : { PortfolioID: id }, Type }, { Review: 1, ReviewedBy: 1 });
+        if (reviews.length !== 0) {
+
+            let alreadyReviewed = false;
+            const reviewsArray = await Promise.all(reviews.map(async e => {
+                return {
+                    ...await Review.reviewedBy(e.ReviewedBy, id, MyID, Type), Review: e.Review,
+                    time: await moment(e.createdAt).fromNow()
+                }
+
+            }))
+
+            return reviewsArray;
+        }
+        
+        return null;
+        
+
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+reviewSchema.statics.reviewedBy = async (id, ReferenceID, MyID, Type) => {
+
+    try {
+        const user = await User.findById(id, { FirstName: 1, LastName: 1, Dp: 1, Role: 1 });
+        let Dp = undefined;
+        if (user.Dp) {
+            Dp = await Buffer.from(user.Dp).toString('base64');
+            delete user.Dp;
+        }
+        let userRating = await Rating.myRating(ReferenceID, id, Type);
+        if (user.Role === 'Company') {
+            const company = await Company.findOne({ Owner: id }, { CompanyName: 1 });
+            return { ...company.toObject(), Dp, _id: id, userRating: userRating.Rating, Role: user.Role, reviewed: id.equals(MyID) ? true : false }
+        }
+
+        return { ...user.toObject(), Dp, userRating: userRating.Rating, reviewed: id.equals(MyID) ? true : false };
+    } catch (e) {
+        console.log(e)
+    }
+
+}
+
+const Review = mongoose.model('Reviews', reviewSchema);
 module.exports = Review;

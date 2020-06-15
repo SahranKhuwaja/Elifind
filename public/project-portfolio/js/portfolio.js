@@ -50,11 +50,11 @@ const getUserPortfolios = ()=>{
 	})
 	
 }
-const getPortfolioRatings = (portfolioInfo) => {
-	// $.get('/Profile/Media/Ratings', { portfolios: portfolioInfo, userID }, (data, status, xhr) => {
-	// 	renderPortfolios(data);
-	// })
-	renderPortfolios(portfolioInfo);
+const getPortfolioRatings = (portfolios) => {
+	$.get('/Profile/Media/Ratings', { portfolios }, (data, status, xhr) => {
+		renderPortfolios(data);
+	})
+	
 }
 
 const renderPortfolios = (data)=>{
@@ -449,7 +449,7 @@ const renderAverageRating = async (ratings) => {
 }
 
 const getUserRating = (id, userID) => {
-	$.get('/Profile/Media/Ratings/MyRating', { id, userID }, (data, status, xhr) => {
+	$.get('/Profile/Media/Ratings/MyRating', { id,type:'Portfolio'}, (data, status, xhr) => {
 		if (status === 'success') {
 			renderUserRating(data.Rating, data.createdAt, id)
 		}
@@ -481,7 +481,7 @@ const rateConfig = () => {
 }
 const getReviews = (id) => {
 
-	$.get('/Profile/Media/Reviews',{id,userID},(data,status,xhr)=>{
+	$.get('/Profile/Media/Reviews',{id,type:'Portfolio'},(data,status,xhr)=>{
 
 		if(status==='success'){
 
@@ -537,7 +537,7 @@ const allowRating = async (id) => {
 }
 
 const rate = (id, rating) => {
-	$.post('/Profile/Media/Rate', { rating, id, userID, type: 'Portfolio' }, (data, status, xhr) => {
+	$.post('/Profile/Media/Rate', { rating, id, type: 'Portfolio' }, (data, status, xhr) => {
 		if (status === 'success' && data === true) {
 			$('#stats').remove();
 			updateRatingStats(id, userID)
@@ -552,7 +552,7 @@ const rate = (id, rating) => {
 }
 const updateRatingStats = async (id, userID) => {
 
-	$.get('/Profile/Media/Ratings/Overall', { id, userID }, (data, status, xhr) => {
+	$.get('/Profile/Media/Ratings/Overall', { id, type:'Portfolio'}, (data, status, xhr) => {
 		if (status === 'success' && data !== null) {
 			updatePortfolio = true;
 			renderAverageRating(data);
@@ -580,7 +580,7 @@ const setListenerForReview = (id) => {
 
 const review = async (id) => {
     const review = $('#comment').val();
-	$.post('/Profile/Media/Review', { review, id, userID, type: 'Portfolio' }, (data, status, xhr) => {
+	$.post('/Profile/Media/Review', { review, id, type: 'Portfolio' }, (data, status, xhr) => {
 
 		if (status === 'success' && data === true) {
 			$('#myCommentArea').remove()

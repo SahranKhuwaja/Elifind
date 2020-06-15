@@ -503,14 +503,14 @@
                         <div class="box-content">
                     
                            <a href="javascript:openPortfolio('\{{_id}}',
-                           '\{{Ratings.total}}','\{{Ratings.average}}',
-                           '\{{Ratings.rating.1}}', '\{{Ratings.rating.2}}', '\{{Ratings.rating.3}}', '\{{Ratings.rating.4}}',
-                            '\{{Ratings.rating.5}}'
+                           '\{{total}}','\{{average}}',
+                           '\{{rating.1}}', '\{{rating.2}}', '\{{rating.3}}', '\{{rating.4}}',
+                            '\{{rating.5}}'
                            )"> <i class="fa fa-folder-open-o fa-4x icon-set " aria-hidden="true"></i></a> 
                         </div>
                     </div>
-                    <input class="rating rating-loading rated" value="\{{Ratings.average}}" data-min="0" data-max="5" data-step="0.5" data-size="lg">
-                    <span style="float: right;"><span class="glyphicon glyphicon-user"></span>\{{Ratings.total}} \{{^Ratings}} 0 \{{/Ratings}} total ratings</span>
+                    <input class="rating rating-loading rated" value="\{{average}}" data-min="0" data-max="5" data-step="0.5" data-size="lg">
+                    <span style="float: right;"><span class="glyphicon glyphicon-user"></span>\{{total}} total ratings</span>
                 </div> 
           \{{/Portfolios}}
     </script>

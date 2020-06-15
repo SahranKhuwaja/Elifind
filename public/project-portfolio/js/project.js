@@ -57,14 +57,16 @@ const getUserProjects = () => {
 	})
 
 }
-const getProjectRatings = (projectsInfo) => {
-	// $.get('/Profile/Media/Ratings', { projects: projectsInfo, userID }, (data, status, xhr) => {
-	// 	renderProjects(data);
-	// })
-	renderProjects(projectsInfo);
+const getProjectRatings = (projects) => {
+	$.get('/Profile/Media/Ratings', { projects }, (data, status, xhr) => {
+		if (status === 'success') {
+			console.log(data)
+			renderProjects(data);
+		}
+	})
 }
 const renderProjects = (data) => {
-	
+
 	const template = document.querySelector('#project-thumbnail').innerHTML;
 	const parentDiv = document.querySelector('#projectsList');
 	let html = undefined
@@ -86,7 +88,7 @@ const renderIndividualProject = (data) => {
 
 const open = (id, total, average, oneStar, twoStar, threeStar, fourStar, fiveStar) => {
 
-	$.get('/Profile/Projects/MyProjects/Project/Open', { id, userID, IsPortfolioProject:false }, (data, status, xhr) => {
+	$.get('/Profile/Projects/MyProjects/Project/Open', { id, userID, IsPortfolioProject: false }, (data, status, xhr) => {
 		if (status === 'success') {
 			openDirectory(data, { total, average, oneStar, twoStar, threeStar, fourStar, fiveStar });
 		}
@@ -140,7 +142,7 @@ const directoryFiles = async (id) => {
 }
 const directoryRatings = async (id, ratings) => {
 	await renderAverageRating(ratings);
-	await getUserRating(id, userID);
+	await getUserRating(id);
 	await getReviews(id);
 }
 
@@ -249,11 +251,11 @@ const renderAlbum = async (data, id) => {
 		let html2 = undefined;
 
 		imageDropzone.on("successmultiple", async function (file, responseText) {
-			
+
 			html2 = await Mustache.render(listItemTemplate, { data: responseText.images });
 			await parentDivForListItem.insertAdjacentHTML('afterbegin', html2);
 			$('#pUpdate').html(moment(Date.now()).fromNow())
-            await realTimePostRender(responseText.post)
+			await realTimePostRender(responseText.post)
 		});
 	}
 
@@ -293,7 +295,7 @@ const renderVideos = async (data, id) => {
 
 		});
 	}
-    await toggleCheck()
+	await toggleCheck()
 }
 
 
@@ -305,8 +307,8 @@ const renderAverageRating = async (ratings) => {
 	await staticRatedConfig();
 }
 
-const getUserRating = (id, userID) => {
-	$.get('/Profile/Media/Ratings/MyRating', { id, userID }, (data, status, xhr) => {
+const getUserRating = (id) => {
+	$.get('/Profile/Media/Ratings/MyRating', {id,type:'Project'}, (data, status, xhr) => {
 		if (status === 'success') {
 			renderUserRating(data.Rating, data.createdAt, id)
 		}
@@ -329,7 +331,7 @@ const renderUserRating = async (value, time, id) => {
 
 const getReviews = (id) => {
 
-	$.get('/Profile/Media/Reviews', { id, userID }, (data, status, xhr) => {
+	$.get('/Profile/Media/Reviews', { id, type:'Project'}, (data, status, xhr) => {
 
 		if (status === 'success') {
 
@@ -409,10 +411,10 @@ const allowRating = async (id) => {
 }
 
 const rate = (id, rating) => {
-	$.post('/Profile/Media/Rate', { rating, id, userID, type: 'Project' }, (data, status, xhr) => {
+	$.post('/Profile/Media/Rate', { rating, id, type: 'Project' }, (data, status, xhr) => {
 		if (status === 'success' && data === true) {
 			$('#stats').remove();
-			updateRatingStats(id, userID)
+			updateRatingStats(id)
 			renderRating(rating);
 			$('#ratedTime').html(moment(Date.now()).fromNow());
 			if (userID) {
@@ -423,9 +425,9 @@ const rate = (id, rating) => {
 	});
 }
 
-const updateRatingStats = async (id, userID) => {
+const updateRatingStats = async (id) => {
 
-	$.get('/Profile/Media/Ratings/Overall', { id, userID }, (data, status, xhr) => {
+	$.get('/Profile/Media/Ratings/Overall', { id, type:'Project'}, (data, status, xhr) => {
 		if (status === 'success' && data !== null) {
 			updateProjects = true;
 			renderAverageRating(data);
@@ -453,7 +455,7 @@ const setListenerForReview = (id) => {
 
 const review = async (id) => {
 	const review = $('#comment').val();
-	$.post('/Profile/Media/Review', { review, id, userID, type: 'Project' }, (data, status, xhr) => {
+	$.post('/Profile/Media/Review', { review, id, type: 'Project' }, (data, status, xhr) => {
 
 		if (status === 'success' && data === true) {
 			$('#myCommentArea').remove()
@@ -476,9 +478,9 @@ const renderSuccessMessage = async (comment) => {
 
 }
 
-const realTimePostRender = async(posts)=>{
-	
-	socket.emit('realTimePost',posts)
+const realTimePostRender = async (posts) => {
+
+	socket.emit('realTimePost', posts)
 }
 
 

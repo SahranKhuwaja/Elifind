@@ -1,25 +1,15 @@
 const Rating = require('../models/rating');
 
-const ratingCheck = async(req,res,next)=>{
-    try{
-        let check;
-        if(!req.body.userID){
-            check = await Rating.findOne({Owner:req.user._id,'Ratings.ReferenceID':req.body.id},{'Ratings.$':1});
+const ratingCheck = async (req, res, next) => {
+    try {
+        let rate = await Rating.findOne({ ...req.body.type === 'Project' ? { ProjectID: req.query.id } : 
+        { PortfolioID: req.query.id }, Type:req.body.type, RatedBy:req.user._id }, { Rating: 1 });
+        if (rate) {
+            return false;
         }
-        else{
-            check = await Rating.findOne({Owner:req.body.userID,'Ratings.ReferenceID':req.body.id},{'Ratings.$':1});
-        }
-        if(check){
-     
-          check = await check.Ratings[0].Rating.filter(e=>e.RatedBy.equals(req.user._id));
-           if(check.length !==0){
-               return res.sendStatus(500);
-           }
-        }
-
         await next();
 
-    }catch(e){
+    } catch (e) {
         console.log(e);
     }
 }
