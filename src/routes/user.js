@@ -272,7 +272,7 @@ var transporter = nodemailer.createTransport({
      subject:'ELIFIND Password Reset Token',
      text:'You have requested for password reset token. \n\n' +
      'Please click on the link to reset your password. \n\n' +
-     `http://localhost:3000/Reset/${token.toString('hex')}`
+     `https://elifind-app.herokuapp.com//Reset/${token.toString('hex')}`
 
 
   };
