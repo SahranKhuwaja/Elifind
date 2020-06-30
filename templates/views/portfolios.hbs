@@ -241,6 +241,8 @@
             <h4 class="
                 {{#if user}}
                 set-title
+                {{else if companyDetails}}
+                set-title
                 {{else}}
                 set-title-visitor
                 {{/if}}">List of Portfolios</h4>
@@ -654,6 +656,8 @@
             {{!-- <div class="line custom"></div> --}}
                 <h4 class="
                 {{#if user}}
+                set-title
+                {{else if companyDetails}}
                 set-title
                 {{else}}
                 set-title-visitor

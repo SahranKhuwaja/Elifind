@@ -59,7 +59,7 @@ exports.infoExtractor = async (text) => {
 }
 
 exports.cleanData = async (info) => {
- 
+  
   if(info.name){
      const part = await info.name[0].split(' ');
      info.name[0] = '';
