@@ -108,6 +108,8 @@
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
     color: #607d8b;
+    width: 85% ;
+    margin-left: 70px ;
 }
 
 .filter-newsfeed{

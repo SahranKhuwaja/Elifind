@@ -1488,7 +1488,7 @@ ul.online-users li span.online-dot{
 
 .timeline-cover{
 
-  background:url('../images/covers/bg-01.jpg') no-repeat;
+  background:url('../images/covers/bg-cover.jpg') no-repeat;
   background-position: center;
   background-size: cover;
   min-height: 360px;
@@ -3594,10 +3594,8 @@ textarea.error{
 90% {opacity: 0.8;}
 }
 
-/* .container{
-  width: 100% !important;
-  margin-bottom: 500px !important;
-} */
-
+.form-set:{
+  display:'block' !important;
+}
 
 

@@ -21,6 +21,7 @@ const createProject = () => {
 
 	$.post('/Profile/Projects/Create', { createProject, postType: 'Project' }, (data, status, xhr) => {
 		if (Object.entries(data).length !== 0 && status === 'success') {
+			data.total = 0;
 			renderIndividualProject(data);
 			resetForm();
 
@@ -60,7 +61,6 @@ const getUserProjects = () => {
 const getProjectRatings = (projects) => {
 	$.get('/Profile/Media/Ratings', { projects }, (data, status, xhr) => {
 		if (status === 'success') {
-			console.log(data)
 			renderProjects(data);
 		}
 	})

@@ -16,7 +16,7 @@
 </head>
 
 <body>
-  <div class="container" style="margin-bottom: 500px">
+  <div class="container" style="margin-bottom: 500px;width:100%">
     <div class="timeline" id="timeline" style="margin-top: 50px;margin-bottom:20px;">
 
       {{>profileTop}}
@@ -367,16 +367,56 @@
                 <div class="form-group row">
                   <label for="proType" class="col-sm-2 col-form-label label-set">Type</label>
                   <div class="col-sm-10">
-                    <input type="Text" class="form-control input-set-msform" name="Type" id="proType" placeholder="Type"
-                      required />
-                  </div>
+                              <select type="Text" class="input-set-msform select-set-msform form-control" name="Type" id="proType"
+                                placeholder="Type" required>
+                                        <option value="" disabled>Select Type</option>
+                                        <option value="Software" selected>
+                                          Software
+                                        </option>
+                                        <option value="Hardware">
+                                          Hardware
+                                        </option>
+                                        <option value="Other">
+                                          Other
+                                        </option>
+                              </select>
+                            </div>
                 </div>
                 <div class="form-group row">
                   <label for="proCat" class="col-sm-2 col-form-label label-set">Category</label>
                   <div class="col-sm-10">
-                    <input type="Text" class="form-control input-set-msform" name="Category" id="proCat"
-                      placeholder="Category" required>
-                  </div>
+                              <select type="text" class="form-control input-set-msform select-set-msform" name="Category" id="proCat"
+                                placeholder="Category" required>
+                                        <option value="" disabled>Select Category</option>
+                                        <option value="Web Development (Software)" selected>
+                                          Web Development (Software)
+                                        </option>
+                                        <option value="Desktop Application (Software)">
+                                          Desktop Application (Software)
+                                        </option>
+                                        <option value="Artificial Intelligence (Software/Hardware)">
+                                          Artificial Intelligence (Software/Hardware)
+                                        </option>
+                                        <option value="Robotics (Software/Hardware)">
+                                          Robotics (Software/Hardware)
+                                        </option>
+                                        <option value="Electronics (Hardware)" >
+                                          Electronics (Hardware)
+                                        </option>
+                                        <option value="IOT (Software/Hardware)">
+                                          IOT (Software/Hardware)
+                                        </option>
+                                        <option value="AnyOtherSoftware (Software)">
+                                          Any Other Software (Software)
+                                        </option>
+                                        <option value="AnyOtherHardware">
+                                          Any Other Hardware (Hardware)
+                                        </option>
+                                        <option value="">
+                                        Other
+                                        </option>
+                                    </select>
+                            </div>
                 </div>
                 <div class="form-group row">
                   <label for="proTag" class="col-sm-2 col-form-label label-set">Tags</label>

@@ -17,6 +17,7 @@ const createPortfolio = ()=>{
     
      $.post('/Profile/Portfolio/Create',portfolio,(data,status,xhr)=>{
          if(Object.entries(data).length !==0 && status ==='success'){
+			 data.total = 0;
              renderIndividualPortfolio(data);
              resetForm();			
              
@@ -373,7 +374,7 @@ const renderAlbum = async (data, id) => {
 		let html2 = undefined;
 
 		imageDropzone.on("successmultiple", async function (file, responseText) {
-			html2 = await Mustache.render(listItemTemplate, { data: responseText });
+			html2 = await Mustache.render(listItemTemplate, { data: responseText.images });
 			await parentDivForListItem.insertAdjacentHTML('afterbegin', html2);
 			$('#pUpdate').html(moment(Date.now()).fromNow())
 
@@ -409,7 +410,7 @@ const renderVideos = async (data, id) => {
 		const parentDivForListItem = document.querySelector('#videosList');
 		let html2 = undefined;
 		videoDropzone.on("successmultiple", async function (file, responseText) {
-			html2 = await Mustache.render(listItemTemplate, { data: responseText });
+			html2 = await Mustache.render(listItemTemplate, { data: responseText.videos });
 			await parentDivForListItem.insertAdjacentHTML('afterbegin', html2);
 			$('#pUpdate').html(moment(Date.now()).fromNow())
 		});

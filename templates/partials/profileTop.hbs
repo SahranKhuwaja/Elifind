@@ -1,199 +1,204 @@
- 
-
-    
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,700i" rel="stylesheet">
-    <link href="/hireMe/css/video.css" rel="stylesheet">
-        <div class="timeline-cover" style="{{#if data}} 
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,700i" rel="stylesheet">
+<link href="/hireMe/css/video.css" rel="stylesheet">
+<div class="timeline-cover" style="{{#if data}} 
         
-                      background:url('/profileAssets/images/covers/bg-02.jpg')
+                      background:url('/profileAssets/images/covers/bg-02.jpg') no-repeat;
+                      
         
         {{/if}}
         {{#if companyDetails}} 
         
-                      background:url('/profileAssets/images/covers/bg-03.jpg')
+                      background:url('/profileAssets/images/covers/bg-03.jpg') no-repeat
         
-        {{/if}}" >
+        {{/if}}
+        background-position: center;
+  background-size: cover;
+  min-height: 360px;
+  border-radius: 0 0 4px 4px;
+  position: relative;">
 
-          
-          <div class="timeline-nav-bar hidden-sm hidden-xs">
-            <div class="row">
-              <div class="col-md-3">
-                <div class="profile-info" id="pI">
-                  {{#if image}}
-                  <img src="data:image/png;base64, {{image}} " id="i" 
-                  alt="user" name="user" class="profile-photo" />
 
-                    {{else}}
-                   <img src="/profileAssets/images/male.jpg" id="i" 
-                  alt="user" name="user" class="img-responsive profile-photo" />
-                  
-                  {{/if}}
-                 				
-                       {{#if user}}
-                       
-                       <form method="post" enctype="multipart/form-data" action="/Upload">
-                       <input  style="display: none" type="file" name="dp" id="uploadImage" onchange="form.submit()" />
-                       <a  class="btn btn-md btn-default light-icon" id="dp">Upload Profile Image</a>
-                       </form>
+  <div class="timeline-nav-bar hidden-sm hidden-xs">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="profile-info" id="pI">
+          {{#if image}}
+          <img src="data:image/png;base64, {{image}} " id="i" alt="user" name="user" class="profile-photo" />
 
-                       <h4><strong>{{user.FirstName}} {{user.LastName}}</strong></h4>
-                       <p class="text-muted">{{user.Email}}</p> 
+          {{else}}
+          <img src="/profileAssets/images/male.jpg" id="i" alt="user" name="user"
+            class="img-responsive profile-photo" />
 
-                       {{else if companyDetails}}
-                       
-                      <form method="post" enctype="multipart/form-data" action="/Upload">
-                      <input  style="display: none" type="file" name="dp" id="uploadImage" onchange="form.submit()" />
-                      <a  class="btn btn-md btn-default light-icon" id="dp">Upload Profile Image</a>
-                      </form>
+          {{/if}}
 
-                      <h4><strong>{{companyDetails.CompanyName}}</strong></h4>
-                      <p class="text-muted">{{company.Email}}</p> 
+          {{#if user}}
 
-                      {{else}}
+          <form method="post" enctype="multipart/form-data" action="/Upload">
+            <input style="display: none" type="file" name="dp" id="uploadImage" onchange="form.submit()" />
+            <a class="btn btn-md btn-default light-icon" id="dp">Upload Profile Image</a>
+          </form>
 
-                      <h4><strong>{{data.FirstName}} {{data.LastName}} {{data.CompanyName}}</strong></h4>
-                      <p class="text-muted">{{data.Email}}</p> 
-             
-                      {{/if}}
-                  {{#unless companyDetails}}
-                    {{#unless data.CompanyName}}
-                        <p class="text-muted">{{age}} years old</p>
-                        
-                        <script id="showHiredBy" type="text/x-handlebars-template">
+          <h4><strong>{{user.FirstName}} {{user.LastName}}</strong></h4>
+          <p class="text-muted">{{user.Email}}</p>
+
+          {{else if companyDetails}}
+
+          <form method="post" enctype="multipart/form-data" action="/Upload">
+            <input style="display: none" type="file" name="dp" id="uploadImage" onchange="form.submit()" />
+            <a class="btn btn-md btn-default light-icon" id="dp">Upload Profile Image</a>
+          </form>
+
+          <h4><strong>{{companyDetails.CompanyName}}</strong></h4>
+          <p class="text-muted">{{company.Email}}</p>
+
+          {{else}}
+
+          <h4><strong>{{data.FirstName}} {{data.LastName}} {{data.CompanyName}}</strong></h4>
+          <p class="text-muted">{{data.Email}}</p>
+
+          {{/if}}
+          {{#unless companyDetails}}
+          {{#unless data.CompanyName}}
+          <p class="text-muted">{{age}} years old</p>
+
+          <script id="showHiredBy" type="text/x-handlebars-template">
                          <p class="text-muted" id="hc">Hired By <a href="/Profile/View/\{{id}}/Timeline">\{{Company}}</a></p>
                         </script>
-                    {{/unless}}
-                  {{/unless}}
-                </div>
-              </div>
-              <div class="col-md-9">
-                <ul class="list-inline profile-menu">
-                 <li>
-                  {{#if data}}
-                  <a href="/Profile/View/{{data._id}}" class="active" id="about">About</a>
-                  {{else}}
-                  <a href="/Profile" class="active" id="about">About</a>
-                   {{/if}}
-                 </li>
+          {{/unless}}
+          {{/unless}}
+        </div>
+      </div>
+      <div class="col-md-9">
+        <ul class="list-inline profile-menu">
+          <li>
+            {{#if data}}
+            <a href="/Profile/View/{{data._id}}" class="active" id="about">About</a>
+            {{else}}
+            <a href="/Profile" class="active" id="about">About</a>
+            {{/if}}
+          </li>
 
-                   <li>
-                     {{#if data}}
-                     <a href="/Profile/View/{{data._id}}/Timeline" id="tl">Timeline </a>
-                     {{else}}
-                     <a href="/Profile/Timeline" id="tl">Timeline </a>
-                      {{/if}}
-                   
-                   
-                   </li>
+          <li>
+            {{#if data}}
+            <a href="/Profile/View/{{data._id}}/Timeline" id="tl">Timeline </a>
+            {{else}}
+            <a href="/Profile/Timeline" id="tl">Timeline </a>
+            {{/if}}
 
-                   <li>
-                    
-                     {{#if data}}
-                       {{#if data.CompanyName}}
-                          <a href="" id="">Employees</a>
-                       {{else}}   
-                          <a href="/Profile/View/{{data._id}}/Inomash" id="ino">Inomash</a>
-                       {{/if}}
-                     {{else if companyDetails}}
-                       <a href="" id="">Employees</a>
-                     {{else}}
-                       <a href="/Profile/Inomash" id="ino">Inomash</a>
-                     {{/if}}
-                 
-                     </li>
-                
-                     <li>
-                       {{#if data}}
-                       <a href="/Profile/View/{{data._id}}/Projects" id="pro">Projects</a>
-                       {{else}}
-                       <a href="/Profile/Projects" id="pro">Projects</a>
-                       {{/if}}
-                     </li>
 
-                  <li>
-                     {{#if data}}
-                       <a href="/Profile/View/{{data._id}}/Portfolios" id="port">Portfolios</a>
-                       {{else}}
-                       <a href="/Profile/Portfolios" id="port">Portfolios</a>
-                       {{/if}}
-                  </li>
-                      {{#if companyDetails}}
-                       <li>
-                        <a href="/Profile/SkillDetection" id="sd">Skill Detection</a>
-                       </li>
-                      {{/if}}
-                </ul>
-                <ul class="follow-me list-inline profile-menu">
-                 <li id="hiredByBar"> </li>
-                 <script id="hiredS" type="text/x-handlebars-template">
+          </li>
+
+          <li>
+
+            {{#if data}}
+            {{#if data.CompanyName}}
+            <a href="" id="">Employees</a>
+            {{else}}
+            <a href="/Profile/View/{{data._id}}/Inomash" id="ino">Inomash</a>
+            {{/if}}
+            {{else if companyDetails}}
+            <a href="" id="">Employees</a>
+            {{else}}
+            <a href="/Profile/Inomash" id="ino">Inomash</a>
+            {{/if}}
+
+          </li>
+
+          <li>
+            {{#if data}}
+            <a href="/Profile/View/{{data._id}}/Projects" id="pro">Projects</a>
+            {{else}}
+            <a href="/Profile/Projects" id="pro">Projects</a>
+            {{/if}}
+          </li>
+
+          <li>
+            {{#if data}}
+            <a href="/Profile/View/{{data._id}}/Portfolios" id="port">Portfolios</a>
+            {{else}}
+            <a href="/Profile/Portfolios" id="port">Portfolios</a>
+            {{/if}}
+          </li>
+          {{#if companyDetails}}
+          <li>
+            <a href="/Profile/SkillDetection" id="sd">Skill Detection</a>
+          </li>
+          {{/if}}
+        </ul>
+        <ul class="follow-me list-inline profile-menu">
+          <li id="hiredByBar"> </li>
+          <script id="hiredS" type="text/x-handlebars-template">
                    <p id="hc">\{{msg}}<strong><a href="/Profile/View/\{{id}}/Timeline" style="color:chartreuse;">\{{Company}}</a></strong><button class="btn btn-primary" id="leave">Leave</button></p>
                  </script>
-                    <div class="modal fade" id="leaveModal" tabindex="-1" role="dialog"  aria-hidden="true">
-                       <div class="modal-dialog modal-dialog-centered" role="document">
-                         <div class="modal-content">
-                           <div class="modal-header">
-                             <h5 class="modal-title" id="exampleModalLongTitle">Leave Company  
-                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                             <span aria-hidden="true">&times;</span>
-                             </button></h5>
-                             </div>
-                            <div class="modal-body">
-                            Do to really want to leave?
-                           </div>
-                           <div class="modal-footer">
-                              <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
-                              <button type="button" class="btn btn-primary" onclick="leave('{{user._id}}')" data-dismiss="modal">Yes</button>
-                           </div>
-                        </div>
-                      </div>
-                    </div>
-                </ul>
-                {{#if data}}
-                <ul class="follow-me list-inline">
-                {{#unless data.CompanyName}}
-                {{#if loggedInUser.CompanyName}}
-                <li id="hireOpt"> </li>
-                <div class="modal fade" id="hireModal" tabindex="-1" role="dialog"  aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered" role="document">
-                     <div class="modal-content">
-                       <div class="modal-header">
-                         <h5 class="modal-title" id="exampleModalLongTitle">Hire  
-                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                         <span aria-hidden="true">&times;</span>
-                         </button></h5>
-                       </div>
-                       <div class="modal-body">
-                          Do tou want to hire {{data.FirstName}}?
-                       </div>
-                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
-                            <button type="button" class="btn btn-primary" onclick="hire('{{data._id}}')" data-dismiss="modal">Yes</button>
-                         </div>
-                     </div>
-                 </div>
-                 </div>
+          <div class="modal fade" id="leaveModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Leave Company
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button></h5>
+                </div>
+                <div class="modal-body">
+                  Do to really want to leave?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                  <button type="button" class="btn btn-primary" onclick="leave('{{user._id}}')"
+                    data-dismiss="modal">Yes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ul>
+        {{#if data}}
+        <ul class="follow-me list-inline">
+          {{#unless data.CompanyName}}
+          {{#if loggedInUser.CompanyName}}
+          <li id="hireOpt"> </li>
+          <div class="modal fade" id="hireModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Hire
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button></h5>
+                </div>
+                <div class="modal-body">
+                  Do tou want to hire {{data.FirstName}}?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                  <button type="button" class="btn btn-primary" onclick="hire('{{data._id}}')"
+                    data-dismiss="modal">Yes</button>
+                </div>
+              </div>
+            </div>
+          </div>
 
-                  <div class="modal fade" id="unhireModal" tabindex="-1" role="dialog"  aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered" role="document">
-                     <div class="modal-content">
-                       <div class="modal-header">
-                         <h5 class="modal-title" id="exampleModalLongTitle">UnHire  
-                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                         <span aria-hidden="true">&times;</span>
-                         </button></h5>
-                       </div>
-                       <div class="modal-body">
-                          Do tou want to unhire {{data.FirstName}}?
-                       </div>
-                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
-                            <button type="button" class="btn btn-primary" onclick="unHire('{{data._id}}')" data-dismiss="modal">Yes</button>
-                         </div>
-                     </div>
-                 </div>
-                 </div>
+          <div class="modal fade" id="unhireModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">UnHire
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button></h5>
+                </div>
+                <div class="modal-body">
+                  Do tou want to unhire {{data.FirstName}}?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                  <button type="button" class="btn btn-primary" onclick="unHire('{{data._id}}')"
+                    data-dismiss="modal">Yes</button>
+                </div>
+              </div>
+            </div>
+          </div>
 
-                <script id="notHired" type="text/x-handlebars-template">
+          <script id="notHired" type="text/x-handlebars-template">
 
                   <button class="btn btn-primary btn-lg" id="btnHire" data-toggle="modal" data-target="#hireModal" style="margin-right: 1.8em;"><i class="fa fa-users" style="font-size:larger;color:white;margin-right:5px"></i>\{{Title}}</button>
 
@@ -201,83 +206,82 @@
 
                 </script>
 
-                <script id="hiredAlready" type="text/x-handlebars-template">
-                  
+          <script id="hiredAlready" type="text/x-handlebars-template">
+
                     <button class="btn btn-primary btn-lg" id="hiredA"><i class="fa fa-check" style="font-size:larger;color:white;margin-right:5px"></i>\{{Title}}</button>
                    
                 </script>
-                
-                {{/if}}
-                {{/unless}}
-                <li> <button class="btn btn-primary btn-lg" id="btnChat" onclick="chat('{{data._id}}')"><i class="fa fa-comment" style="font-size:larger;color:white;margin-right:5px"></i>CHAT</button>
-                </li>      
-                </ul>
-                {{/if}}
-              </div>
-            </div>
-          </div>
-          </div>
-          <div class="modal fade" id="calling" tabindex="-1" role="dialog"  aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered" role="document">
-                     <div class="modal-content">
-                       <div class="modal-header">
-                         <h5 class="modal-title" id="exampleModalLongTitle">Calling 
-                         <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnD">
-                         <span aria-hidden="true">&times;</span>
-                         </button></h5>
-                       </div>
-                       <div class="modal-body">
-                         Calling...
-                       </div>
-                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnCan">Cancel</button>
-                         </div>
-                     </div>
-                 </div>
-                 </div>
-                 <div class="modal fade" id="receiving" tabindex="-1" role="dialog"  aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered" role="document">
-                     <div class="modal-content">
-                       <div class="modal-header">
-                         <h5 class="modal-title" id="exampleModalLongTitle">Call for Interview 
-                         <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnD">
-                         <span aria-hidden="true">&times;</span>
-                         </button></h5>
-                       </div>
-                       <div class="modal-body">
-                         Calling...
-                       </div>
-                         <div class="modal-footer">
-                            <button type="button" id="btnC" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary" id="btnR" data-dismiss="modal">Answer</button>
-                         </div>
-                     </div>
-                 </div>
-                 </div>
-                     <div class="modal fade" id="notOnline" tabindex="-1" role="dialog"  aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered" role="document">
-                     <div class="modal-content">
-                       <div class="modal-header">
-                         <h5 class="modal-title" id="exampleModalLongTitle">Not online
-                         <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnD">
-                         <span aria-hidden="true">&times;</span>
-                         </button></h5>
-                       </div>
-                       <div class="modal-body">
-                         Sorry! User is not online
-                       </div>
-                         <div class="modal-footer">
-                            <button type="button" id="btnC" class="btn btn-primary" data-dismiss="modal">Okay</button>
-                            
-                         </div>
-                     </div>
-                 </div>
-                 </div>
-           <div id="temp">
 
-           </div>
-           <script src="/js/subNavHandler.js"></script>
-          <script src="/hireMe/js/hire.js"></script>
-           <script src="/js/visit.js"></script>
+          {{/if}}
+          {{/unless}}
+          <li> <button class="btn btn-primary btn-lg" id="btnChat" onclick="chat('{{data._id}}')"><i
+                class="fa fa-comment" style="font-size:larger;color:white;margin-right:5px"></i>CHAT</button>
+          </li>
+        </ul>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="calling" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Calling
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnD">
+            <span aria-hidden="true">&times;</span>
+          </button></h5>
+      </div>
+      <div class="modal-body">
+        Calling...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnCan">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="receiving" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Call for Interview
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnD">
+            <span aria-hidden="true">&times;</span>
+          </button></h5>
+      </div>
+      <div class="modal-body">
+        Calling...
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btnC" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btnR" data-dismiss="modal">Answer</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="notOnline" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Not online
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnD">
+            <span aria-hidden="true">&times;</span>
+          </button></h5>
+      </div>
+      <div class="modal-body">
+        Sorry! User is not online
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btnC" class="btn btn-primary" data-dismiss="modal">Okay</button>
 
-     
+      </div>
+    </div>
+  </div>
+</div>
+<div id="temp">
+
+</div>
+<script src="/js/subNavHandler.js"></script>
+<script src="/hireMe/js/hire.js"></script>
+<script src="/js/visit.js"></script>
