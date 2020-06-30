@@ -564,6 +564,7 @@
               	<li class="active" id="portDetails"><i class="icon ion-information-circled active" id="portD"style=""></i><a href="" id="portfolioDetails">Portfolio Details</a></li>
               	<li id="portFiles"><i class="icon ion-ios-folder-outline" id="portF" ></i><a href="" id="portfolioFiles">Portfolio Files</a></li>
                 <li id="portRatings"><i class="icon ion-ios-heart-outline" id="portR" ></i><a href="" id="portfolioRatings">Rating and Review</a></li>
+               <li id="portSentimentAnalysis"><i class="icon ion-ios-heart-outline" id="portS" ></i><a href="" id="portfolioSentimentAnalysis">Sentiment Analysis</a></li>
               </ul>
             </div>
             
@@ -669,6 +670,10 @@
                  <div class="about-profile" id="portfolioRatingsSection">
                  
        
+              </div>
+                <div class="about-profile" id="portfolioSentimentAnalysisSection">
+                 
+                
               </div>
 
           </div> 
@@ -1341,6 +1346,31 @@
          Success! Your review has been recorded successfully!
       </div>
   </script>
+  <script id="sentimentAnalyzerTemplate" type="text/x-handlebars-template">
+        <h4 class="set-title-visitor">Sentiment Analyzer</h4>
+        <div class="line"></div>
+        <p>This sentiment analyzer will analyzer the top 20 comments of this project!</p>
+        <br>
+        <button class="btn btn-primary" onclick="startAnalysis('\{{id}}')">Let's go</button>
+        <br>
+         <div id="analysis-res">
+                  
+          </div>
+        
+    </script>
+
+    <script id="sentimentAnalyzerResTemplate" type="text/x-handlebars-template">
+        
+         
+                  <div class="n-container">
+                    <p id="r-section">\{{review}}</p>
+                    <div>
+                    <img src="\{{imageLink}}" style="color:\{{color}};borderColor:\{{borderColor}}">
+                    </div>
+                  </div>
+       
+        
+    </script>
 
 
 </html>

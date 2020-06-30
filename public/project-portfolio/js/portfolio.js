@@ -95,8 +95,10 @@ const openPortfolioDirectory = (data,ratings)=>{
 	portfolioDirectoryDetails(data);
 	portfolioDirectoryFiles(data._id);
 	portfolioDirectoryRatings(data._id, ratings);
+	portfolioDirectorySentimentAnalysis(data._id)
 	$('#portfolioFilesSection').hide('fast');
 	$('#portfolioRatingsSection').hide('fast');
+	$('#portfolioSentimentAnalysisSection').hide('fast');
 	$('#portfolioFiles').click((e)=>{
 		e.preventDefault();
 		toggleToPortfolioFiles();
@@ -108,6 +110,10 @@ const openPortfolioDirectory = (data,ratings)=>{
 	$('#portfolioRatings').click((e) => {
 		e.preventDefault();
 		toggleToPortfolioRating();
+	})
+	$('#portfolioSentimentAnalysis').click((e) => {
+		e.preventDefault();
+		toggleToSentimentAnalyzer();
 	})
 }
 const portfolioDirectoryDetails = (data)=>{
@@ -132,11 +138,60 @@ const portfolioDirectoryRatings = async (id, ratings) => {
    await getReviews(id);
 }
 
+const portfolioDirectorySentimentAnalysis = async(id)=>{
+	await renderSentimentAnalyzerSection(id)
+}
+
 const getProtfolioProjects = async(id)=>{
 	$.get('/Profile/Projects/MyProjects/Get',{id,IsPortfolioProject:true,userID},(data,status,xhr)=>{
 		renderPortfolioProjects(data,id);
 	})
 }
+
+const renderSentimentAnalyzerSection = async(id)=>{
+	const template = document.querySelector('#sentimentAnalyzerTemplate').innerHTML;
+	const parentDiv = document.querySelector('#portfolioSentimentAnalysisSection');
+	const html = await Mustache.render(template,{id});
+	await parentDiv.insertAdjacentHTML('beforeend', html);
+}
+
+const startAnalysis = async(id)=>{
+	
+	$.get('/Profile/SentimentAnalyzer',{id,type:'portfolio'},(data,status,xhr)=>{
+		renderTones(data);
+	})
+}
+
+const renderTones = (analysis)=>{
+
+	console.log(analysis)
+	const template = document.querySelector('#sentimentAnalyzerResTemplate').innerHTML;
+	const parentDiv = document.querySelector('#analysis-res');
+	let html;
+	for(var i =0;i<analysis.length;i++){
+		if(analysis[i].score<0){
+			html = Mustache.render(template,{review:analysis[i].review,
+				imageLink:'https://img.icons8.com/emoji/96/000000/angry-face.png',color:'red',borderColor:'red'})
+			parentDiv.insertAdjacentHTML('beforeend',html);
+		}
+		if(analysis[i].score===0){
+			html = Mustache.render(template,{review:analysis[i].review,
+				imageLink:'https://img.icons8.com/officel/80/000000/neutral-emoticon.png',color:'#00367c',borderColor:'#00367c'})
+			parentDiv.insertAdjacentHTML('beforeend',html);
+		}
+		if(analysis[i].score>0){
+			html = Mustache.render(template,{review:analysis[i].review,
+				imageLink:'https://img.icons8.com/color/96/000000/happy.png',color:'green',borderColor:'green'})
+			parentDiv.insertAdjacentHTML('beforeend',html);
+		}
+		
+
+	}
+	
+
+}
+
+
 
 
 const toggleToPortfolioFiles = ()=>{
@@ -147,6 +202,9 @@ const toggleToPortfolioFiles = ()=>{
 	$('#portR').removeClass('active');
 	$('#portFiles').addClass('active');
 	$('#portF').addClass('active');
+	$('#portS').removeClass('active');
+	$('#portSentimentAnalysis').removeClass('active');
+	$('#portfolioSentimentAnalysisSection').hide('slow');
 	$('#portfolioDetailsSection').hide('slow');
 	$('#portfolioRatingsSection').hide('slow');
 	$('#portfolioFilesSection').show('slow');
@@ -161,6 +219,9 @@ const toggleToPortfolioDetails = ()=>{
 	$('#portR').removeClass('active');
 	$('#portDetails').addClass('active');
 	$('#portD').addClass('active');
+	$('#portS').removeClass('active');
+	$('#portSentimentAnalysis').removeClass('active');
+	$('#portfolioSentimentAnalysisSection').hide('slow');
 	$('#portfolioFilesSection').hide('slow');
 	$('#portfolioRatingsSection').hide('slow');
 	$('#portfolioDetailsSection').show('slow');
@@ -173,9 +234,28 @@ const toggleToPortfolioRating = () => {
 	$('#portF').removeClass('active');
 	$('#portRatings').addClass('active');
 	$('#portR').addClass('active');
+	$('#portS').removeClass('active');
+	$('#portSentimentAnalysis').removeClass('active');
+	$('#portfolioSentimentAnalysisSection').hide('slow');
 	$('#portfolioDetailsSection').hide('slow');
 	$('#portfolioFilesSection').hide('slow');
 	$('#portfolioRatingsSection').show('slow');
+
+}
+
+const toggleToSentimentAnalyzer = () => {
+	$('#portDetails').removeClass('active');
+	$('#portD').removeClass('active');
+	$('#portFiles').removeClass('active');
+	$('#portF').removeClass('active');
+	$('#portRatings').removeClass('active');
+	$('#portR').removeClass('active');
+	$('#portS').addClass('active');
+	$('#portSentimentAnalysis').addClass('active');
+	$('#portfolioSentimentAnalysisSection').show('slow');
+	$('#portfolioDetailsSection').hide('slow');
+	$('#portfolioFilesSection').hide('slow');
+	$('#portfolioRatingsSection').hide('slow');
 
 }
 

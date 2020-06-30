@@ -432,7 +432,7 @@
               	<li class="active" id="pDetails"><i class="icon ion-information-circled active" id="pD"style=""></i><a href="" id="projectDetails">Project Details</a></li>
               	<li id="pFiles"><i class="icon ion-ios-folder-outline" id="pF" ></i><a href="" id="projectFiles">Project Files</a></li>
                 <li id="pRatings"><i class="icon ion-ios-heart-outline" id="pR" ></i><a href="" id="projectRatings">Rating and Review</a></li>
-
+                <li id="pSentimentAnalysis"><i class="icon ion-ios-heart-outline" id="pS" ></i><a href="" id="projectSentimentAnalysis">Sentiment Analysis</a></li>
               </ul>
             </div>
             
@@ -536,6 +536,10 @@
               <div class="about-profile" id="projectRatingsSection">
                  
        
+              </div>
+              <div class="about-profile" id="projectSentimentAnalysisSection">
+                 
+                
               </div>
 
           </div> 
@@ -1058,6 +1062,33 @@
          Success! Your review has been recorded successfully!
       </div>
   </script>
+
+  <script id="sentimentAnalyzerTemplate" type="text/x-handlebars-template">
+        <h4 class="set-title-visitor">Sentiment Analyzer</h4>
+        <div class="line"></div>
+        <p>This sentiment analyzer will analyzer the top 20 comments of this project!</p>
+        <br>
+        <button class="btn btn-primary" onclick="startAnalysis('\{{id}}')">Let's go</button>
+        <br>
+         <div id="analysis-res">
+                  
+          </div>
+        
+    </script>
+
+    <script id="sentimentAnalyzerResTemplate" type="text/x-handlebars-template">
+        
+         
+                  <div class="n-container">
+                    <p id="r-section">\{{review}}</p>
+                    <div>
+                    <img src="\{{imageLink}}" style="color:\{{color}};borderColor:\{{borderColor}}">
+                    </div>
+                  </div>
+       
+        
+    </script>
+
 
 </html>
 

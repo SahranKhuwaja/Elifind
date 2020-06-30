@@ -101,8 +101,10 @@ const openDirectory = async (data, ratings) => {
 	directoryDetails(data);
 	directoryFiles(data._id)
 	directoryRatings(data._id, ratings);
+	directorySentimentAnalysis(data._id)
 	$('#projectFilesSection').hide('fast');
 	$('#projectRatingsSection').hide('fast');
+	$('#projectSentimentAnalysisSection').hide('fast');
 	$('#projectFiles').click((e) => {
 		e.preventDefault();
 		toggleToFiles();
@@ -115,6 +117,11 @@ const openDirectory = async (data, ratings) => {
 		e.preventDefault();
 		toggleToRating();
 	})
+	$('#projectSentimentAnalysis').click((e) => {
+		e.preventDefault();
+		toggleToSentimentAnalyzer();
+	})
+
 }
 
 
@@ -151,6 +158,10 @@ const getProjectFiles = async (id) => {
 	await getProjectImages(id);
 	await getProjectVideos(id)
 
+}
+
+const directorySentimentAnalysis = async(id)=>{
+	await renderSentimentAnalyzerSection(id)
 }
 
 const getProjectImages = async (id) => {
@@ -191,6 +202,9 @@ const toggleToFiles = () => {
 	$('#pR').removeClass('active');
 	$('#pFiles').addClass('active');
 	$('#pF').addClass('active');
+	$('#pS').removeClass('active');
+	$('#pSentimentAnalysis').removeClass('active');
+	$('#projectSentimentAnalysisSection').hide('slow');
 	$('#projectDetailsSection').hide('slow');
 	$('#projectRatingsSection').hide('slow');
 	$('#projectFilesSection').show('slow');
@@ -203,11 +217,15 @@ const toggleToDetails = () => {
 	$('#pF').removeClass('active');
 	$('#pRatings').removeClass('active');
 	$('#pR').removeClass('active');
+	$('#pS').removeClass('active');
+	$('#projectSentimentAnalysisSection').hide('slow');
 	$('#pDetails').addClass('active');
+	$('#pSentimentAnalysis').removeClass('active');
 	$('#pD').addClass('active');
 	$('#projectFilesSection').hide('slow');
 	$('#projectRatingsSection').hide('slow');
 	$('#projectDetailsSection').show('slow');
+	
 
 }
 
@@ -218,9 +236,28 @@ const toggleToRating = () => {
 	$('#pF').removeClass('active');
 	$('#pRatings').addClass('active');
 	$('#pR').addClass('active');
+	$('#pS').removeClass('active');
+	$('#pSentimentAnalysis').removeClass('active');
+	$('#projectSentimentAnalysisSection').hide('slow');
 	$('#projectDetailsSection').hide('slow');
 	$('#projectFilesSection').hide('slow');
 	$('#projectRatingsSection').show('slow');
+
+}
+
+const toggleToSentimentAnalyzer = () => {
+	$('#pDetails').removeClass('active');
+	$('#pD').removeClass('active');
+	$('#pFiles').removeClass('active');
+	$('#pF').removeClass('active');
+	$('#pRatings').removeClass('active');
+	$('#pR').removeClass('active');
+	$('#pS').addClass('active');
+	$('#pSentimentAnalysis').addClass('active');
+	$('#projectSentimentAnalysisSection').show('slow');
+	$('#projectDetailsSection').hide('slow');
+	$('#projectFilesSection').hide('slow');
+	$('#projectRatingsSection').hide('slow');
 
 }
 
@@ -353,6 +390,50 @@ const renderReviews = async (id, data) => {
 		await staticRatedForReviewConfig();
 		await setListenerForReview(id)
 	}, 700);
+}
+
+const renderSentimentAnalyzerSection = async(id)=>{
+	const template = document.querySelector('#sentimentAnalyzerTemplate').innerHTML;
+	const parentDiv = document.querySelector('#projectSentimentAnalysisSection');
+	const html = await Mustache.render(template,{id});
+	await parentDiv.insertAdjacentHTML('beforeend', html);
+}
+
+const startAnalysis = async(id)=>{
+	
+	$.get('/Profile/SentimentAnalyzer',{id,type:'project'},(data,status,xhr)=>{
+		renderTones(data);
+	})
+}
+
+const renderTones = (analysis)=>{
+
+	
+	const template = document.querySelector('#sentimentAnalyzerResTemplate').innerHTML;
+	const parentDiv = document.querySelector('#analysis-res');
+	parentDiv.innerHTML = ""
+	let html;
+	for(var i =0;i<analysis.length;i++){
+		if(analysis[i].score<0){
+			html = Mustache.render(template,{review:analysis[i].review,
+				imageLink:'https://img.icons8.com/emoji/96/000000/angry-face.png',color:'red',borderColor:'red'})
+			parentDiv.insertAdjacentHTML('beforeend',html);
+		}
+		if(analysis[i].score===0){
+			html = Mustache.render(template,{review:analysis[i].review,
+				imageLink:'https://img.icons8.com/officel/80/000000/neutral-emoticon.png',color:'#00367c',borderColor:'#00367c'})
+			parentDiv.insertAdjacentHTML('beforeend',html);
+		}
+		if(analysis[i].score>0){
+			html = Mustache.render(template,{review:analysis[i].review,
+				imageLink:'https://img.icons8.com/color/96/000000/happy.png',color:'green',borderColor:'green'})
+			parentDiv.insertAdjacentHTML('beforeend',html);
+		}
+		
+
+	}
+	
+
 }
 
 

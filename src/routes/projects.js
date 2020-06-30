@@ -10,6 +10,8 @@ const Post = require('../models/post');
 const Image = require('../models/image');
 const Video = require('../models/video');
 const {imageStorage,videoStorage} = require('../functions/gridFs');
+const Review = require('../models/review');
+const {sentimentAnalysis} = require('../functions/sentiment-analyzer');
 require('../db/mongoose');
 
 router.use(express.json()); 
@@ -136,6 +138,29 @@ router.post('/Profile/Projects/Video/Upload',auth,uploadV.any('file'),async(req,
      }catch(e){
          console.log(e);
      }
+})
+
+router.get('/Profile/SentimentAnalyzer',auth,async(req,res)=>{
+    try{
+
+        let reviews;
+        if(req.query.type==='project'){
+            reviews = await Review.find({ProjectID:req.query.id});
+        }
+        else{
+            reviews = await Review.find({PortfolioID:req.query.id});
+        }
+        let analysis = [];
+        if(reviews.length!==0){
+             analysis = await Promise.all(reviews.map(async e=>{
+                return {review:e.Review,score:await sentimentAnalysis(e.Review)};
+            }))
+        }
+        res.send(analysis)
+
+    }catch(e){
+
+    }
 })
 
 module.exports = router;
